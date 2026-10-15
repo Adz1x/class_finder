@@ -73,6 +73,13 @@
       "env": {
         "REDIS_URL": "${REDIS_URL}"
       }
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-git"
+      ]
     }
   }
 }
