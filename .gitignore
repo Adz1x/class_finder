@@ -23,6 +23,9 @@ test-results/
 blob-report/
 .playwright/
 
+# Graphify knowledge graph (regenerate with `graphify-llm extract .`)
+graphify-out/
+
 # Environment variables
 .env*
 !.env.example
