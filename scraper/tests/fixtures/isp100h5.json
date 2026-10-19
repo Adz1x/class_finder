@@ -1,0 +1,630 @@
+{
+ "payload": {
+  "pageableCourse": {
+   "courses": [
+    {
+     "id": "69d94299830c3634bbb6938a",
+     "name": "Writing for University and Beyond",
+     "ucName": null,
+     "code": "ISP100H5",
+     "sectionCode": "F",
+     "campus": "University of Toronto at Mississauga",
+     "sessions": [
+      "20269"
+     ],
+     "sections": [
+      {
+       "name": "LEC0106",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0106",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 1,
+          "millisofday": 43200000
+         },
+         "end": {
+          "day": 1,
+          "millisofday": 54000000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20269",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [
+        {
+         "firstName": "Kathryn",
+         "lastName": "Franklin"
+        }
+       ],
+       "currentEnrolment": 29,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20269",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "C",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0118",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0118",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 2,
+          "millisofday": 54000000
+         },
+         "end": {
+          "day": 2,
+          "millisofday": 64800000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20269",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [
+        {
+         "firstName": "David Leslie",
+         "lastName": "Calloway"
+        }
+       ],
+       "currentEnrolment": 27,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20269",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "C",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0104",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0104",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 1,
+          "millisofday": 43200000
+         },
+         "end": {
+          "day": 1,
+          "millisofday": 54000000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20269",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [
+        {
+         "firstName": "Leila",
+         "lastName": "Farzinpur"
+        }
+       ],
+       "currentEnrolment": 28,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20269",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "C",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0108",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0108",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 1,
+          "millisofday": 54000000
+         },
+         "end": {
+          "day": 1,
+          "millisofday": 64800000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20269",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [
+        {
+         "firstName": "Clare",
+         "lastName": "Wall"
+        }
+       ],
+       "currentEnrolment": 30,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20269",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "C",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0128",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0128",
+       "meetingTimes": [],
+       "firstMeeting": null,
+       "instructors": [],
+       "currentEnrolment": 0,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "Y",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20269",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "C",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0130",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0130",
+       "meetingTimes": [],
+       "firstMeeting": null,
+       "instructors": [],
+       "currentEnrolment": 0,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "Y",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20269",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "C",
+       "linkedMeetingSections": null
+      }
+     ],
+     "duration": null,
+     "cmCourseInfo": {
+      "description": "This course teaches writing- and reading-related skills that are necessary for success in the transition to university work. The course uses a \u2018Writing About Writing\u2019 approach to help students understand the writing process, with an emphasis on the concepts of discourse communities, genre, rhetoric, argument, and audience. Rather than focusing on discipline-specific writing skills, the course helps students develop transferable writing skills. ISP100H5 is delivered from the perspective that all writers can improve their writing, so that students with diverse writing skills will benefit by taking it. There is a required writing assessment in the first week of classes, and students must pass the threshold mark to continue in the course. Those below the threshold should enrol in ISP010H5, Basics of Writing in English.",
+      "title": "Writing for University and Beyond",
+      "levelOfInstruction": "undergraduate",
+      "prerequisitesText": "",
+      "corequisitesText": "",
+      "exclusionsText": "",
+      "recommendedPreparation": "",
+      "note": null,
+      "division": "University of Toronto Mississauga",
+      "breadthRequirements": null,
+      "distributionRequirements": null,
+      "publicationSections": [
+       "UTM - Study of University Pedagogy"
+      ],
+      "cmPublicationSections": [
+       {
+        "section": "UTM - Study of University Pedagogy",
+        "subSections": null
+       }
+      ]
+     },
+     "created": "2026-10-19@20:57:24.982",
+     "modified": null,
+     "lastSaved": 0,
+     "primaryTeachMethod": "LEC",
+     "faculty": {
+      "code": "ERIN",
+      "name": "University of Toronto Mississauga"
+     },
+     "coSec": {
+      "code": "",
+      "name": null
+     },
+     "department": {
+      "code": "ISUP",
+      "name": "Institute for the Study of University Pedagogy"
+     },
+     "title": null,
+     "maxCredit": 0.5,
+     "minCredit": 0.5,
+     "breadths": [
+      {
+       "org": {
+        "code": "ERIN",
+        "name": "University of Toronto Mississauga"
+       },
+       "breadthTypes": []
+      },
+      {
+       "org": {
+        "code": "ARTSC",
+        "name": "Faculty of Arts and Science"
+       },
+       "breadthTypes": [
+        {
+         "kind": "BREADTH",
+         "type": "Creative Cultural",
+         "description": "BR=1 Creative and Cultural Representation",
+         "code": "BR=1"
+        }
+       ]
+      }
+     ],
+     "notes": [],
+     "cancelInd": "N",
+     "subscriptionTtb": false,
+     "subscriptionOpenData": false,
+     "tb1Active": false,
+     "tb2Active": false,
+     "fullyOnline": false,
+     "primaryFull": false,
+     "primaryWaitlistable": false
+    },
+    {
+     "id": "69d94299830c3634bbb6938b",
+     "name": "Writing for University and Beyond",
+     "ucName": null,
+     "code": "ISP100H5",
+     "sectionCode": "S",
+     "campus": "University of Toronto at Mississauga",
+     "sessions": [
+      "20271"
+     ],
+     "sections": [
+      {
+       "name": "LEC0102",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0102",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 1,
+          "millisofday": 32400000
+         },
+         "end": {
+          "day": 1,
+          "millisofday": 43200000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20271",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [],
+       "currentEnrolment": 30,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20271",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "N",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0112",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0112",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 2,
+          "millisofday": 32400000
+         },
+         "end": {
+          "day": 2,
+          "millisofday": 43200000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20271",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [
+        {
+         "firstName": "Monique",
+         "lastName": "Kampherm"
+        }
+       ],
+       "currentEnrolment": 30,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20271",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 0,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "N",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0118",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0118",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 2,
+          "millisofday": 54000000
+         },
+         "end": {
+          "day": 2,
+          "millisofday": 64800000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20271",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [],
+       "currentEnrolment": 30,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20271",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 1,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "N",
+       "linkedMeetingSections": null
+      },
+      {
+       "name": "LEC0113",
+       "type": "Lecture",
+       "teachMethod": "LEC",
+       "sectionNumber": "0113",
+       "meetingTimes": [
+        {
+         "start": {
+          "day": 2,
+          "millisofday": 32400000
+         },
+         "end": {
+          "day": 2,
+          "millisofday": 43200000
+         },
+         "building": {
+          "buildingCode": "MN",
+          "buildingRoomNumber": "",
+          "buildingRoomSuffix": "",
+          "buildingUrl": "https://map.utoronto.ca/?id=1809#!m/495122",
+          "buildingName": null
+         },
+         "sessionCode": "20271",
+         "repetition": "WEEKLY",
+         "repetitionTime": "ONCE_A_WEEK"
+        }
+       ],
+       "firstMeeting": null,
+       "instructors": [
+        {
+         "firstName": "Mustafa",
+         "lastName": "Siddiqui"
+        }
+       ],
+       "currentEnrolment": 30,
+       "maxEnrolment": 30,
+       "subTitle": "",
+       "cancelInd": "N",
+       "waitlistInd": "Y",
+       "deliveryModes": [
+        {
+         "session": "20271",
+         "mode": "INPER"
+        }
+       ],
+       "currentWaitlist": 2,
+       "enrolmentInd": "R",
+       "tbaInd": "N",
+       "openLimitInd": "N",
+       "linkedMeetingSections": null
+      }
+     ],
+     "duration": null,
+     "cmCourseInfo": {
+      "description": "This course teaches writing- and reading-related skills that are necessary for success in the transition to university work. The course uses a \u2018Writing About Writing\u2019 approach to help students understand the writing process, with an emphasis on the concepts of discourse communities, genre, rhetoric, argument, and audience. Rather than focusing on discipline-specific writing skills, the course helps students develop transferable writing skills. ISP100H5 is delivered from the perspective that all writers can improve their writing, so that students with diverse writing skills will benefit by taking it. There is a required writing assessment in the first week of classes, and students must pass the threshold mark to continue in the course. Those below the threshold should enrol in ISP010H5, Basics of Writing in English.",
+      "title": "Writing for University and Beyond",
+      "levelOfInstruction": "undergraduate",
+      "prerequisitesText": "",
+      "corequisitesText": "",
+      "exclusionsText": "",
+      "recommendedPreparation": "",
+      "note": null,
+      "division": "University of Toronto Mississauga",
+      "breadthRequirements": null,
+      "distributionRequirements": null,
+      "publicationSections": [
+       "UTM - Study of University Pedagogy"
+      ],
+      "cmPublicationSections": [
+       {
+        "section": "UTM - Study of University Pedagogy",
+        "subSections": null
+       }
+      ]
+     },
+     "created": "2026-10-19@20:57:24.984",
+     "modified": null,
+     "lastSaved": 0,
+     "primaryTeachMethod": "LEC",
+     "faculty": {
+      "code": "ERIN",
+      "name": "University of Toronto Mississauga"
+     },
+     "coSec": {
+      "code": "",
+      "name": null
+     },
+     "department": {
+      "code": "ISUP",
+      "name": "Institute for the Study of University Pedagogy"
+     },
+     "title": null,
+     "maxCredit": 0.5,
+     "minCredit": 0.5,
+     "breadths": [
+      {
+       "org": {
+        "code": "ERIN",
+        "name": "University of Toronto Mississauga"
+       },
+       "breadthTypes": []
+      },
+      {
+       "org": {
+        "code": "ARTSC",
+        "name": "Faculty of Arts and Science"
+       },
+       "breadthTypes": [
+        {
+         "kind": "BREADTH",
+         "type": "Creative Cultural",
+         "description": "BR=1 Creative and Cultural Representation",
+         "code": "BR=1"
+        }
+       ]
+      }
+     ],
+     "notes": [],
+     "cancelInd": "N",
+     "subscriptionTtb": false,
+     "subscriptionOpenData": false,
+     "tb1Active": false,
+     "tb2Active": false,
+     "fullyOnline": false,
+     "primaryFull": false,
+     "primaryWaitlistable": false
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-10-19T21:40:41.833805+00:00",
+  "sessions": [
+    "20269",
+    "20271"
+  ],
+  "snapshotWeekStart": "2026-09-30",
+  "snapshotWeekEnd": "2026-10-06",
+  "snapshotWeekDays": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "courseRowsFetched": 7383,
+  "courseRowsExpected": 7383,
+  "classMeetings": 21408,
+  "rooms": 65,
+  "meetingsWithPublishedRoom": 0,
+  "divisions": [
+    "APSC",
+    "ARCLA",
+    "ARTSC",
+    "ERIN",
+    "FIS",
+    "FPEH",
+    "MUSIC",
+    "SCAR"
+  ],
+  "sourceUrls": {
+    "courses": "https://api.easi.utoronto.ca/ttb/getPageableCourses",
+    "divisions": "https://api.easi.utoronto.ca/ttb/getMatchingDivisions",
+    "referenceData": "https://api.easi.utoronto.ca/ttb/reference-data",
+    "metisSpaceDatabase": "https://metis.utm.utoronto.ca/"
+  }
+}
