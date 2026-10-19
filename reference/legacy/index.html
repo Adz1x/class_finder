@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UofT Classroom & Course Schedule Finder</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      background-color: #090d16;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .uoft-header {
+      background: linear-gradient(135deg, #00204E 0%, #003E8A 100%);
+    }
+    .hour-row {
+      height: 60px;
+    }
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- Header -->
+  <header class="uoft-header border-b border-blue-800/60 sticky top-0 z-40 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="goHome(true)">
+        <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-lg font-bold shadow-inner">
+          <i class="fa-solid me-0.5 fa-graduation-cap"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            UofT Class & Room Finder
+          </h1>
+          <p id="liveClockSub" class="text-xs text-blue-200 font-medium">Live Classroom Availability &amp; Course Schedules</p>
+        </div>
+      </div>
+
+      <!-- Campus Selector -->
+      <div class="inline-flex rounded-xl bg-slate-950/70 p-1 border border-white/15 self-start sm:self-auto shadow-inner">
+        <button onclick="setCampus('UTM')" id="tab-UTM" class="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all">UTM</button>
+        <button onclick="setCampus('UTSG')" id="tab-UTSG" class="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all">UTSG</button>
+        <button onclick="setCampus('UTSC')" id="tab-UTSC" class="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all">UTSC</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Controls Bar: Building Switcher + Search + Filter Checkbox -->
+  <section class="bg-slate-900/95 border-b border-slate-800 sticky top-[65px] z-30 backdrop-blur shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 space-y-3">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <!-- Building Choice Switcher Box -->
+        <div class="pb-1 lg:pb-0 flex-1 min-w-0">
+          <div id="buildingSwitcherBox" class="flex flex-wrap items-center rounded-xl bg-slate-950/80 p-1 border border-slate-800 gap-1">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Live Stats Summary -->
+        <div id="statsSummary" class="text-xs font-semibold text-slate-300 shrink-0 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="statsSummaryText">Calculating room availability...</span>
+        </div>
+      </div>
+
+      <!-- Search & Checkbox Row -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+        
+        <!-- Search Input -->
+        <form onsubmit="handleSearchSubmit(event)" class="flex gap-2 flex-1 max-w-xl">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input
+              type="text"
+              id="searchInput"
+              oninput="handleSearchInput()"
+              placeholder="Search building (e.g. BA, SS), room (e.g. BA 1160), or course code..."
+              class="w-full bg-slate-800/90 border border-slate-700 rounded-xl pl-9 pr-16 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition shadow-inner"
+            />
+            <button
+              type="button"
+              id="clearSearchBtn"
+              onclick="clearSearch()"
+              class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-700/70 hover:bg-slate-700 transition"
+            >
+              Clear
+            </button>
+          </div>
+        </form>
+
+        <!-- Filter Checkbox: Only Show Empty Classes -->
+        <label class="inline-flex items-center gap-2.5 text-xs font-semibold text-slate-200 cursor-pointer select-none bg-slate-800/70 border border-slate-700/80 px-3.5 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">
+          <input
+            type="checkbox"
+            id="onlyEmptyToggle"
+            onchange="handleFilterToggle()"
+            class="w-4 h-4 rounded border-slate-600 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-900 bg-slate-900"
+          />
+          <span class="flex items-center gap-1.5">
+            <i class="fa-solid fa-door-open text-emerald-400 text-xs"></i>
+            Only show empty classes right now
+          </span>
+        </label>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main View Area -->
+  <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-1">
+    <!-- List View (Classrooms list grouped by building) -->
+    <div id="listView" class="space-y-6"></div>
+
+    <!-- Schedule View (Weekly timetable for Room or Course) -->
+    <div id="scheduleView" class="hidden"></div>
+  </main>
+
+  <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 bg-slate-950/40">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>Live UofT Timetable Data Engine • Click any classroom to view its full schedule or click course codes to view course timetables</p>
+      <p class="text-slate-600">Updated for Fall &amp; Winter Terms</p>
+    </div>
+  </footer>
+
+  <!-- Real data (must be in the same folder as index.html, and load BEFORE the main script) -->
+  <script src="rooms_data.js"></script>
+  <script>
+    /* Integrated Sample Fallback Data (Overridden by external rooms_data.js if present) */
+    if (!window.UOFT_ROOMS_DATA) {
+      window.UOFT_ROOMS_DATA = {
+        UTSG: {
+          "BA": {
+            code: "BA",
+            name: "Bahen Centre for Information Technology",
+            rooms: {
+              "BA 1160": [
+                { day: "1", start: "09:00", end: "10:00", course: "CSC108H1", term: "F" },
+                { day: "1", start: "10:00", end: "12:00", course: "MAT137Y1", term: "F" },
+                { day: "1", start: "14:00", end: "16:00", course: "CSC165H1", term: "F" },
+                { day: "2", start: "11:00", end: "13:00", course: "CSC207H1", term: "F" },
+                { day: "3", start: "09:00", end: "11:00", course: "CSC108H1", term: "F" },
+                { day: "4", start: "13:00", end: "15:00", course: "MAT223H1", term: "F" },
+                { day: "5", start: "10:00", end: "12:00", course: "CSC236H1", term: "F" }
+              ],
+              "BA 1170": [
+                { day: "1", start: "11:00", end: "13:00", course: "ECE244H1", term: "F" },
+                { day: "2", start: "09:00", end: "10:00", course: "MAT137Y1", term: "F" },
+                { day: "3", start: "14:00", end: "17:00", course: "CSC209H1", term: "F" },
+                { day: "5", start: "13:00", end: "15:00", course: "PHY151H1", term: "F" }
+              ],
+              "BA 1200": [
+                { day: "1", start: "13:00", end: "15:00", course: "CSC301H1", term: "F" },
+                { day: "3", start: "15:00", end: "17:00", course: "CSC301H1", term: "F" },
+                { day: "4", start: "10:00", end: "12:00", course: "STA247H1", term: "F" }
+              ]
+            }
+          },
+          "SS": {
+            code: "SS",
+            name: "Sidney Smith Hall",
+            rooms: {
+              "SS 1085": [
+                { day: "1", start: "10:00", end: "11:00", course: "ECO101H1", term: "F" },
+                { day: "2", start: "14:00", end: "16:00", course: "PSY100H1", term: "F" },
+                { day: "3", start: "10:00", end: "11:00", course: "ECO101H1", term: "F" },
+                { day: "4", start: "12:00", end: "14:00", course: "SOC100H1", term: "F" },
+                { day: "5", start: "10:00", end: "11:00", course: "ECO101H1", term: "F" }
+              ],
+              "SS 2117": [
+                { day: "1", start: "12:00", end: "14:00", course: "ENG100H1", term: "F" },
+                { day: "3", start: "12:00", end: "14:00", course: "ENG100H1", term: "F" },
+                { day: "5", start: "14:00", end: "16:00", course: "HIS103Y1", term: "F" }
+              ]
+            }
+          },
+          "MP": {
+            code: "MP",
+            name: "McLennan Physical Laboratories",
+            rooms: {
+              "MP 102": [
+                { day: "1", start: "09:00", end: "11:00", course: "PHY151H1", term: "F" },
+                { day: "2", start: "13:00", end: "15:00", course: "MAT137Y1", term: "F" },
+                { day: "4", start: "09:00", end: "11:00", course: "PHY151H1", term: "F" }
+              ]
+            }
+          }
+        },
+        UTM: {
+          "DH": {
+            code: "DH",
+            name: "Deerfield Hall",
+            rooms: {
+              "DH 2020": [
+                { day: "1", start: "09:00", end: "11:00", course: "CSC108H5", term: "F" },
+                { day: "3", start: "11:00", end: "13:00", course: "MAT102H5", term: "F" }
+              ]
+            }
+          },
+          "MN": {
+            code: "MN",
+            name: "Maanjiwe nendamowinan",
+            rooms: {
+              "MN 1100": [
+                { day: "2", start: "10:00", end: "12:00", course: "CCT109H5", term: "F" },
+                { day: "4", start: "14:00", end: "16:00", course: "MGT120H5", term: "F" }
+              ]
+            }
+          }
+        },
+        UTSC: {
+          "IC": {
+            code: "IC",
+            name: "Instructional Centre",
+            rooms: {
+              "IC 130": [
+                { day: "1", start: "10:00", end: "12:00", course: "CSCA08H3", term: "F" },
+                { day: "3", start: "10:00", end: "12:00", course: "CSCA08H3", term: "F" }
+              ]
+            }
+          },
+          "SW": {
+            code: "SW",
+            name: "Science Wing",
+            rooms: {
+              "SW 319": [
+                { day: "2", start: "13:00", end: "15:00", course: "MATA31H3", term: "F" },
+                { day: "4", start: "13:00", end: "15:00", course: "MATA31H3", term: "F" }
+              ]
+            }
+          }
+        }
+      };
+    }
+
+    /* Global State Variables */
+    const DATA = window.UOFT_ROOMS_DATA;
+    let currentCampus = "UTSG";
+    let selectedBuilding = "ALL";
+    let onlyShowEmpty = false;
+    let viewTerm = null; // term shown in weekly timetable ("F" or "S"); null = current term
+
+    const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const GRID_START_HOUR = 8;  // 8:00 AM
+    const GRID_END_HOUR = 22;   // 10:00 PM
+
+    function getLiveTimeContext() {
+      const now = new Date();
+      const jsDay = now.getDay();
+      const uoftDay = jsDay === 0 ? 7 : jsDay; // 1 = Mon, ..., 7 = Sun
+      const hours = now.getHours();
+      const mins = now.getMinutes();
+      const nowMins = hours * 60 + mins;
+      const month = now.getMonth() + 1;
+      const term = (month >= 1 && month <= 4) ? "S" : "F";
+      const termLabel = term === "F" ? "Fall Term" : "Winter Term";
+
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const h12 = hours % 12 || 12;
+      const time12 = `${h12}:${String(mins).padStart(2, "0")} ${ampm}`;
+
+      return { uoftDay, nowMins, time12, dayName: DAY_NAMES[jsDay], term, termLabel };
+    }
+
+    function timeToMinutes(t) {
+      const [h, m] = t.split(":").map(Number);
+      return h * 60 + m;
+    }
+
+    function minutesToTime(mins) {
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+    }
+
+    function format12Hour(time24) {
+      const [h, m] = time24.split(":").map(Number);
+      const ampm = h >= 12 ? "PM" : "AM";
+      const h12 = h % 12 || 12;
+      return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
+    }
+
+    function formatDuration(mins) {
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      if (h > 0 && m > 0) return `${h}h ${m}m`;
+      if (h > 0) return `${h}h`;
+      return `${m}m`;
+    }
+
+    function normalizeCode(str) {
+      return (str || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    }
+
+    /* Merge overlapping/contiguous slots for room evaluation */
+    function mergeBusyBlocks(daySlots) {
+      if (!daySlots.length) return [];
+      const sorted = daySlots
+        .map(s => ({
+          startMins: timeToMinutes(s.start),
+          endMins: timeToMinutes(s.end),
+          start: s.start,
+          end: s.end,
+          courses: [s.course]
+        }))
+        .sort((a, b) => a.startMins - b.startMins || b.endMins - a.endMins);
+
+      const merged = [sorted[0]];
+      for (let i = 1; i < sorted.length; i++) {
+        const prev = merged[merged.length - 1];
+        const curr = sorted[i];
+        if (curr.startMins <= prev.endMins) {
+          if (curr.endMins > prev.endMins) {
+            prev.endMins = curr.endMins;
+            prev.end = minutesToTime(curr.endMins);
+          }
+          if (!prev.courses.includes(curr.courses[0])) {
+            prev.courses.push(curr.courses[0]);
+          }
+        } else {
+          merged.push(curr);
+        }
+      }
+      return merged;
+    }
+
+    function evaluateRoomStatus(slots, ctx) {
+      const { uoftDay, nowMins, term } = ctx;
+      const rawDaySlots = (slots || [])
+        .filter(s => Number(s.day) === uoftDay && (!s.term || s.term === term || s.term === "Y" || s.term === "FULL"))
+        .sort((a, b) => timeToMinutes(a.start) - timeToMinutes(b.start));
+
+      const mergedBlocks = mergeBusyBlocks(rawDaySlots);
+
+      // Check if room is currently in an active class
+      for (const block of mergedBlocks) {
+        if (nowMins >= block.startMins && nowMins < block.endMins) {
+          const minsUntilFree = block.endMins - nowMins;
+          return {
+            isEmpty: false,
+            freeMinutes: 0,
+            minsUntilFree,
+            soonWarning: false,
+            statusTitle: "Occupied",
+            nextFreeText: `Free next at ${format12Hour(block.end)} (in ${formatDuration(minsUntilFree)})`,
+            subText: `In progress: ${block.courses.join(" • ")} (${format12Hour(block.start)} – ${format12Hour(block.end)})`,
+            rawDaySlots
+          };
+        }
+
+        // Room is free now, but has a class coming up later today
+        if (block.startMins > nowMins) {
+          const diff = block.startMins - nowMins;
+          const soonWarning = diff < 30; // Free for less than 30 mins
+          return {
+            isEmpty: true,
+            freeMinutes: diff,
+            minsUntilFree: 0,
+            soonWarning,
+            statusTitle: soonWarning ? "Available Briefly" : "Available",
+            nextFreeText: `Free until ${format12Hour(block.start)} (${formatDuration(diff)})`,
+            subText: `Next class at ${format12Hour(block.start)}: ${block.courses.join(" • ")}`,
+            rawDaySlots
+          };
+        }
+      }
+
+      // No more classes remaining today
+      const remainingDay = Math.max(0, 22 * 60 - nowMins);
+      return {
+        isEmpty: true,
+        freeMinutes: remainingDay,
+        minsUntilFree: 0,
+        soonWarning: false,
+        statusTitle: "Available",
+        nextFreeText: "Free for the rest of the day",
+        subText: rawDaySlots.length ? "All scheduled classes for today have finished" : "No classes scheduled in this room today",
+        rawDaySlots
+      };
+    }
+
+    function updateClockHeader() {
+      const ctx = getLiveTimeContext();
+      document.getElementById("liveClockSub").textContent =
+        `Live • ${ctx.dayName} ${ctx.time12} • ${ctx.termLabel}`;
+    }
+
+    function bldgLabel(b) {
+      // Scraper uses "XX Building" when it has no real name for a code
+      return (!b.name || b.name === `${b.code} Building`) ? "Name not listed" : b.name;
+    }
+
+    const MAX_BUILDING_CHIPS = 8; // campuses with more buildings than this get chips for the busiest + a dropdown
+
+    function renderBuildingSwitcherBox() {
+      const campusBuildings = DATA[currentCampus] || {};
+      const all = Object.values(campusBuildings);
+      const box = document.getElementById("buildingSwitcherBox");
+
+      const chipOn = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-blue-600 text-white shadow shrink-0";
+      const chipOff = "px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800/60 shrink-0";
+
+      let html = `<button type="button" onclick="selectBuildingTab('ALL')" class="${selectedBuilding === "ALL" ? chipOn : chipOff}">All Buildings</button>`;
+
+      const roomCount = b => Object.keys(b.rooms).length;
+      let chipBuildings, moreBuildings = [];
+      if (all.length <= MAX_BUILDING_CHIPS + 2) {
+        chipBuildings = all.slice().sort((x, y) => x.code.localeCompare(y.code));
+      } else {
+        const byRooms = all.slice().sort((x, y) => roomCount(y) - roomCount(x) || x.code.localeCompare(y.code));
+        chipBuildings = byRooms.slice(0, MAX_BUILDING_CHIPS).sort((x, y) => x.code.localeCompare(y.code));
+        // keep a currently selected building visible as a chip
+        const sel = campusBuildings[selectedBuilding];
+        if (sel && !chipBuildings.includes(sel)) chipBuildings.push(sel);
+        moreBuildings = all.filter(x => !chipBuildings.includes(x)).sort((x, y) => x.code.localeCompare(y.code));
+      }
+
+      chipBuildings.forEach(bl => {
+        html += `<button type="button" title="${bldgLabel(bl)}" onclick="selectBuildingTab('${bl.code}')" class="${selectedBuilding === bl.code ? chipOn : chipOff}">${bl.code}</button>`;
+      });
+
+      if (moreBuildings.length) {
+        html += `<select onchange="if(this.value){selectBuildingTab(this.value)}" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 focus:outline-none focus:border-blue-500 shrink-0 max-w-[11rem]">
+          <option value="">More buildings (${moreBuildings.length})…</option>
+          ${moreBuildings.map(bl => `<option value="${bl.code}">${bl.code} — ${bldgLabel(bl)} (${roomCount(bl)})</option>`).join("")}
+        </select>`;
+      }
+
+      box.innerHTML = html;
+    }
+
+    function selectBuildingTab(code) {
+      selectedBuilding = code;
+      const input = document.getElementById("searchInput");
+      if (code === "ALL") {
+        input.value = "";
+        document.getElementById("clearSearchBtn").classList.add("hidden");
+      } else {
+        input.value = code;
+        document.getElementById("clearSearchBtn").classList.remove("hidden");
+      }
+      renderBuildingSwitcherBox();
+      goHome(true);
+    }
+
+    function setCampus(campus) {
+      currentCampus = campus;
+      selectedBuilding = "ALL";
+      document.getElementById("searchInput").value = "";
+      document.getElementById("clearSearchBtn").classList.add("hidden");
+
+      ["UTM", "UTSG", "UTSC"].forEach(c => {
+        const btn = document.getElementById(`tab-${c}`);
+        btn.className = c === campus
+          ? "px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-blue-600 text-white shadow"
+          : "px-4 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-300 hover:text-white";
+      });
+
+      renderBuildingSwitcherBox();
+      goHome(true);
+    }
+
+    function handleFilterToggle() {
+      onlyShowEmpty = document.getElementById("onlyEmptyToggle").checked;
+      renderListView();
+    }
+
+    function clearSearch() {
+      selectedBuilding = "ALL";
+      document.getElementById("searchInput").value = "";
+      document.getElementById("clearSearchBtn").classList.add("hidden");
+      renderBuildingSwitcherBox();
+      goHome(true);
+    }
+
+    function handleSearchInput() {
+      const val = document.getElementById("searchInput").value.trim();
+      document.getElementById("clearSearchBtn").classList.toggle("hidden", !val);
+
+      const campusBuildings = DATA[currentCampus] || {};
+      const upperVal = val.toUpperCase();
+      if (!val) {
+        selectedBuilding = "ALL";
+      } else if (campusBuildings[upperVal]) {
+        selectedBuilding = upperVal;
+      } else {
+        selectedBuilding = "ALL";
+      }
+      renderBuildingSwitcherBox();
+
+      if (!document.getElementById("scheduleView").classList.contains("hidden")) {
+        history.replaceState(null, "", location.pathname);
+        document.getElementById("scheduleView").classList.add("hidden");
+        document.getElementById("listView").classList.remove("hidden");
+      }
+      renderListView();
+    }
+
+    function handleSearchSubmit(e) {
+      e.preventDefault();
+      const rawQuery = document.getElementById("searchInput").value.trim();
+      if (!rawQuery) {
+        goHome(true);
+        return;
+      }
+      renderListView();
+    }
+
+    function navigateToRoom(campus, roomName) {
+      location.hash = `#/room/${encodeURIComponent(campus)}/${encodeURIComponent(roomName)}`;
+    }
+
+    function navigateToCourse(campus, courseCode) {
+      location.hash = `#/course/${encodeURIComponent(campus)}/${encodeURIComponent(courseCode)}`;
+    }
+
+    function setViewTerm(t) {
+      viewTerm = t;
+      handleHashRoute();
+    }
+
+    function goHome(preserveSearch = false) {
+      viewTerm = null;
+      if (!preserveSearch) {
+        selectedBuilding = "ALL";
+        document.getElementById("searchInput").value = "";
+        document.getElementById("clearSearchBtn").classList.add("hidden");
+        renderBuildingSwitcherBox();
+      }
+      if (location.hash) {
+        history.pushState(null, "", location.pathname);
+      }
+      document.getElementById("scheduleView").classList.add("hidden");
+      document.getElementById("listView").classList.remove("hidden");
+      renderListView();
+    }
+
+    function createHorizontalRoomBox(roomName, bldgName, status) {
+      let leftBorder = "border-l-4 border-l-emerald-500";
+      let badgeStyle = "bg-emerald-500/15 text-emerald-300 border-emerald-500/30";
+      let dotColor = "bg-emerald-400";
+
+      if (!status.isEmpty) {
+        leftBorder = "border-l-4 border-l-rose-500";
+        badgeStyle = "bg-rose-500/15 text-rose-300 border-rose-500/30";
+        dotColor = "bg-rose-400";
+      } else if (status.soonWarning) {
+        leftBorder = "border-l-4 border-l-amber-500";
+        badgeStyle = "bg-amber-500/15 text-amber-300 border-amber-500/30";
+        dotColor = "bg-amber-400";
+      }
+
+      const safeRoom = roomName.replace(/'/g, "\\'");
+
+      return `
+        <div
+          onclick="navigateToRoom('${currentCampus}', '${safeRoom}')"
+          class="group bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-blue-500/50 ${leftBorder} rounded-xl px-4 py-3.5 cursor-pointer transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+        >
+          <div class="flex items-start sm:items-center gap-3.5">
+            <div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <span class="text-base font-bold text-white group-hover:text-blue-400 transition">
+                  ${roomName}
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full border font-semibold ${badgeStyle}">
+                  <span class="w-1.5 h-1.5 rounded-full ${dotColor}"></span>
+                  ${status.statusTitle}
+                </span>
+                <span class="text-xs text-slate-500 font-medium hidden md:inline">${bldgName}</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">${status.subText}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 border-slate-800/80 pt-2 sm:pt-0">
+            <div class="text-left sm:text-right">
+              <div class="text-xs sm:text-sm font-bold ${status.isEmpty ? (status.soonWarning ? 'text-amber-300' : 'text-emerald-300') : 'text-rose-300'}">
+                ${status.nextFreeText}
+              </div>
+              <div class="text-[11px] text-slate-500 font-medium">Click for weekly timetable →</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderListView() {
+      updateClockHeader();
+      const ctx = getLiveTimeContext();
+      const rawQuery = document.getElementById("searchInput").value.trim();
+      const normQuery = normalizeCode(rawQuery);
+
+      const campusBuildings = DATA[currentCampus] || {};
+      const container = document.getElementById("listView");
+      container.innerHTML = "";
+
+      let totalCampusRooms = 0;
+      let totalCampusEmpty = 0;
+
+      function sortRoomsAvailableFirst(a, b) {
+        if (a.status.isEmpty !== b.status.isEmpty) {
+          return a.status.isEmpty ? -1 : 1;
+        }
+        if (a.status.isEmpty) {
+          return b.status.freeMinutes - a.status.freeMinutes;
+        }
+        return a.status.minsUntilFree - b.status.minsUntilFree;
+      }
+
+      Object.values(campusBuildings).forEach(b => Object.values(b.rooms).forEach(sl => {
+        totalCampusRooms++;
+        if (evaluateRoomStatus(sl, ctx).isEmpty) totalCampusEmpty++;
+      }));
+
+      const buildingEntries = (selectedBuilding === "ALL" || !selectedBuilding)
+        ? Object.values(campusBuildings)
+        : Object.values(campusBuildings).filter(b => b.code === selectedBuilding);
+
+      buildingEntries.forEach(bldg => {
+        const evaluatedRooms = [];
+        let bldgEmpty = 0;
+
+        Object.entries(bldg.rooms).forEach(([roomName, slots]) => {
+          const status = evaluateRoomStatus(slots, ctx);
+          if (status.isEmpty) bldgEmpty++;
+
+          // Filter evaluation
+          const matchesQuery = !rawQuery ||
+            normalizeCode(roomName).includes(normQuery) ||
+            normalizeCode(bldg.name).includes(normQuery) ||
+            normalizeCode(bldg.code).includes(normQuery) ||
+            slots.some(s => normalizeCode(s.course).includes(normQuery));
+
+          const matchesEmptyFilter = !onlyShowEmpty || status.isEmpty;
+
+          if (matchesQuery && matchesEmptyFilter) {
+            evaluatedRooms.push({ roomName, bldgName: bldg.name, status });
+          }
+        });
+
+        evaluatedRooms.sort(sortRoomsAvailableFirst);
+
+        if (evaluatedRooms.length > 0) {
+          const bldgSection = document.createElement("div");
+          bldgSection.className = "bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 space-y-3 shadow-md";
+          bldgSection.innerHTML = `
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <button
+                  onclick="selectBuildingTab('${bldg.code}')"
+                  class="px-2.5 py-1 rounded-lg bg-blue-600/20 border border-blue-500/30 text-blue-300 font-bold text-xs hover:bg-blue-600 hover:text-white transition"
+                >
+                  ${bldg.code}
+                </button>
+                <h2 class="font-bold text-white text-base">${bldgLabel(bldg)}</h2>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
+                ${bldgEmpty} / ${Object.keys(bldg.rooms).length} available
+              </span>
+            </div>
+            <div class="space-y-2">
+              ${evaluatedRooms.map(r => createHorizontalRoomBox(r.roomName, r.bldgName, r.status)).join("")}
+            </div>
+          `;
+          container.appendChild(bldgSection);
+        }
+      });
+
+      document.getElementById("statsSummaryText").textContent =
+        `${totalCampusEmpty} of ${totalCampusRooms} classrooms currently available on ${currentCampus}`;
+
+      if (container.innerHTML === "") {
+        container.innerHTML = `
+          <div class="text-center py-16 bg-slate-900/50 rounded-2xl border border-slate-800">
+            <i class="fa-solid fa-door-closed text-slate-600 text-3xl mb-3"></i>
+            <p class="text-slate-200 font-bold text-base">No matching available classrooms found</p>
+            <p class="text-xs text-slate-400 mt-1 max-w-md mx-auto">Try unchecking "Only show empty classes right now" or clear your search term.</p>
+          </div>
+        `;
+      }
+    }
+
+    /* Place overlapping blocks side by side instead of on top of each other */
+    function layoutLanes(blocks) {
+      const items = blocks
+        .map(b => ({ b, s: timeToMinutes(b.start), e: timeToMinutes(b.end) }))
+        .sort((x, y) => x.s - y.s || y.e - x.e);
+      const out = [];
+      let cluster = [], clusterEnd = -1;
+      const flush = () => {
+        if (!cluster.length) return;
+        const laneEnds = [];
+        cluster.forEach(it => {
+          let lane = laneEnds.findIndex(end => end <= it.s);
+          if (lane === -1) { lane = laneEnds.length; laneEnds.push(it.e); } else { laneEnds[lane] = it.e; }
+          it.lane = lane;
+        });
+        cluster.forEach(it => out.push({ ...it.b, lane: it.lane, lanes: laneEnds.length }));
+        cluster = [];
+      };
+      items.forEach(it => {
+        if (cluster.length && it.s >= clusterEnd) { flush(); clusterEnd = -1; }
+        cluster.push(it);
+        clusterEnd = Math.max(clusterEnd, it.e);
+      });
+      flush();
+      return out;
+    }
+
+    function renderWeeklySchedulePage(mode, campus, identifier) {
+      updateClockHeader();
+      const ctx = getLiveTimeContext();
+      const activeTerm = viewTerm || ctx.term;
+      const activeTermLabel = activeTerm === "F" ? "Fall Term" : "Winter Term";
+      const campusBuildings = DATA[campus] || DATA[currentCampus] || {};
+
+      let pageTitle = identifier;
+      let pageSubtitle = "";
+      let statusBannerHtml = "";
+      let blocksToRender = []; // Array of { day, start, end, title, subtitle, clickAction }
+
+      if (mode === "room") {
+        // Find room slots in campus dataset
+        let foundSlots = null;
+        let foundBldgName = "";
+        for (const bldg of Object.values(campusBuildings)) {
+          if (bldg.rooms[identifier]) {
+            foundSlots = bldg.rooms[identifier];
+            foundBldgName = bldg.name;
+            break;
+          }
+        }
+
+        if (!foundSlots) {
+          goHome();
+          return;
+        }
+
+        const status = evaluateRoomStatus(foundSlots, ctx);
+        pageTitle = identifier;
+        pageSubtitle = `${foundBldgName} (${campus}) • Room Weekly Schedule`;
+
+        const bannerColor = status.isEmpty
+          ? (status.soonWarning ? "bg-amber-500/15 border-amber-500/40 text-amber-200" : "bg-emerald-500/15 border-emerald-500/40 text-emerald-200")
+          : "bg-rose-500/15 border-rose-500/40 text-rose-200";
+
+        statusBannerHtml = `
+          <div class="rounded-xl border px-4 py-3 ${bannerColor} flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
+            <div class="font-bold text-sm flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full ${status.isEmpty ? 'bg-emerald-400' : 'bg-rose-400'}"></span>
+              ${status.statusTitle} — ${status.nextFreeText}
+            </div>
+            <div class="text-xs font-medium opacity-90">${status.subText}</div>
+          </div>
+        `;
+
+        blocksToRender = foundSlots
+          .filter(s => !s.term || s.term === activeTerm || s.term === "Y" || s.term === "FULL")
+          .map(s => ({
+            day: Number(s.day),
+            start: s.start,
+            end: s.end,
+            title: s.course,
+            subtitle: `${format12Hour(s.start)} – ${format12Hour(s.end)}`,
+            estimated: !!s.estimated,
+            clickAction: `navigateToCourse('${campus}', '${s.course.replace(/'/g, "\\'")}')`
+          }));
+
+      } else if (mode === "course") {
+        // Search across all rooms and buildings for this course
+        pageTitle = identifier.toUpperCase();
+        pageSubtitle = `Course Timetable across ${campus} Campus`;
+
+        Object.values(campusBuildings).forEach(bldg => {
+          Object.entries(bldg.rooms).forEach(([rName, slots]) => {
+            slots.forEach(s => {
+              if (normalizeCode(s.course) === normalizeCode(identifier) && (!s.term || s.term === activeTerm || s.term === "Y" || s.term === "FULL")) {
+                blocksToRender.push({
+                  day: Number(s.day),
+                  start: s.start,
+                  end: s.end,
+                  title: `${rName} (${bldg.code})`,
+                  subtitle: `${format12Hour(s.start)} – ${format12Hour(s.end)}`,
+                  estimated: !!s.estimated,
+                  clickAction: `navigateToRoom('${campus}', '${rName.replace(/'/g, "\\'")}')`
+                });
+              }
+            });
+          });
+        });
+
+        statusBannerHtml = `
+          <div class="rounded-xl border px-4 py-3 bg-blue-500/15 border-blue-500/40 text-blue-200 flex items-center justify-between shadow-sm">
+            <div class="font-bold text-sm flex items-center gap-2">
+              <i class="fa-solid fa-book-open text-blue-400"></i>
+              Scheduled Meetings for ${pageTitle} (${activeTermLabel})
+            </div>
+            <div class="text-xs font-medium opacity-90">${blocksToRender.length} section meetings found</div>
+          </div>
+        `;
+      }
+
+      if (mode === "room" && activeTerm !== ctx.term) {
+        statusBannerHtml = `
+          <div class="rounded-xl border px-4 py-3 bg-blue-500/15 border-blue-500/40 text-blue-200 text-sm font-semibold">
+            Showing the ${activeTermLabel} schedule. Live availability only applies to the current term (${ctx.termLabel}).
+          </div>`;
+      }
+
+      const hasOverlap = layoutLanes(blocksToRender).some(b => b.lanes > 1);
+      if (hasOverlap) {
+        statusBannerHtml += `
+          <div class="rounded-xl border px-4 py-2.5 bg-amber-500/10 border-amber-500/30 text-amber-200 text-xs font-medium flex items-start gap-2">
+            <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+            <span>Some classes overlap (dashed blocks). The timetable source often doesn't list exact rooms, so a class may be placed in the wrong room here. Treat overlapping blocks as unconfirmed.</span>
+          </div>`;
+      }
+
+      // Generate 8:00 AM to 10:00 PM Timetable Grid
+      let timeLabelsHtml = "";
+      let backgroundLinesHtml = "";
+      for (let h = GRID_START_HOUR; h < GRID_END_HOUR; h++) {
+        const label = h === 12 ? "12 PM" : (h > 12 ? `${h - 12} PM` : `${h} AM`);
+        timeLabelsHtml += `<div class="hour-row pr-2 text-right text-[11px] text-slate-400 font-medium -mt-2 select-none">${label}</div>`;
+        backgroundLinesHtml += `<div class="hour-row border-t border-slate-800/80"></div>`;
+      }
+
+      const showRedLine = ctx.nowMins >= GRID_START_HOUR * 60 && ctx.nowMins <= GRID_END_HOUR * 60;
+      const redLineTopPx = ctx.nowMins - GRID_START_HOUR * 60;
+
+      const redLineHtml = showRedLine ? `
+        <div style="top: ${redLineTopPx}px;" class="absolute left-0 right-0 z-20 pointer-events-none flex items-center">
+          <div class="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1"></div>
+          <div class="h-0.5 w-full bg-rose-500 shadow-sm"></div>
+        </div>
+      ` : "";
+
+      const days = [
+        { dayNum: 1, label: "Mon" },
+        { dayNum: 2, label: "Tue" },
+        { dayNum: 3, label: "Wed" },
+        { dayNum: 4, label: "Thu" },
+        { dayNum: 5, label: "Fri" }
+      ];
+
+      const dayHeadersHtml = days.map(d => {
+        const isToday = ctx.uoftDay === d.dayNum;
+        const headerClass = isToday
+          ? "bg-blue-600/30 text-blue-200 font-bold border border-blue-500/40"
+          : "text-slate-400 font-medium";
+        return `
+          <div class="py-2 text-center text-xs rounded-lg ${headerClass} select-none">
+            ${d.label} ${isToday ? '<span class="text-[10px] text-blue-300 font-normal">(Today)</span>' : ''}
+          </div>
+        `;
+      }).join("");
+
+      const dayColumnsHtml = days.map(d => {
+        const isToday = ctx.uoftDay === d.dayNum;
+        const colBlocks = layoutLanes(blocksToRender.filter(b => b.day === d.dayNum));
+
+        const blocksHtml = colBlocks.map(b => {
+          const startMins = timeToMinutes(b.start);
+          const endMins = timeToMinutes(b.end);
+          const topPx = startMins - GRID_START_HOUR * 60;
+          const heightPx = Math.max(endMins - startMins, 24);
+
+          const blockStyle = mode === "course"
+            ? "bg-indigo-900/80 hover:bg-indigo-800 border-indigo-500/60 text-indigo-100"
+            : "bg-blue-900/80 hover:bg-blue-800 border-blue-500/60 text-blue-100";
+
+          return `
+            <div
+              onclick="${b.clickAction}"
+              style="top: ${topPx}px; height: ${heightPx}px; left: calc(${(b.lane / b.lanes) * 100}% + 2px); width: calc(${100 / b.lanes}% - 4px);"
+              class="absolute rounded-lg border ${b.estimated || b.lanes > 1 ? 'border-dashed' : ''} p-1.5 text-xs z-10 overflow-hidden shadow-sm transition-all hover:z-20 hover:scale-[1.02] cursor-pointer flex flex-col justify-center ${blockStyle}"
+              title="${b.lanes > 1 ? 'Overlaps with another class in this room. ' : ''}${b.estimated ? 'Room is estimated (not listed by the timetable source). ' : ''}Click to view full schedule"
+            >
+              <div class="font-bold truncate text-[11px] sm:text-xs">${b.title}</div>
+              <div class="text-[10px] opacity-80 truncate">${b.subtitle}</div>
+            </div>
+          `;
+        }).join("");
+
+        return `
+          <div class="relative border-l border-slate-800/80 ${isToday ? 'bg-blue-950/10' : ''}">
+            ${blocksHtml}
+          </div>
+        `;
+      }).join("");
+
+      const container = document.getElementById("scheduleView");
+      container.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div class="inline-flex rounded-xl bg-slate-950/70 p-1 border border-slate-800">
+              ${["F", "S"].map(t => `<button onclick="setViewTerm('${t}')" class="px-3.5 py-1.5 rounded-lg text-xs ${activeTerm === t ? 'font-bold bg-blue-600 text-white shadow' : 'font-medium text-slate-300 hover:text-white'}">${t === "F" ? "Fall" : "Winter"}${ctx.term === t ? " (now)" : ""}</button>`).join("")}
+            </div>
+            <button
+              onclick="goHome(true)"
+              class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition border border-slate-700 flex items-center gap-2 shadow-sm"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+              Back to Classroom List
+            </button>
+            <div class="text-right">
+              <h1 class="text-xl font-bold text-white flex items-center justify-end gap-2">
+                ${pageTitle}
+              </h1>
+              <p class="text-xs text-slate-400 font-medium">${pageSubtitle}</p>
+            </div>
+          </div>
+
+          ${statusBannerHtml}
+
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 overflow-x-auto shadow-xl">
+            <div class="min-w-[680px]">
+              <div class="grid grid-cols-[60px_repeat(5,1fr)] mb-1">
+                <div class="py-2.5 px-2 text-center text-xs font-semibold text-slate-500 select-none">Time</div>
+                ${dayHeadersHtml}
+              </div>
+
+              <div class="relative grid grid-cols-[60px_repeat(5,1fr)] border-t border-slate-800">
+                <div>${timeLabelsHtml}</div>
+                <div class="col-span-5 relative grid grid-cols-5">
+                  <div class="absolute inset-0 col-span-5 pointer-events-none">
+                    ${backgroundLinesHtml}
+                  </div>
+                  ${redLineHtml}
+                  ${dayColumnsHtml}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("listView").classList.add("hidden");
+      document.getElementById("scheduleView").classList.remove("hidden");
+    }
+
+    function handleHashRoute() {
+      const hash = location.hash;
+      if (!hash || !hash.startsWith("#/")) {
+        document.getElementById("scheduleView").classList.add("hidden");
+        document.getElementById("listView").classList.remove("hidden");
+        renderListView();
+        return;
+      }
+
+      const parts = hash.slice(2).split("/");
+      const mode = parts[0]; // "room" or "course"
+      const campus = decodeURIComponent(parts[1] || "UTSG");
+      const identifier = decodeURIComponent(parts[2] || "");
+
+      if ((mode === "room" || mode === "course") && identifier) {
+        renderWeeklySchedulePage(mode, campus, identifier);
+      } else {
+        goHome();
+      }
+    }
+
+    window.addEventListener("hashchange", handleHashRoute);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderBuildingSwitcherBox();
+      handleHashRoute();
+
+      // Live updates every minute
+      setInterval(() => {
+        updateClockHeader();
+        if (document.getElementById("scheduleView").classList.contains("hidden")) {
+          renderListView();
+        }
+      }, 60000);
+    });
+  </script>
+</body>
+</html>
