@@ -1,0 +1,87 @@
+export type Term = "F" | "S";
+
+export interface ClassMeeting {
+  courseCode: string;
+  courseTitle: string;
+  sectionName: string;
+  sectionType: string;
+  sectionNumber: string;
+  teachMethod: string;
+  instructors: string[];
+  campus: string;
+  campusKey: string;
+  facultyCode: string;
+  session: string;
+  sessionCode: string;
+  day: number;
+  start: string;
+  end: string;
+  buildingCode: string;
+  buildingName: string;
+  /** Room published by the timetable source, or null when it publishes none. */
+  room: string | null;
+}
+
+export interface Room {
+  room: string;
+  building: string;
+  buildingName: string;
+  capacity: string;
+  /** day (1 = Monday) -> hour -> is the room booked. */
+  occupancy: Record<string, Record<string, boolean>>;
+  /** Hours the source does not publish at all. */
+  hoursMissing: number[];
+}
+
+export interface Meta {
+  generatedAt: string;
+  sessions: string[];
+  snapshotWeekStart: string;
+  snapshotWeekEnd: string;
+  snapshotWeekDays: number[];
+  courseRowsFetched: number;
+  courseRowsExpected: number;
+  classMeetings: number;
+  rooms: number;
+  meetingsWithPublishedRoom: number;
+  divisions: string[];
+  sourceUrls: Record<string, string>;
+}
+
+export interface Dataset {
+  classes: ClassMeeting[];
+  rooms: Room[];
+  meta: Meta;
+}
+
+export interface TimeContext {
+  uoftDay: number;
+  nowMins: number;
+  time12: string;
+  dayName: string;
+  term: Term;
+  termLabel: string;
+}
+
+export type RoomState = "free" | "busy" | "unknown";
+
+export interface RoomStatus {
+  state: RoomState;
+  statusTitle: string;
+  nextFreeText: string;
+  subText: string;
+  /** Hour the room is booked until, when known. */
+  busyUntil: string | null;
+}
+
+export interface ScheduleBlock {
+  day: number;
+  start: string;
+  end: string;
+  title: string;
+  subtitle: string;
+  lane: number;
+  lanes: number;
+  courseCode?: string;
+  room?: string | null;
+}

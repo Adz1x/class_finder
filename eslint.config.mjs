@@ -12,6 +12,13 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Python tooling lives in this repo but is not JavaScript.
+    "scraper/**",
+    // Generated data and test artefacts.
+    "data/**",
+    "coverage/**",
+    "playwright-report/**",
+    "test-results/**",
   ]),
 ]);
 
