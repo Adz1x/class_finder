@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from uoft_scraper.parse import (
     BUILDING_NAMES,
+    measure_funnel,
     millis_to_clock,
     parse_course_row,
     parse_courses,
@@ -149,3 +150,24 @@ def test_session_is_kept_separate_from_the_course_code():
     assert meeting.session_code == "20269"
     assert meeting.campus_key == "UTSG"
     assert meeting.room is None
+
+
+def test_the_funnel_accounts_for_every_meeting_time(page_001, isp100h5):
+    """The project report quotes this funnel, so it has to add up.
+
+    The counter and the parser are two pieces of code. If they ever drift,
+    the report would be quoting a fiction - so the test ties them together.
+    """
+    rows = rows_of(page_001) + rows_of(isp100h5)
+    funnel = measure_funnel(rows)
+
+    assert funnel.final == len(parse_courses(rows))
+    assert funnel.raw >= funnel.final
+    assert (
+        funnel.raw
+        - funnel.dropped_cancelled
+        - funnel.dropped_building
+        - funnel.dropped_invalid_time
+        - funnel.dropped_duplicate
+        == funnel.final
+    )

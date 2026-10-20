@@ -42,9 +42,10 @@ covered by an automated test pyramid.
   now carry a real building name.
 - The Metis weekday is derived from the ISO date, and the hour the space
   database omits (13:00) is reported as *unknown*, never as *free*.
-- The raw number of meeting times the API published is recorded in
-  `meta.rawMeetingTimesSeen`, so the filter funnel is measurable rather than
-  remembered.
+- The filter funnel is measured rather than remembered: 22,659 meeting
+  times published, 12 dropped as cancelled sections, 1,007 with no physical
+  building, 232 the API repeated, 21,408 kept. `uoft-scraper funnel` prints
+  it, `meta.filterFunnel` records it, and `verify` checks that it adds up.
 
 ### Application
 
@@ -65,7 +66,7 @@ covered by an automated test pyramid.
 
 ### Engineering
 
-- 97 tests across three layers: 37 pytest, 45 Vitest, 15 Playwright.
+- 98 tests across three layers: 38 pytest, 45 Vitest, 15 Playwright.
 - Four CI jobs on GitHub Actions. None of them touches the UofT API.
 - `npm run data:verify` checks the dataset's invariants, including that the
   per-campus files add up to the totals and that no meeting carries a room

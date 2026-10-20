@@ -39,5 +39,14 @@
     "UTM": 5178,
     "UTSC": 3961,
     "UTSG": 12175
+  },
+  "rawMeetingTimesSeen": 22659,
+  "filterFunnel": {
+    "rawMeetingTimesSeen": 22659,
+    "droppedCancelledSections": 12,
+    "droppedNonPhysicalBuilding": 1007,
+    "droppedInvalidTime": 0,
+    "droppedDuplicate": 232,
+    "classMeetings": 21408
   }
 }

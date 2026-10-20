@@ -11,6 +11,7 @@ from typing import Sequence
 from .api import DEFAULT_BASE_URL, DEFAULT_SESSIONS, TtbClient
 from .build import build_dataset, write_dataset
 from .metis import load_snapshot
+from .parse import measure_funnel
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_METIS = REPO_ROOT / "data" / "utm_metis_data.json"
@@ -66,6 +67,30 @@ def _build(args: argparse.Namespace) -> int:
     return 0
 
 
+def _funnel(args: argparse.Namespace) -> int:
+    """Fetch the catalogue and account for every meeting time it published.
+
+    This is the number the project report quotes, so it has to be measurable
+    rather than remembered.
+    """
+    client = TtbClient(base_url=args.base_url, sessions=tuple(args.sessions))
+    rows = client.fetch_all_courses()
+    funnel = measure_funnel(rows)
+
+    print("=" * 68)
+    print("FILTER FUNNEL")
+    print("=" * 68)
+    print(f"  course rows fetched      : {len(rows)}")
+    print(f"  meeting times published  : {funnel.raw}")
+    print(f"    - cancelled sections   : {funnel.dropped_cancelled}")
+    print(f"    - no physical building : {funnel.dropped_building}")
+    print(f"    - invalid time range   : {funnel.dropped_invalid_time}")
+    print(f"    - repeated by the API  : {funnel.dropped_duplicate}")
+    print(f"  class meetings kept      : {funnel.final}")
+    print("=" * 68)
+    return 0
+
+
 def _verify(args: argparse.Namespace) -> int:
     """Check the dataset's invariants.
 
@@ -116,6 +141,22 @@ def _verify(args: argparse.Namespace) -> int:
             f"meta classMeetings ({meta['classMeetings']}) != the "
             f"{len(classes)} meetings in the campus files"
         )
+
+    # The funnel has to add up: every meeting time the API published is
+    # either in the dataset or accounted for by a named filter.
+    funnel = meta.get("filterFunnel") or {}
+    if funnel:
+        raw = meta.get("rawMeetingTimesSeen", funnel.get("rawMeetingTimesSeen"))
+        dropped = sum(
+            value
+            for key, value in funnel.items()
+            if key.startswith("dropped") and isinstance(value, int)
+        )
+        if raw is not None and raw - dropped != meta["classMeetings"]:
+            failures.append(
+                f"the filter funnel does not add up: {raw} published - "
+                f"{dropped} dropped != {meta['classMeetings']} kept"
+            )
     if meta["rooms"] != len(rooms):
         failures.append(f"meta rooms ({meta['rooms']}) != rooms.json ({len(rooms)})")
 
@@ -243,6 +284,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--live", action="store_true", help="also re-fetch the catalogue and compare"
     )
     verify.set_defaults(func=_verify)
+
+    funnel = sub.add_parser(
+        "funnel", help="fetch the catalogue and account for every meeting time"
+    )
+    funnel.add_argument("--base-url", default=DEFAULT_BASE_URL, help="TTB API base URL")
+    funnel.add_argument(
+        "--sessions",
+        nargs="+",
+        default=list(DEFAULT_SESSIONS),
+        help="session codes to include (default: 20269 20271)",
+    )
+    funnel.set_defaults(func=_funnel)
 
     args = parser.parse_args(argv)
     return int(args.func(args))

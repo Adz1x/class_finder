@@ -26,7 +26,7 @@ from typing import Any, Sequence
 from .api import DEFAULT_BASE_URL, TtbClient
 from .metis import MetisSnapshot, load_snapshot
 from .models import ClassMeeting, Room, Snapshot
-from .parse import count_raw_meeting_times, parse_courses
+from .parse import measure_funnel, parse_courses
 
 
 @dataclass
@@ -47,7 +47,7 @@ def build_dataset(
 ) -> BuildResult:
     """Fetch, parse and summarise the whole dataset."""
     rows = client.fetch_all_courses()
-    raw_meeting_times = count_raw_meeting_times(rows)
+    funnel = measure_funnel(rows)
     meetings = parse_courses(rows)
 
     reference_divisions: list[str] = []
@@ -91,7 +91,8 @@ def build_dataset(
             "referenceData": f"{client.base_url}/reference-data",
             "metisSpaceDatabase": "https://metis.utm.utoronto.ca/",
         },
-        raw_meeting_times_seen=raw_meeting_times,
+        raw_meeting_times_seen=funnel.raw,
+        filter_funnel=funnel.to_json(),
         campus_breakdown=dict(sorted(campus_breakdown.items())),
     )
 

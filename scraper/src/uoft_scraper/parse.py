@@ -19,6 +19,7 @@ Parsing rules, all of them verified against the live API:
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -166,19 +167,97 @@ def parse_course_row(row: dict[str, Any]) -> list[ClassMeeting]:
     return meetings
 
 
-def count_raw_meeting_times(rows: Iterable[dict[str, Any]]) -> int:
-    """Count every ``meetingTimes`` entry the API published, before filtering.
+@dataclass(frozen=True)
+class FilterFunnel:
+    """Where the meeting times the API published end up.
 
-    The difference between this and the number of meetings that survive the
-    filters is the filter funnel. It has to be measured, not remembered: the
-    README and the project report both cite it, and a number nobody can
-    reproduce is not a number worth citing.
+    ``raw`` is every ``meetingTimes`` entry in the response.
+    ``final`` is the number of class meetings in the dataset.
     """
-    total = 0
+
+    raw: int
+    dropped_cancelled: int
+    dropped_building: int
+    dropped_invalid_time: int
+    dropped_duplicate: int
+    final: int
+
+    def to_json(self) -> dict[str, int]:
+        return {
+            "rawMeetingTimesSeen": self.raw,
+            "droppedCancelledSections": self.dropped_cancelled,
+            "droppedNonPhysicalBuilding": self.dropped_building,
+            "droppedInvalidTime": self.dropped_invalid_time,
+            "droppedDuplicate": self.dropped_duplicate,
+            "classMeetings": self.final,
+        }
+
+
+def measure_funnel(rows: Iterable[dict[str, Any]]) -> FilterFunnel:
+    """Account for every meeting time the API published.
+
+    The counters mirror :func:`parse_course_row` exactly, and a test asserts
+    that the number this function keeps equals the number the parser keeps -
+    otherwise the two could drift and the report would be quoting a fiction.
+    """
+    raw = 0
+    cancelled = 0
+    building = 0
+    invalid_time = 0
+    duplicate = 0
+    kept = 0
+    seen: set[tuple[Any, ...]] = set()
+
     for row in rows:
         for section in row.get("sections") or []:
-            total += len(section.get("meetingTimes") or [])
-    return total
+            meetings = section.get("meetingTimes") or []
+            raw += len(meetings)
+            if _clean(section.get("cancelInd")).upper() == "Y":
+                cancelled += len(meetings)
+                continue
+
+            for meeting in meetings:
+                code = _clean((meeting.get("building") or {}).get("buildingCode")).upper()
+                if not code or code in NON_PHYSICAL_BUILDINGS:
+                    building += 1
+                    continue
+
+                start = meeting.get("start") or {}
+                end = meeting.get("end") or {}
+                day = start.get("day")
+                start_millis = start.get("millisofday")
+                end_millis = end.get("millisofday")
+                if not day or start_millis is None or end_millis is None:
+                    invalid_time += 1
+                    continue
+                if end_millis <= start_millis:
+                    invalid_time += 1
+                    continue
+
+                key = (
+                    _clean(row.get("code")),
+                    _clean(meeting.get("sessionCode")),
+                    _clean(section.get("name")),
+                    int(day),
+                    millis_to_clock(int(start_millis)),
+                    millis_to_clock(int(end_millis)),
+                    code,
+                    _clean((meeting.get("building") or {}).get("buildingRoomNumber")) or None,
+                )
+                if key in seen:
+                    duplicate += 1
+                    continue
+                seen.add(key)
+                kept += 1
+
+    return FilterFunnel(
+        raw=raw,
+        dropped_cancelled=cancelled,
+        dropped_building=building,
+        dropped_invalid_time=invalid_time,
+        dropped_duplicate=duplicate,
+        final=kept,
+    )
 
 
 def parse_courses(rows: Iterable[dict[str, Any]]) -> list[ClassMeeting]:

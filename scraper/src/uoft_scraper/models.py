@@ -137,6 +137,9 @@ class Snapshot:
     #: difference against ``class_meetings`` is the filter funnel, so it has
     #: to be recorded rather than remembered.
     raw_meeting_times_seen: int = 0
+    #: Where every published meeting time ended up: cancelled sections, no
+    #: physical building, an invalid time range, a row the API repeated.
+    filter_funnel: dict[str, int] = field(default_factory=dict)
     #: How many meetings each campus key holds. The per-campus files must
     #: match this exactly, so the split can never drift from the totals.
     campus_breakdown: dict[str, int] = field(default_factory=dict)
@@ -156,5 +159,6 @@ class Snapshot:
             "divisions": list(self.divisions),
             "sourceUrls": self.source_urls,
             "rawMeetingTimesSeen": self.raw_meeting_times_seen,
+            "filterFunnel": dict(self.filter_funnel),
             "campusBreakdown": dict(sorted(self.campus_breakdown.items())),
         }
