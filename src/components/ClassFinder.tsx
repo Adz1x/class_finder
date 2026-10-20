@@ -16,6 +16,7 @@ import {
   publishedHours,
   roomStatusAt,
   searchCourseCodes,
+  sortRoomsByNextFree,
   timeToMinutes,
 } from "./lib/schedule";
 import type {
@@ -666,7 +667,12 @@ function ListView({
 
       {buildings.map((b) => {
         const buildingClasses = classesForBuilding(b.code);
-        const rooms = campusRooms.filter((room) => room.building === b.code);
+        // The rooms a student would walk to first: the one that is free
+        // now, then the one that frees soonest.
+        const rooms = sortRoomsByNextFree(
+          campusRooms.filter((room) => room.building === b.code),
+          ctx,
+        );
         const classrooms = data.classrooms.filter(
           (classroom) => classroom.building === b.code,
         );

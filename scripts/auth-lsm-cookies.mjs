@@ -16,7 +16,7 @@
  * The jar is in your home directory, not in the repository.
  */
 import { chromium } from "@playwright/test";
-import { existsSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 

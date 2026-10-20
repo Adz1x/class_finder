@@ -62,6 +62,23 @@ test.describe("class & room finder", () => {
     await expect(page.getByText(/Room: MN \d/)).toHaveCount(0);
   });
 
+  test("the rooms that free soonest come first, and say when they free", async ({
+    page,
+  }) => {
+    await page.clock.setFixedTime(new Date("2026-10-19T10:00:00"));
+    await page.goto("/");
+
+    // The two Instructional Centre rooms that are free at 10:00 come
+    // before the ones that are booked.
+    const rooms = page.locator("button").filter({ hasText: /^IB \d+/ });
+    await expect(rooms.first()).toContainText(/IB 340|IB 395/);
+
+    // A booked room says when it is free again, not merely when the hour
+    // ends: IB 335 is booked from 10:00 and free from 16:00.
+    await expect(page.getByText("Free next at 4:00 PM").first()).toBeVisible();
+    await expect(page.getByText(/Booked until/i)).toHaveCount(0);
+  });
+
   test("St. George lists the classrooms the University publishes", async ({
     page,
   }) => {

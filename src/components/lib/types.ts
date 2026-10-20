@@ -109,6 +109,11 @@ export interface RoomStatus {
   subText: string;
   /** Hour the room is booked until, when known. */
   busyUntil: string | null;
+  /**
+   * Minutes since midnight at which the room is next free, or null when
+   * there is no known free hour left in the day. Rooms are ordered by it.
+   */
+  nextFreeAt: number | null;
 }
 
 export interface ScheduleBlock {

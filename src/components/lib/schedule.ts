@@ -277,6 +277,33 @@ export function roomStateAt(
   return busy ? "busy" : "free";
 }
 
+/**
+ * The next hour, at or after `hour`, in which the room is known to be free.
+ *
+ * The occupancy is published hour by hour, so a room that is not listed as
+ * free in an hour is booked in it. The scan stays inside the day the
+ * snapshot covers, and it steps over hours the snapshot does not carry:
+ * an hour the source says nothing about is unknown, and unknown is never
+ * free.
+ */
+export function nextFreeHourAt(
+  room: Room,
+  day: number,
+  hour: number,
+): number | null {
+  const hours = room.occupancy?.[String(day)];
+  if (!hours) return null;
+  const published = Object.keys(hours)
+    .map(Number)
+    .filter((value) => Number.isFinite(value))
+    .sort((a, b) => a - b);
+  for (const candidate of published) {
+    if (candidate < hour) continue;
+    if (hours[String(candidate)] === false) return candidate;
+  }
+  return null;
+}
+
 export function roomStatusAt(
   room: Room,
   ctx: TimeContext,
@@ -291,17 +318,33 @@ export function roomStatusAt(
       nextFreeText: "Not published",
       subText: "This hour is outside the space database snapshot",
       busyUntil: null,
+      nextFreeAt: null,
     };
   }
 
   if (state === "busy") {
-    const busyUntil = minutesToTime((hour + 1) * 60);
+    // The hour ending is not the same thing as the room becoming free: a
+    // room booked from nine to one is not free at ten. The time the room
+    // is actually free again is the useful one.
+    const freeHour = nextFreeHourAt(room, ctx.uoftDay, hour);
+    if (freeHour === null) {
+      return {
+        state,
+        statusTitle: "Occupied",
+        nextFreeText: "No free hour left today",
+        subText: "The room is booked for every hour the source publishes today",
+        busyUntil: null,
+        nextFreeAt: null,
+      };
+    }
+    const freeAt = minutesToTime(freeHour * 60);
     return {
       state,
       statusTitle: "Occupied",
-      nextFreeText: `Booked until ${format12Hour(busyUntil)}`,
+      nextFreeText: `Free next at ${format12Hour(freeAt)}`,
       subText: "The room is not listed as available in this hour",
-      busyUntil,
+      busyUntil: freeAt,
+      nextFreeAt: freeHour * 60,
     };
   }
 
@@ -311,7 +354,26 @@ export function roomStatusAt(
     nextFreeText: "Free in this hour",
     subText: "The room is listed as available in this hour",
     busyUntil: null,
+    nextFreeAt: hour * 60,
   };
+}
+
+/**
+ * The rooms, the one that frees soonest first.
+ *
+ * A room that is free now comes first, then the room that becomes free
+ * soonest, then the rooms with no known free hour left in the day. The
+ * sort is stable, so rooms that free at the same time keep their order.
+ */
+export function sortRoomsByNextFree(rooms: Room[], ctx: TimeContext): Room[] {
+  return [...rooms].sort((a, b) => {
+    const left = roomStatusAt(a, ctx).nextFreeAt;
+    const right = roomStatusAt(b, ctx).nextFreeAt;
+    if (left === null && right === null) return 0;
+    if (left === null) return 1;
+    if (right === null) return -1;
+    return left - right;
+  });
 }
 
 /** The next class scheduled in a building, for the given day. */

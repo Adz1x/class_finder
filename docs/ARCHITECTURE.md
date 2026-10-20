@@ -184,11 +184,11 @@ the source it was given rather than a name it invented.
 
 ```
                  ┌───────────────────────────┐
-                 │  Playwright · 20 tests    │  the shipped product
+                 │  Playwright · 21 tests    │  the shipped product
                  │  + axe-core · 4 views     │
                  └───────────────────────────┘
                  ┌───────────────────────────┐
-                 │  Vitest · 49 tests        │  logic and components
+                 │  Vitest · 53 tests        │  logic and components
                  └───────────────────────────┘
                  ┌───────────────────────────┐
                  │  pytest · 47 tests        │  the data contract

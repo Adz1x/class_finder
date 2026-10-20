@@ -18,10 +18,11 @@ import {
   roomStateAt,
   roomStatusAt,
   searchCourseCodes,
+  sortRoomsByNextFree,
   termOfSession,
   timeToMinutes,
 } from "@/components/lib/schedule";
-import { sampleClasses, sampleRooms } from "../fixtures/sample-dataset";
+import { makeRoom, sampleClasses, sampleRooms } from "../fixtures/sample-dataset";
 
 describe("time helpers", () => {
   it("converts a clock time to minutes", () => {
@@ -200,6 +201,64 @@ describe("room availability", () => {
     expect(status.state).toBe("unknown");
     expect(status.statusTitle).toBe("Unknown");
     expect(status.nextFreeText).toMatch(/not published/i);
+  });
+
+  it("says when a busy room is free next, not merely when the hour ends", () => {
+    // Booked from 09:00 through 13:00, free from 14:00.
+    const booked = makeRoom({
+      occupancy: {
+        1: { 9: true, 10: true, 11: true, 12: true, 13: true, 14: false },
+      },
+    });
+    const status = roomStatusAt(
+      booked,
+      getLiveTimeContext(new Date(2026, 9, 19, 9, 0)),
+    );
+    expect(status.state).toBe("busy");
+    expect(status.nextFreeText).toBe("Free next at 2:00 PM");
+    expect(status.nextFreeAt).toBe(14 * 60);
+  });
+
+  it("says so when a busy room has no free hour left in the day", () => {
+    const booked = makeRoom({
+      occupancy: { 1: { 9: true, 10: true, 11: true } },
+    });
+    const status = roomStatusAt(
+      booked,
+      getLiveTimeContext(new Date(2026, 9, 19, 9, 0)),
+    );
+    expect(status.nextFreeText).toMatch(/no free hour/i);
+    expect(status.nextFreeAt).toBeNull();
+  });
+
+  it("puts the room that frees soonest first", () => {
+    const rooms = [
+      makeRoom({ room: "MN 3000", occupancy: { 1: { 9: true, 10: true, 16: false } } }),
+      makeRoom({ room: "MN 2000", occupancy: { 1: { 9: true, 10: false } } }),
+      makeRoom({ room: "MN 4000", occupancy: { 1: { 9: false, 10: false } } }),
+    ];
+    const sorted = sortRoomsByNextFree(
+      rooms,
+      getLiveTimeContext(new Date(2026, 9, 19, 9, 0)),
+    );
+    // Free now, then free at 10:00, then free at 16:00.
+    expect(sorted.map((room) => room.room)).toEqual([
+      "MN 4000",
+      "MN 2000",
+      "MN 3000",
+    ]);
+  });
+
+  it("puts a room with no known free hour last", () => {
+    const rooms = [
+      makeRoom({ room: "MN 3000", occupancy: { 1: { 9: true, 10: true } } }),
+      makeRoom({ room: "MN 2000", occupancy: { 1: { 9: false, 10: false } } }),
+    ];
+    const sorted = sortRoomsByNextFree(
+      rooms,
+      getLiveTimeContext(new Date(2026, 9, 19, 9, 0)),
+    );
+    expect(sorted.map((room) => room.room)).toEqual(["MN 2000", "MN 3000"]);
   });
 });
 

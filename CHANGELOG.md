@@ -61,9 +61,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   sentence 65 times on one screen, which reads as an error rather than as a
   fact about the source. It is said once now, in the banner and the course
   view, and a room is shown only when the source has one.
-- **The published band is described honestly.** "7:00 AM - 9:00 PM" claimed
-  the 13:00 hour the space database omits. It reads "7:00 AM - 12:00 PM and
-  2:00 PM - 8:00 PM" now.
+- **The published band is described honestly.** It reads "7:00 AM - 8:00 PM"
+  now - one continuous run, because the 1 PM hole was in the capture and not
+  in the source. Before that fix it had to be split around a gap that was
+  never real.
+- **A busy room says when it is free next.** "Booked until 11:00 AM" was
+  wrong: it named the end of the current hour, not the time the room
+  actually frees. A room booked from ten to one reads "Free next at 1:00 PM",
+  and a room with no free hour left in the day says so.
+- **The rooms are ordered by when they free.** The one that is free now
+  comes first, then the one that frees soonest, then the rooms with no
+  known free hour left in the day.
 - **The snapshot date is dated once**, in the footer, instead of on every
   view.
 - **How busy every building is right now**, on every campus, with the
@@ -79,7 +87,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Engineering
 
-- 116 tests across three layers: 47 pytest, 49 Vitest, 20 Playwright.
+- 121 tests across three layers: 47 pytest, 53 Vitest, 21 Playwright.
 
 ## [0.3.0] — 2026-10-20
 

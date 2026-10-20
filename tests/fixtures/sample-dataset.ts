@@ -24,7 +24,8 @@ function meeting(overrides: Partial<ClassMeeting> = {}): ClassMeeting {
   };
 }
 
-function room(overrides: Partial<Room> = {}): Room {
+/** Builds a UTM classroom, for the tests that need a specific occupancy. */
+export function makeRoom(overrides: Partial<Room> = {}): Room {
   return {
     room: "MN 2100",
     building: "MN",
@@ -92,9 +93,9 @@ export const sampleDatasets: Record<string, Dataset> = {
       weekEnd: "2026-10-23",
     },
     rooms: [
-      room(),
-      room({ room: "MN 3200", occupancy: { 1: { 9: false, 12: false } } }),
-      room({ room: "IB 379", building: "IB", buildingName: "Instructional Centre" }),
+      makeRoom(),
+      makeRoom({ room: "MN 3200", occupancy: { 1: { 9: false, 12: false } } }),
+      makeRoom({ room: "IB 379", building: "IB", buildingName: "Instructional Centre" }),
     ],
     classes: [
       meeting(),

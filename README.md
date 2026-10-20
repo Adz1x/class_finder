@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-116%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-121%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -74,7 +74,7 @@ how many classes are running in each building right now.
 | Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 116 across three layers, plus 4 automated accessibility checks |
+| Tests | 121 across three layers, plus 4 automated accessibility checks |
 
 ## The part that matters: it does not make things up
 
@@ -228,8 +228,8 @@ scraper/
     cli.py                  # `build` and `verify`
   tests/                    # 47 pytest tests + committed API fixtures
 tests/
-  unit/                     # 49 Vitest tests
-  e2e/                      # 20 Playwright tests
+  unit/                     # 53 Vitest tests
+  e2e/                      # 21 Playwright tests
 data/
   campus/<KEY>.json         # the dataset, one file per campus key
   rooms/<KEY>.json          # the classrooms with their occupancy, and where
@@ -256,7 +256,7 @@ crosses 150 KB, so the win cannot quietly be given back.
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 49 of the 116 tests are fast and deterministic.
+why 53 of the 121 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -267,8 +267,8 @@ publish, that there are no duplicates. It runs in CI.
 
 ```bash
 npm run scraper:test   # 47 pytest  - saved API fixtures, no network
-npm test               # 49 Vitest  - pure logic + React components
-npm run test:e2e       # 20 Playwright - against the production build
+npm test               # 53 Vitest  - pure logic + React components
+npm run test:e2e       # 21 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
 npm run data:size      # the gzipped payload budget
 ```
