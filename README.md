@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-114%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-116%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -54,6 +54,8 @@ how many classes are running in each building right now.
   records, 21,408 class meetings, all 8 faculties, 3 campuses.
 - **Real classroom availability** for UTM, from the official UofT Classroom
   Space Database: 65 actual rooms, per-hour occupancy, real capacity.
+- **Real classroom availability for St. George**, from the Space Management
+  booking portal: 50 rooms with their free and busy hours.
 - **The real St. George and Scarborough classrooms** - 334 and 71 of them,
   from two University services, each with the number of students it seats.
 - **How busy every building is right now**, on every campus, with the
@@ -69,10 +71,10 @@ how many classes are running in each building right now.
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 65 UTM classrooms with published per-hour occupancy, 334 St. George and 71 Scarborough classrooms with their capacities |
+| Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 114 across three layers, plus 4 automated accessibility checks |
+| Tests | 116 across three layers, plus 4 automated accessibility checks |
 
 ## The part that matters: it does not make things up
 
@@ -105,14 +107,23 @@ every card.
 | Campus | Classrooms | Occupancy | Source |
 |---|---|---|---|
 | **Mississauga** | 65 rooms, with capacity | **Per hour**, for the snapshot week | UofT Classroom Space Database |
-| **St. George** | 334 classrooms in 40 buildings, with capacity | Not published | UofT Space Management classroom specification |
+| **St. George** | 50 rooms with occupancy, 334 classrooms with capacity | **Per hour**, for the snapshot week | UofT Space Management campus booking portal |
 | **Scarborough** | 71 classrooms in 10 buildings, with capacity, type and accessibility | Not published | UofT IITS classroom specifications |
 
 Every open source was checked; [§2.4 of the report](docs/REPORT.md) records
 the search, including the St. George availability calendar that was
-withdrawn and the Scarborough calendar that needs a UTORid. Room-level
-occupancy for St. George and Scarborough is not published through any open
-channel, so the application publishes what is open — the timetable, the real
+withdrawn and the Scarborough calendar that needs a UTORid.
+
+**St. George's occupancy came from the least obvious place.** The
+withdrawn "Calendar of Availability" application was replaced, in effect,
+by the booking portal Space Management runs for recognised student groups:
+its "Preferred Room" list is repopulated from a date, a start and end time
+and an expected attendance, and it answers with the rooms that are free in
+that slot. Fifty St. George rooms across eleven buildings, per hour, for the
+week.
+
+Scarborough publishes its classrooms but not their occupancy, so the
+application publishes what is open there — the timetable, the real
 classrooms, and how many classes are running in each building right now.
 
 ## Quick start
@@ -182,6 +193,7 @@ that those files add up to the totals in `meta.json` exactly:
 | Course catalogue | `POST https://api.easi.utoronto.ca/ttb/getPageableCourses` |
 | Faculties | `GET https://api.easi.utoronto.ca/ttb/getMatchingDivisions` |
 | UTM classroom space | `https://metis.utm.utoronto.ca/space/` (snapshot committed in `data/`) |
+| St. George room availability | `https://lsm.utoronto.ca/ords/f?p=171:2` (snapshot committed in `data/rooms/`) |
 | St. George classrooms | `https://lsm.utoronto.ca/webapp/f?p=210` (snapshot in `data/classrooms/`) |
 | Scarborough classrooms | `https://www.utsc.utoronto.ca/iits/classroom-support` (snapshot in `data/classrooms/`) |
 | Building names | [`cobalt-uoft/datasets`](https://github.com/cobalt-uoft/datasets) — U of T's own open-data project |
@@ -217,15 +229,17 @@ scraper/
   tests/                    # 47 pytest tests + committed API fixtures
 tests/
   unit/                     # 49 Vitest tests
-  e2e/                      # 18 Playwright tests
+  e2e/                      # 20 Playwright tests
 data/
   campus/<KEY>.json         # the dataset, one file per campus key
-  rooms.json                # the UTM classroom inventory
+  rooms/<KEY>.json          # the classrooms with their occupancy, and where
+                            #   that came from
   classrooms/<KEY>.json     # the classrooms the University lists per campus
   meta.json                 # provenance and the invariants the split must match
 scripts/
   fetch-utsg-classrooms.mjs # refreshes the St. George classroom inventory
   fetch-utsc-classrooms.mjs # refreshes the Scarborough classroom inventory
+  fetch-utsg-availability.mjs # refreshes the St. George room availability
 ```
 
 Three decisions worth calling out:
@@ -241,7 +255,7 @@ crosses 150 KB, so the win cannot quietly be given back.
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 49 of the 114 tests are fast and deterministic.
+why 49 of the 116 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -253,7 +267,7 @@ publish, that there are no duplicates. It runs in CI.
 ```bash
 npm run scraper:test   # 47 pytest  - saved API fixtures, no network
 npm test               # 49 Vitest  - pure logic + React components
-npm run test:e2e       # 18 Playwright - against the production build
+npm run test:e2e       # 20 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
 npm run data:size      # the gzipped payload budget
 ```
@@ -300,6 +314,7 @@ whether the wording makes sense.
 | `npm run screenshots` | Re-capture the images in `docs/images/` |
 | `node scripts/fetch-utsg-classrooms.mjs` | Refresh the St. George classroom inventory |
 | `node scripts/fetch-utsc-classrooms.mjs` | Refresh the Scarborough classroom inventory |
+| `node scripts/fetch-utsg-availability.mjs` | Refresh the St. George room availability (needs a signed-in session) |
 
 ## Data and attribution
 

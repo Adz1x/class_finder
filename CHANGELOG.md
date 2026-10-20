@@ -23,6 +23,19 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   refetching 370 pages of the catalogue. The command keeps the committed
   catalogue and replaces only the rooms and the snapshot provenance, and it
   refuses to run if the dataset's own numbers do not add up.
+- **St. George classroom availability.** The University does not publish it
+  as availability - it publishes it as a booking form. The "Preferred Room"
+  list of the recognised-student-group booking portal is repopulated from a
+  date, the hours and an expected attendance, and answers with the rooms
+  that are free in that slot. The app asks the same question once per hour
+  for every day of the week: 50 St. George rooms across eleven buildings,
+  with their free and busy hours. The question has a trap in it - the
+  portal only returns rooms that *seat* the attendance it is given - so the
+  capture asks for one and reads the capacity out of the same reply.
+- **The rooms are stored one file per campus**, each with the provenance of
+  the source it came from, because the source is not the same for every
+  campus: Mississauga publishes a classroom space database, St. George
+  publishes the booking portal's room list, Scarborough publishes neither.
 - **The St. George classroom inventory.** UofT Space Management publishes
   every classroom of every St. George building, with the number of students
   it seats. The app now lists all **334 of them in 40 buildings**
@@ -61,7 +74,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Engineering
 
-- 114 tests across three layers: 47 pytest, 49 Vitest, 18 Playwright.
+- 116 tests across three layers: 47 pytest, 49 Vitest, 20 Playwright.
 
 ## [0.3.0] — 2026-10-20
 

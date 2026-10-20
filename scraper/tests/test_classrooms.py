@@ -48,7 +48,21 @@ def write_dataset(root: Path, classrooms: dict | None = None) -> Path:
     (root / "campus" / "UTSG.json").write_text(
         json.dumps([MEETING]), encoding="utf-8"
     )
-    (root / "rooms.json").write_text("[]", encoding="utf-8")
+    rooms_dir = root / "rooms"
+    rooms_dir.mkdir(parents=True, exist_ok=True)
+    (rooms_dir / "UTM.json").write_text(
+        json.dumps(
+            {
+                "campus": "UTM",
+                "source": "UofT Classroom Space Database",
+                "sourceUrl": "https://metis.utm.utoronto.ca/space/",
+                "weekStart": "2026-10-19",
+                "weekEnd": "2026-10-23",
+                "rooms": [],
+            }
+        ),
+        encoding="utf-8",
+    )
     (root / "meta.json").write_text(json.dumps(META), encoding="utf-8")
     if classrooms is not None:
         (root / "classrooms").mkdir(parents=True, exist_ok=True)

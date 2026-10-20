@@ -48,6 +48,23 @@ function readJson<T>(path: string): T {
   }
 }
 
+/**
+ * A campus's classrooms with their occupancy, and where that came from.
+ *
+ * The provenance travels with the data because the source is not the same
+ * for every campus: Mississauga publishes a classroom space database, and
+ * St. George's room list comes from the booking portal Space Management
+ * runs for recognised student groups.
+ */
+interface RoomFile {
+  campus: string;
+  source: string;
+  sourceUrl: string;
+  weekStart: string;
+  weekEnd: string;
+  rooms: Room[];
+}
+
 /** The classroom inventory the University publishes for a campus, if any. */
 interface ClassroomFile {
   campus: string;
@@ -88,14 +105,31 @@ function load(campus: CampusKey): { plain: Bytes; gzip: Bytes } {
   const classes = readJson<ClassMeeting[]>(
     join(dataDir, "campus", `${campus}.json`),
   );
-  const allRooms = readJson<Room[]>(join(dataDir, "rooms.json"));
   const meta = readJson<Meta>(join(dataDir, "meta.json"));
+
+  // A campus with no published occupancy simply has no rooms file.
+  let roomFile: RoomFile | null = null;
+  try {
+    roomFile = readJson<RoomFile>(
+      join(dataDir, "rooms", `${campus}.json`),
+    );
+  } catch {
+    roomFile = null;
+  }
 
   const payload: CampusPayload = {
     campus,
     classes,
-    rooms: allRooms.filter((room) => room.campusKey === campus),
+    rooms: roomFile?.rooms ?? [],
     classrooms: loadClassrooms(campus),
+    availability: roomFile
+      ? {
+          source: roomFile.source,
+          sourceUrl: roomFile.sourceUrl,
+          weekStart: roomFile.weekStart,
+          weekEnd: roomFile.weekEnd,
+        }
+      : null,
     meta,
   };
 

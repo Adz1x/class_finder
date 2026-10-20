@@ -33,8 +33,57 @@ function readJson(name) {
   return JSON.parse(readFileSync(join(DATA, name), "utf-8"));
 }
 
-const rooms = readJson("rooms.json");
 const meta = readJson("meta.json");
+
+/**
+ * The rooms of every campus, each with the provenance of its source.
+ *
+ * The payload the app receives is not only the class meetings: it is the
+ * rooms with their occupancy, the classroom inventory, and where the
+ * occupancy came from. Measuring only the meetings would miss the largest
+ * thing this project adds to a campus.
+ */
+function campusPayload(key, classes) {
+  let roomFile = null;
+  try {
+    roomFile = readJson(join("rooms", `${key}.json`));
+  } catch {
+    roomFile = null;
+  }
+
+  let classrooms = [];
+  try {
+    const file = readJson(join("classrooms", `${key}.json`));
+    for (const [building, rooms] of Object.entries(file.classrooms ?? {})) {
+      for (const room of rooms) {
+        classrooms.push({
+          building,
+          room: room.room,
+          name: room.name ?? null,
+          capacity: room.capacity ?? null,
+        });
+      }
+    }
+  } catch {
+    classrooms = [];
+  }
+
+  return JSON.stringify({
+    campus: key,
+    classes,
+    rooms: roomFile?.rooms ?? [],
+    classrooms,
+    availability: roomFile
+      ? {
+          source: roomFile.source,
+          sourceUrl: roomFile.sourceUrl,
+          weekStart: roomFile.weekStart,
+          weekEnd: roomFile.weekEnd,
+        }
+      : null,
+    meta,
+  });
+}
 
 const campusFiles = readdirSync(join(DATA, "campus")).filter((name) =>
   name.endsWith(".json"),
@@ -54,13 +103,7 @@ console.log("=".repeat(68));
 for (const file of campusFiles.sort()) {
   const key = file.replace(/\.json$/, "");
   const classes = readJson(join("campus", file));
-  const payload = JSON.stringify({
-    campus: key,
-    classes,
-    rooms: rooms.filter((room) => room.campusKey === key),
-    meta,
-  });
-  const compressed = gzipSync(Buffer.from(payload)).length;
+  const compressed = gzipSync(Buffer.from(campusPayload(key, classes))).length;
   const budget = BUDGETS[key];
   total += compressed;
 

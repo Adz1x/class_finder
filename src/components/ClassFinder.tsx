@@ -117,6 +117,7 @@ export default function ClassFinder() {
           classes: payload.classes,
           rooms: payload.rooms,
           classrooms: payload.classrooms ?? [],
+          availability: payload.availability ?? null,
           meta: payload.meta,
         };
         cache.current.set(activeCampus, dataset);
@@ -550,13 +551,21 @@ export default function ClassFinder() {
             timetable API • {meta.classMeetings.toLocaleString()} class meetings
           </p>
           <p>
-            Fall {activeTerm === "F" ? "&" : ""} Winter 2026-27 • Classroom
-            availability from the UofT Classroom Space Database, week of{" "}
-            {new Date(`${meta.snapshotWeekStart}T12:00:00`).toLocaleDateString("en-GB", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+            Fall {activeTerm === "F" ? "&" : ""} Winter 2026-27 •{" "}
+            {data.availability ? (
+              <>
+                Classroom availability from {data.availability.source}, week of{" "}
+                {new Date(
+                  `${data.availability.weekStart}T12:00:00`,
+                ).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </>
+            ) : (
+              "No classroom occupancy is published for this campus"
+            )}
           </p>
         </div>
       </footer>
@@ -721,7 +730,7 @@ function ListView({
                     {inProgress.length} running now
                   </span>
                 ) : null}
-                {classrooms.length ? (
+                {classrooms.length && !rooms.length ? (
                   <span
                     className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300"
                     title="Classrooms the University lists in this building"
@@ -765,7 +774,7 @@ function ListView({
               of classroom data that is public for St. George, so it is
               worth showing: these are the rooms to look for.
             */}
-            {classrooms.length ? (
+            {classrooms.length && !rooms.length ? (
               <div className="border-t border-slate-800/80 pt-3">
                 <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wide mb-2">
                   Classrooms in {b.code}
@@ -902,6 +911,7 @@ function AvailabilityNotice({
   const currentHour = Math.floor(ctx.nowMins / 60);
   const isPublished = hours.includes(currentHour);
   const band = formatHourRange(hours);
+  const source = data.availability?.source ?? "the UofT Classroom Space Database";
 
   if (!campusRooms.length) {
     return (
@@ -935,8 +945,8 @@ function AvailabilityNotice({
             <strong className="font-bold text-slate-200">
               Classroom availability, {band}.
             </strong>{" "}
-            From the UofT Classroom Space Database. Rooms are listed as free
-            only when the database says they are.
+            From {source}. A room is listed as free only when that source says
+            it is.
           </>
         ) : (
           <>

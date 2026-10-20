@@ -74,7 +74,9 @@ def test_the_rooms_can_be_rebuilt_without_refetching_the_catalogue(
     write_dataset(result, tmp_path)
 
     campus_before = (tmp_path / "campus" / "UTM.json").read_bytes()
-    rooms_before = json.loads((tmp_path / "rooms.json").read_text(encoding="utf-8"))
+    rooms_before = json.loads(
+        (tmp_path / "rooms" / "UTM.json").read_text(encoding="utf-8")
+    )["rooms"]
     assert any(room["hoursMissing"] == [13] for room in rooms_before)
 
     capture = tmp_path / "metis.json"
@@ -88,7 +90,9 @@ def test_the_rooms_can_be_rebuilt_without_refetching_the_catalogue(
     assert (tmp_path / "campus" / "UTM.json").read_bytes() == campus_before
 
     # The hour the first capture missed is published now.
-    rooms_after = json.loads((tmp_path / "rooms.json").read_text(encoding="utf-8"))
+    rooms_after = json.loads(
+        (tmp_path / "rooms" / "UTM.json").read_text(encoding="utf-8")
+    )["rooms"]
     assert all(room["hoursMissing"] == [] for room in rooms_after)
 
 

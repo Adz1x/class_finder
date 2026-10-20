@@ -36,10 +36,10 @@ the one it replaced, and that makes a claim a reviewer can check.
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 65 UTM classrooms with published per-hour occupancy, 334 St. George classrooms with their capacities |
+| Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 111 across three layers, plus 4 automated accessibility checks |
+| Tests | 116 across three layers, plus 4 automated accessibility checks |
 
 ---
 
@@ -121,6 +121,7 @@ because the answer is a fact about the University:
 | **Classroom Space Database** (Metis), `metis.utm.utoronto.ca/space/` | UTM classrooms, capacity, per-hour availability | **Found and used.** The page now redirects to the University single sign-on and the endpoint behind the committed snapshot could not be re-identified, so it cannot be refreshed automatically. |
 | **St. George classroom specification**, `lsm.utoronto.ca/webapp/f?p=210` | Every St. George classroom, its name and its capacity | **Found and used.** 40 buildings, 334 classrooms. |
 | **"Calendar of Availability"**, `lsm.utoronto.ca/webapp/f?p=200` | The St. George availability calendar, linked from the classroom app | **Withdrawn.** "Could not determine workspace for application (200)". The button that pointed at it is commented out in the page source. |
+| **The Campus Events booking portal**, `lsm.utoronto.ca/ords/f?p=171:2` | The room list of a student group's booking form, which is repopulated from the date, the hours and the expected attendance | **Found and used.** It answers with the St. George rooms that are *free* in that slot - free/busy, without the class names. In effect the replacement for the withdrawn calendar: a booking form asks whether a room is free, and that answer is the occupancy. |
 | **Privacy-Synchronous Space Finder**, `lsm.utoronto.ca/syncstudy.html` | The St. George empty-classroom finder | The data exists and the app uses it, but it ships as an iOS/Android application with no public feed. |
 | **Scarborough classroom schedule**, `intranet.utsc.utoronto.ca` | The Scarborough classroom calendar, linked from the Registrar's room information page | **Behind a UTORid login.** |
 | **Scarborough classroom details**, `utsc.utoronto.ca/iits/classroom-support` | A Scarborough classroom inventory | **Found and used.** 71 classrooms in 10 buildings, with capacity, room type, AV features and accessibility. |
@@ -136,16 +137,43 @@ The conclusion is therefore a fact about the University rather than about
 this project:
 
 > The University publishes room-level classroom availability for
-> Mississauga, and a classroom *inventory* for St. George and Scarborough.
-> It publishes no room-level availability for St. George or Scarborough
+> Mississauga and for St. George, and a classroom *inventory* for
+> Scarborough. It publishes no room-level availability for Scarborough
 > through any open channel.
 
-So for those campuses the application publishes the two things that *are*
+So the application publishes, for every campus, the two things that *are*
 open: the complete class timetable, and the real classrooms of every
 St. George and Scarborough building with their capacities — 334 and 71 of
 them, from two different University services. What the application adds is
 the join a student would otherwise have to make by hand: how many classes
 are running in each building right now.
+
+### 2.5 The St. George rooms, from a booking form
+
+The St. George availability was not published as availability. It was
+published as a **booking form**: the one recognised student groups use to
+ask for a room. Its "Preferred Room" list is repopulated from the date, the
+start and end time and the expected attendance, and it answers with the
+rooms that are free in that slot.
+
+That is the occupancy signal, in the one shape the University still
+publishes it in. The application asks the same question the form asks —
+one date, one hour, one attendance — for every hour of the week, and reads
+the free rooms out of the answer. A room that is not in the answer is
+booked in that hour.
+
+The question has a trap in it, and the trap is in the answer rather than
+the request: the portal only returns rooms that **seat** the attendance it
+is given. Ask for 30 and it returns the rooms with 30 or more seats; ask for
+one and it returns every room there is. The capture asks for one, and reads
+the capacity out of the same reply.
+
+The form is an Oracle APEX application, so the room list is only in the page
+after the form has been filled in, and the reply is a dynamic action that
+needs the session's own request token, salt and protected values. The
+capture therefore drives the form in a browser and asks the question from
+inside the page, where the session already is. Fifty St. George rooms
+across eleven buildings, per hour, for the week.
 
 The Scarborough schedule deserves one more note, because it is the closest
 this project came. The intranet's URL space was recovered from the Internet
@@ -204,33 +232,39 @@ about the University for a fortnight.
 ### 3.1 The pipeline
 
 ```
-   UofT Timetable Builder API        UofT Classroom Space      UofT Space
-   getPageableCourses (370 pages)     Database (Metis)          Management
-   getMatchingDivisions               UTM campus                St. George
-   reference-data                          │                        │
-          │                                │                        │
-          ▼                                ▼                        ▼
-   ┌──────────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-   │ parse.py             │     │ metis.py         │     │ classrooms       │
-   │ verbatim codes,      │     │ 65 rooms,        │     │ 334 classrooms,  │
-   │ real filters, no     │     │ per-hour         │     │ 40 buildings,    │
-   │ room invention       │     │ occupancy,       │     │ room + capacity  │
-   │                     │     │ missing hours    │     │                  │
-   └──────────┬───────────┘     └────────┬─────────┘     └────────┬─────────┘
-              │                          │                        │
-              └──────────────┬───────────┴────────────────────────┘
-                             ▼
-                  ┌────────────────────┐
-                  │ build.py           │  21,408 meetings
-                  │ split per campus   │  4 campus files
-                  │ provenance in meta │  + rooms + meta
-                  └──────────┬─────────┘
-                             ▼
-                  ┌────────────────────┐
-                  │ data/campus/*.json │  committed to the repo
-                  │ data/classrooms/*  │
-                  └────────────────────┘
+   UofT Timetable Builder API     UofT Classroom Space     UofT Space
+   getPageableCourses (370 pages)  Database (Metis)         Management
+   getMatchingDivisions            UTM campus               St. George
+   reference-data                       |                        |
+           |                             |                        |
+           v                             v                        v
+   +----------------------+     +------------------+     +----------------------+
+   | parse.py             |     | metis.py         |     | a browser, driving   |
+   | verbatim codes,      |     | 65 rooms,        |     | two APEX forms:      |
+   | real filters, no     |     | per-hour         |     | the classroom spec   |
+   | room invention       |     | occupancy,       |     | (334 classrooms) and |
+   |                     |     | missing hours    |     | the booking form     |
+   +----------+-----------+     +--------+---------+     | (50 rooms, per hour) |
+              |                          |                +----------+-----------+
+              +--------------+-----------+----------------------------+
+                             v
+                  +--------------------+
+                  | build.py           |  21,408 meetings
+                  | split per campus   |  4 campus files
+                  | provenance in meta |  + rooms + meta
+                  +----------+---------+
+                             v
+                  +--------------------+
+                  | data/campus/*.json |  committed to the repo
+                  | data/rooms/*.json  |  one file per campus, each
+                  | data/classrooms/*  |  with its source's provenance
+                  +--------------------+
 ```
+
+The St. George capture and the timetable build are separate on purpose: the
+timetable is the whole catalogue and changes when the University changes it,
+while the room lists are re-captured weekly. `uoft-scraper rebuild-rooms`
+swaps in a new week of occupancy without refetching the 370 pages.
 
 The scraper runs by hand, not on a schedule, at a polite pace. The result is
 committed to the repository as a dated snapshot, so the application works
@@ -339,12 +373,12 @@ specific.
 
 | Layer | Tests | Protects | Network |
 |---|---:|---|---|
-| **pytest** | 44 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the per-campus split, the filter funnel | none — fixtures are committed |
+| **pytest** | 47 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the rooms-only rebuild, the per-campus split, the filter funnel | none — fixtures are committed |
 | **Vitest** | 50 | The application: time handling, term filtering, search, room states, the timetable layout, and the components — including "no invented room numbers" | none |
-| **Playwright** | 17 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the St. George classroom inventory, the API payload, keyboard operation | none — a production build, served locally |
+| **Playwright** | 20 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the St. George and Scarborough classroom inventories, the St. George availability, the API payload, keyboard operation | none — a production build, served locally |
 | **axe-core** | 4 views | WCAG 2.1 AA violations in the classroom list, a course timetable, a classroom timetable and St. George | none |
 
-**111 tests, none of which touches the University of Toronto's servers.** CI
+**116 tests, none of which touches the University of Toronto's servers.** CI
 runs them in four jobs; the data-verification and payload-budget jobs need
 no network either.
 
@@ -368,10 +402,10 @@ exactly the campus on screen, gzipped:
 | Campus | Meetings | On disk | Over the wire | Before |
 |---|---:|---:|---:|---:|
 | UTM | 5,178 | 2.1 MB | **83 KB** | 8.3 MB |
-| UTSG | 12,175 | 4.8 MB | 224 KB | |
-| UTSC | 3,961 | 1.5 MB | 68 KB | |
+| UTSG | 12,175 | 4.8 MB | 229 KB | |
+| UTSC | 3,961 | 1.5 MB | 69 KB | |
 | SHERIDAN | 94 | 36 KB | 2 KB | |
-| **Total** | **21,408** | **8.4 MB** | **377 KB** | 8.3 MB |
+| **Total** | **21,408** | **8.4 MB** | **383 KB** | 8.3 MB |
 
 A hundredfold reduction for the first screen, and a quarter of a megabyte
 for the whole catalogue. `npm run data:size` measures the gzipped size of
@@ -406,9 +440,9 @@ Every figure in this report can be checked:
 ```bash
 npm run data:verify     # the dataset's invariants
 npm run data:size       # the payload budget
-npm run scraper:test    # 44 tests, offline
+npm run scraper:test    # 47 tests, offline
 npm test                # 50 tests, offline
-npm run test:e2e        # 17 tests, against a local production build
+npm run test:e2e        # 20 tests, against a local production build
 ```
 
 `data:verify` re-reads the per-campus files, unions them, and checks that
@@ -445,17 +479,22 @@ application's job is to make them visible rather than to hide them.
    sessions. No feature can tell a student the room their class is in. Any
    tool that claims to is guessing.
 
-2. **Room-level availability is UTM-only, and that is the University's
-   doing.** Section 2.4 records every source that was checked. The
-   University publishes occupancy for Mississauga and a classroom inventory
-   for St. George; its St. George availability calendar was withdrawn, its
-   Scarborough calendar needs a UTORid, and the rest of the room data for
-   St. George lives in a mobile application. The application therefore
-   publishes, for St. George and Scarborough, the class timetable, the real
-   classrooms of each St. George building with their capacities, and how
-   many classes are running in each building right now. That last number is
-   the closest published thing to "is there space here" on those campuses,
-   and it is a proxy, not occupancy.
+2. **Room-level availability covers two campuses, not three.** Section 2.4
+   records every source that was checked. The University publishes occupancy
+   for Mississauga, and for St. George through the booking portal.
+   Scarborough publishes its classrooms but not their occupancy: its
+   calendar needs a UTORid, and the timetable API lists no room for any of
+   its 4,059 meetings. The application therefore publishes, for
+   Scarborough, the class timetable, the real classrooms of each building
+   with their capacities, and how many classes are running in each building
+   right now. That last number is the closest published thing to "is there
+   space here" there, and it is a proxy, not occupancy.
+
+   The St. George availability has a narrower coverage than the
+   Mississauga one: the booking portal answers for the rooms a student
+   group can book — fifty of them in eleven buildings, not the 334
+   classrooms the specification lists — and it says whether a room is free
+   but never which class is in it.
 
 3. **Availability is a snapshot, not live.** One week of the 2026 Fall
    term (30 September – 6 October 2026). It does not know about a room

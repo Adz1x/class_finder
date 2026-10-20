@@ -8,8 +8,11 @@ Outputs (all under ``--out``):
     catalogue cost 8.3 MB on first load, and the default campus is a fifth of
     that. The split is the reason the campus keys - not the campus names -
     are the unit of storage.
-``rooms.json``
-    The UTM classroom inventory and its occupancy for the snapshot week.
+``rooms/<KEY>.json``
+    The classrooms of one campus, with their occupancy for the week the
+    source published, and the provenance of that source. Mississauga comes
+    from the Classroom Space Database; St. George comes from the room list
+    the Space Management booking portal returns for a given slot.
 ``meta.json``
     Provenance: how many rows were fetched vs. expected, the snapshot week,
     the source URLs, and the per-campus counts the split has to match.
@@ -145,7 +148,6 @@ def write_dataset(result: BuildResult, out_dir: str | Path) -> dict[str, Path]:
     campus_dir.mkdir(parents=True, exist_ok=True)
 
     paths: dict[str, Path] = {
-        "rooms": out / "rooms.json",
         "meta": out / "meta.json",
     }
 
@@ -161,10 +163,30 @@ def write_dataset(result: BuildResult, out_dir: str | Path) -> dict[str, Path]:
         )
         paths[f"campus:{key}"] = path
 
-    paths["rooms"].write_text(
-        json.dumps([room.to_json() for room in result.rooms], separators=(",", ":")),
-        encoding="utf-8",
-    )
+    # The rooms are stored one file per campus, each with the provenance of
+    # the source it came from. The source is not the same for every campus:
+    # Mississauga publishes a classroom space database, St. George publishes
+    # the booking portal's room list.
+    if result.rooms:
+        campus = result.rooms[0].campus_key
+        rooms_dir = out / "rooms"
+        rooms_dir.mkdir(parents=True, exist_ok=True)
+        rooms_path = rooms_dir / f"{campus}.json"
+        rooms_path.write_text(
+            json.dumps(
+                {
+                    "campus": campus,
+                    "source": "UofT Classroom Space Database",
+                    "sourceUrl": "https://metis.utm.utoronto.ca/space/",
+                    "weekStart": result.snapshot.snapshot_week_start,
+                    "weekEnd": result.snapshot.snapshot_week_end,
+                    "rooms": [room.to_json() for room in result.rooms],
+                },
+                separators=(",", ":"),
+            ),
+            encoding="utf-8",
+        )
+        paths["rooms"] = rooms_path
     paths["meta"].write_text(
         json.dumps(result.snapshot.to_json(), indent=2), encoding="utf-8"
     )

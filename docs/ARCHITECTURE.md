@@ -20,7 +20,7 @@ How the project is put together, and why each piece is where it is.
         │   parse.py  verbatim codes, real filters, the funnel      │
         │   metis.py  rooms, per-hour occupancy, missing hours      │
         │   build.py  assembly, the per-campus split, provenance    │
-        │   cli.py    build | verify | funnel                        │
+        │   cli.py    build | verify | funnel | rebuild-rooms         │
         └───────────────────────────┬───────────────────────────────┘
                                     │  writes
                                     ▼
@@ -31,19 +31,25 @@ How the project is put together, and why each piece is where it is.
         │   campus/UTSG.json    4.8 MB  12,175 meetings            │
         │   campus/UTSC.json    1.5 MB   3,961 meetings            │
         │   campus/SHERIDAN.json 36 KB     94 meetings             │
-        │   rooms.json           52 KB     65 classrooms            │
+        │   rooms/UTM.json       55 KB     65 classrooms, Metis     │
         │   meta.json             1 KB     provenance + invariants  │
         │   building_names.json  12 KB     87 names, each sourced   │
         └───────────────────────────┬───────────────────────────────┘
                                     │
    ┌────────────────────────────────┘
-   │  UofT Space Management (St. George classroom specification)
-   │  scripts/fetch-utsg-classrooms.mjs  - a browser, because the
-   │  application is an Oracle APEX app that only fills its room list
-   │  after a building has been chosen
+   │  UofT Space Management, in a browser
+   │  scripts/fetch-utsg-classrooms.mjs  - the classroom
+   │    specification: 334 classrooms in 40 buildings
+   │  scripts/fetch-utsg-availability.mjs - the booking portal's room
+   │    list, asked once per hour: 50 rooms with their free and busy
+   │    hours
+   │  scripts/fetch-utsc-classrooms.mjs  - the Scarborough IITS
+   │    classroom specifications: 71 classrooms in 10 buildings
    ▼
         ┌───────────────────────────────────────────────────────────┐
         │   classrooms/UTSG.json   17 KB   334 classrooms          │
+        │   classrooms/UTSC.json    8 KB    71 classrooms          │
+        │   rooms/UTSG.json        57 KB    50 rooms, with hours   │
         └───────────────────────────┬───────────────────────────────┘
                                     │  read at request time
                                     ▼
@@ -156,15 +162,21 @@ that loads, and the campus tab follows the link.
 | File | Holds | Written by |
 |---|---|---|
 | `data/campus/<KEY>.json` | The class meetings for one campus key | `uoft-scraper build` |
-| `data/rooms.json` | The 65 UTM classrooms, their capacity and per-hour occupancy | `uoft-scraper build` |
+| `data/rooms/<KEY>.json` | The classrooms of one campus, their capacity and their per-hour occupancy, and the provenance of the source it came from | `uoft-scraper build` (UTM), `scripts/fetch-utsg-availability.mjs` (St. George) |
 | `data/meta.json` | Provenance: rows fetched vs. expected, the snapshot week, the filter funnel, the per-campus counts | `uoft-scraper build` |
 | `data/building_names.json` | 87 building codes → names, each with its source | hand-curated, from Cobalt |
 | `data/utm_metis_data.json` | The raw Metis snapshot the rooms were parsed from | the space database |
-| `data/classrooms/<KEY>.json` | The classrooms the University lists for a campus, with their capacity | `scripts/fetch-utsg-classrooms.mjs` |
+| `data/classrooms/<KEY>.json` | The classrooms the University lists for a campus, with their capacity | `scripts/fetch-utsg-classrooms.mjs`, `scripts/fetch-utsc-classrooms.mjs` |
 
 `meta.json` is the contract between the scraper and the application. The
 application reads it for the snapshot week and the published hours; `verify`
 reads it to check that the campus files still add up.
+
+Each `data/rooms/<KEY>.json` carries its own provenance, because the source
+is not the same for every campus: Mississauga publishes a classroom space
+database, St. George publishes the room list its booking portal returns for a
+slot, and Scarborough publishes no occupancy at all. The application shows
+the source it was given rather than a name it invented.
 
 ---
 
@@ -172,14 +184,14 @@ reads it to check that the campus files still add up.
 
 ```
                  ┌───────────────────────────┐
-                 │  Playwright · 15 tests    │  the shipped product
+                 │  Playwright · 20 tests    │  the shipped product
                  │  + axe-core · 4 views     │
                  └───────────────────────────┘
                  ┌───────────────────────────┐
-                 │  Vitest · 45 tests        │  logic and components
+                 │  Vitest · 49 tests        │  logic and components
                  └───────────────────────────┘
                  ┌───────────────────────────┐
-                 │  pytest · 39 tests        │  the data contract
+                 │  pytest · 47 tests        │  the data contract
                  └───────────────────────────┘
 ```
 

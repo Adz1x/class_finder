@@ -85,6 +85,12 @@ export const sampleDatasets: Record<string, Dataset> = {
     campus: "UTM",
     meta,
     classrooms: [],
+    availability: {
+      source: "UofT Classroom Space Database",
+      sourceUrl: "https://metis.utm.utoronto.ca/space/",
+      weekStart: "2026-10-19",
+      weekEnd: "2026-10-23",
+    },
     rooms: [
       room(),
       room({ room: "MN 3200", occupancy: { 1: { 9: false, 12: false } } }),
@@ -109,6 +115,7 @@ export const sampleDatasets: Record<string, Dataset> = {
   UTSG: {
     campus: "UTSG",
     meta,
+    availability: null,
     rooms: [],
     classrooms: [
       { building: "BA", room: "1130", name: "Auditorium", capacity: 159 },
@@ -132,6 +139,7 @@ export const sampleDatasets: Record<string, Dataset> = {
   UTSC: {
     campus: "UTSC",
     meta,
+    availability: null,
     rooms: [],
     classrooms: [],
     classes: [

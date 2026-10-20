@@ -176,7 +176,11 @@ def _verify(args: argparse.Namespace) -> int:
     catalogue and asserts the dataset still matches what the API publishes.
     """
     data_dir = Path(args.data)
-    rooms = json.loads((data_dir / "rooms.json").read_text(encoding="utf-8"))
+    # The rooms are stored one file per campus, each with its provenance.
+    rooms_dir = data_dir / "rooms"
+    rooms: list[dict] = []
+    for path in sorted(rooms_dir.glob("*.json")) if rooms_dir.is_dir() else []:
+        rooms.extend(json.loads(path.read_text(encoding="utf-8"))["rooms"])
     meta = json.loads((data_dir / "meta.json").read_text(encoding="utf-8"))
 
     failures: list[str] = []
@@ -235,8 +239,34 @@ def _verify(args: argparse.Namespace) -> int:
                 f"the filter funnel does not add up: {raw} published - "
                 f"{dropped} dropped != {meta['classMeetings']} kept"
             )
-    if meta["rooms"] != len(rooms):
-        failures.append(f"meta rooms ({meta['rooms']}) != rooms.json ({len(rooms)})")
+    # meta.rooms counts the rooms of the space database, which is the file
+    # the scraper writes. The other campuses' rooms come from their own
+    # sources and are checked for shape below.
+    metis_rooms = 0
+    metis_path = rooms_dir / "UTM.json"
+    if metis_path.is_file():
+        metis_rooms = len(
+            json.loads(metis_path.read_text(encoding="utf-8"))["rooms"]
+        )
+    if meta["rooms"] != metis_rooms:
+        failures.append(
+            f"meta rooms ({meta['rooms']}) != the rooms in data/rooms/UTM.json "
+            f"({metis_rooms})"
+        )
+
+    for path in sorted(rooms_dir.glob("*.json")) if rooms_dir.is_dir() else []:
+        file = json.loads(path.read_text(encoding="utf-8"))
+        if file.get("campus") != path.stem:
+            failures.append(
+                f"rooms file {path.name} says it belongs to {file.get('campus')!r}"
+            )
+        for room in file.get("rooms", []):
+            if room.get("campusKey") != path.stem:
+                failures.append(
+                    f"room {room.get('room')} in {path.name} has campus "
+                    f"{room.get('campusKey')!r}"
+                )
+                break
 
     known_rooms = {room["room"] for room in rooms}
     fabricated = sorted(

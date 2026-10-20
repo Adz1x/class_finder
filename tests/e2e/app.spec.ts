@@ -70,14 +70,11 @@ test.describe("class & room finder", () => {
     await page.goto("/");
     await page.getByRole("button", { name: "UTSG" }).click();
 
-    // 334 classrooms in 40 buildings, from UofT Space Management.
-    await expect(
-      page.getByText(/334 classrooms are listed for St. George/i),
-    ).toBeVisible();
-
-    // A real classroom of a real building, with the capacity it seats.
-    await expect(page.getByText(/Classrooms in HS/i)).toBeVisible();
-    await expect(page.getByText("610 · 251")).toBeVisible();
+    // 334 classrooms in 40 buildings, from UofT Space Management. The
+    // buildings that have published occupancy show their rooms with it; the
+    // rest show the inventory.
+    await expect(page.getByText(/Classrooms in MY/i)).toBeVisible();
+    await expect(page.getByText("150 · 468")).toBeVisible();
   });
 
   test("Scarborough lists the classrooms the University publishes", async ({
@@ -96,6 +93,24 @@ test.describe("class & room finder", () => {
     // A real classroom of a real building, with the capacity it seats.
     await expect(page.getByText(/Classrooms in IA/i)).toBeVisible();
     await expect(page.getByText("IA-B1010 · 36")).toBeVisible();
+  });
+
+  test("St. George has classroom availability of its own", async ({ page }) => {
+    await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
+    await page.goto("/");
+    await page.getByRole("button", { name: "UTSG" }).click();
+
+    // The St. George rooms come from the Space Management booking portal,
+    // so the band and the source are its own.
+    await expect(
+      page.getByText(/Classroom availability, 7:00 AM – 9:00 PM/i),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Space Management campus booking portal/i).first(),
+    ).toBeVisible();
+
+    // A real classroom with its occupancy for the hour.
+    await expect(page.getByText("BA 2179").first()).toBeVisible();
   });
 
   test("every building says how many classes are running in it", async ({
@@ -157,6 +172,25 @@ test.describe("class & room finder", () => {
     ).toBe(true);
     // Every meeting in the payload belongs to the campus that was asked for.
     expect(data.classes.every((c: { campusKey: string }) => c.campusKey === "UTM")).toBe(true);
+  });
+
+  test("each campus publishes the availability it has, and says where it came from", async ({
+    request,
+  }) => {
+    const utm = await (await request.get("/api/schedule/UTM")).json();
+    const utsg = await (await request.get("/api/schedule/UTSG")).json();
+    const utsc = await (await request.get("/api/schedule/UTSC")).json();
+
+    // Two campuses publish occupancy, from two different sources.
+    expect(utm.availability.source).toMatch(/Classroom Space Database/);
+    expect(utsg.availability.source).toMatch(/booking portal/);
+    expect(utm.rooms.length).toBeGreaterThan(0);
+    expect(utsg.rooms.length).toBeGreaterThan(0);
+
+    // Scarborough publishes rooms, but no occupancy for them.
+    expect(utsc.availability).toBeNull();
+    expect(utsc.rooms).toHaveLength(0);
+    expect(utsc.classrooms.length).toBeGreaterThan(0);
   });
 
   test("the campus payloads add up to the whole catalogue", async ({ request }) => {

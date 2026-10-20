@@ -61,6 +61,14 @@ export interface Meta {
   sourceUrls: Record<string, string>;
 }
 
+/** Where a campus's classroom occupancy came from, and for which week. */
+export interface Availability {
+  source: string;
+  sourceUrl: string;
+  weekStart: string;
+  weekEnd: string;
+}
+
 export interface Dataset {
   /** The campus this payload holds. */
   campus: string;
@@ -68,6 +76,8 @@ export interface Dataset {
   rooms: Room[];
   /** Classrooms the University lists for this campus, without occupancy. */
   classrooms: Classroom[];
+  /** The published occupancy for this campus, if there is any. */
+  availability: Availability | null;
   meta: Meta;
 }
 
@@ -77,6 +87,7 @@ export interface CampusPayload {
   classes: ClassMeeting[];
   rooms: Room[];
   classrooms: Classroom[];
+  availability: Availability | null;
   meta: Meta;
 }
 

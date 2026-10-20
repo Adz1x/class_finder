@@ -25,14 +25,6 @@ const APP = "https://www.utsc.utoronto.ca/iits/classroom-support";
 const OUT = "data/classrooms/UTSC.json";
 const CAMPUS = "UTSC";
 
-/** Pull the value out of a "Label value" cell. */
-function cellValue(text, label) {
-  const clean = text.replace(/\s+/g, " ").trim();
-  return clean.toLowerCase().startsWith(label.toLowerCase())
-    ? clean.slice(label.length).trim()
-    : clean;
-}
-
 const browser = await chromium.launch();
 const page = await browser.newPage();
 await page.goto(APP, { waitUntil: "domcontentloaded", timeout: 90_000 });
