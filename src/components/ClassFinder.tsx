@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import WeeklySchedule from "./WeeklySchedule";
+import SectionFinder from "./SectionFinder";
+import { EMPTY_WINDOW, type TimeWindow } from "./lib/window";
 import {
   buildingSummaries,
   classesInProgress,
@@ -32,7 +34,15 @@ type Route =
   | { mode: "list" }
   | { mode: "room"; campus: string; id: string }
   | { mode: "course"; campus: string; id: string }
-  | { mode: "building"; campus: string; id: string };
+  | { mode: "building"; campus: string; id: string }
+  | { mode: "sections"; campus: string; id: string }
+  | {
+      mode: "section";
+      campus: string;
+      id: string;
+      session: string;
+      section: string;
+    };
 
 const CAMPUSES = ["UTM", "UTSG", "UTSC"] as const;
 
@@ -59,6 +69,20 @@ function parseHash(hash: string): Route {
   if ((mode === "room" || mode === "course" || mode === "building") && id) {
     return { mode, campus, id } as Route;
   }
+  if (mode === "sections" && id) {
+    return { mode, campus, id };
+  }
+  // A section is named by its session as well as its number: the same
+  // section name is a Fall section and a Winter section.
+  if (mode === "section" && parts.length >= 5) {
+    return {
+      mode,
+      campus,
+      id: decodeURIComponent(parts[2]),
+      session: decodeURIComponent(parts[3]),
+      section: decodeURIComponent(parts.slice(4).join("/")),
+    };
+  }
   return { mode: "list" };
 }
 
@@ -77,6 +101,9 @@ export default function ClassFinder() {
   const [onlyFree, setOnlyFree] = useState(false);
   const [viewTerm, setViewTerm] = useState<Term | null>(null);
   const [route, setRoute] = useState<Route>({ mode: "list" });
+  // The times the student says they can do something in. One window, shared
+  // by the section finder and the classroom list.
+  const [timeWindow, setTimeWindow] = useState<TimeWindow>(EMPTY_WINDOW);
 
   // A fixed instant stands in for the clock during prerender, so the rendered
   // markup is deterministic. The real clock arrives in the effect above.
@@ -252,6 +279,7 @@ export default function ClassFinder() {
     setBuilding("ALL");
     setQuery("");
     setViewTerm(null);
+    setTimeWindow(EMPTY_WINDOW);
     goHome();
   };
 
@@ -507,6 +535,22 @@ export default function ClassFinder() {
               it is about to show.
             </p>
           </div>
+        ) : route.mode === "sections" ? (
+          <SectionFinder
+            campus={activeCampus}
+            courseCode={route.id}
+            classes={termClasses}
+            window={timeWindow}
+            onWindowChange={setTimeWindow}
+            onOpenSection={(code, session, section) =>
+              navigate(
+                `#/section/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}/${encodeURIComponent(session)}/${encodeURIComponent(section)}`,
+              )
+            }
+            onOpenCourse={(code) =>
+              navigate(`#/course/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
+            }
+          />
         ) : route.mode === "list" ? (
           <ListView
             data={data}
@@ -517,6 +561,9 @@ export default function ClassFinder() {
             classesForBuilding={classesForBuilding}
             courseMatches={courseMatches}
             onlyFree={onlyFree && campusHasRooms}
+            onFindSections={(code) =>
+              navigate(`#/sections/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
+            }
             onOpenCourse={(code) =>
               navigate(`#/course/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
@@ -584,6 +631,8 @@ interface ListViewProps {
   campusRooms: Room[];
   classesForBuilding: (code: string) => ClassMeeting[];
   courseMatches: string[];
+  /** Open the section finder for a course. */
+  onFindSections: (code: string) => void;
   onlyFree: boolean;
   onOpenCourse: (code: string) => void;
   onOpenBuilding: (code: string) => void;
@@ -598,6 +647,7 @@ function ListView({
   campusRooms,
   classesForBuilding,
   courseMatches,
+  onFindSections,
   onlyFree,
   onOpenCourse,
   onOpenBuilding,
@@ -630,6 +680,9 @@ function ListView({
           <div className="flex items-center gap-2.5">
             <i className="fa-solid fa-book-open text-blue-400 text-xs" />
             <h2 className="font-bold text-white text-base">Matching courses</h2>
+            <span className="text-xs text-slate-400">
+              pick one to see every section of it
+            </span>
             <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
               {courseMatches.length}
             </span>
@@ -642,7 +695,7 @@ function ListView({
                 <button
                   key={code}
                   type="button"
-                  onClick={() => onOpenCourse(code)}
+                  onClick={() => onFindSections(code)}
                   className="group bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-blue-500/50 border-l-4 border-l-blue-500 rounded-xl px-4 py-3 text-left transition-all shadow-sm"
                 >
                   <div className="flex items-center gap-2.5 flex-wrap">
@@ -1054,7 +1107,7 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
 interface ScheduleViewProps {
   data: Dataset;
   ctx: ReturnType<typeof getLiveTimeContext>;
-  route: Exclude<Route, { mode: "list" }>;
+  route: Exclude<Route, { mode: "list" | "sections" }>;
   activeTerm: Term;
   onTermChange: (term: Term) => void;
   onBack: () => void;
@@ -1072,6 +1125,46 @@ function ScheduleView({
   onOpenCourse,
   onOpenBuilding,
 }: ScheduleViewProps) {
+  if (route.mode === "section") {
+    const sectionMeetings = data.classes.filter(
+      (meeting) =>
+        meeting.campusKey === route.campus &&
+        meeting.courseCode === route.id &&
+        meeting.sessionCode === route.session &&
+        meeting.sectionName === route.section,
+    );
+    const sectionBlocks: ScheduleBlock[] = sectionMeetings.map((meeting) => ({
+      day: meeting.day,
+      start: meeting.start,
+      end: meeting.end,
+      title: `${meeting.courseCode} ${meeting.sectionName}`,
+      subtitle: meeting.buildingName,
+      lane: 0,
+      lanes: 1,
+      courseCode: meeting.courseCode,
+      room: meeting.room,
+    }));
+
+    return (
+      <WeeklySchedule
+        title={route.section}
+        subtitle={`${route.id} • ${route.campus} campus`}
+        blocks={layoutLanes(sectionBlocks)}
+        ctx={ctx}
+        activeTerm={activeTerm}
+        onTermChange={onTermChange}
+        onBack={onBack}
+        onBlockClick={() => onOpenCourse(route.id)}
+        banner={
+          <div className="rounded-xl border px-4 py-3 bg-blue-500/15 border-blue-500/40 text-blue-200 text-sm font-semibold">
+            This is one section of {route.id}. The University publishes no room
+            number for it, so it is located to its building.
+          </div>
+        }
+      />
+    );
+  }
+
   if (route.mode === "room") {
     const room = data.rooms.find((r) => r.room === route.id);
     if (!room) {

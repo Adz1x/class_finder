@@ -62,6 +62,34 @@ test.describe("class & room finder", () => {
     await expect(page.getByText(/Room: MN \d/)).toHaveCount(0);
   });
 
+  test("finds another section of a course that fits the window", async ({
+    page,
+  }) => {
+    await page.clock.setFixedTime(new Date("2026-10-19T10:00:00"));
+    await page.goto("/");
+    await page.getByPlaceholder(/Search building/i).fill("ISP100H5");
+    await page.getByRole("button", { name: /ISP100H5/ }).first().click();
+
+    // The finder, not the course timetable.
+    await expect(
+      page.getByRole("heading", { name: /Find another section/i }),
+    ).toBeVisible();
+    await expect(page.getByText(/Writing for University and Beyond/i).first()).toBeVisible();
+
+    // Every section of the course, with the day and time it meets.
+    await expect(page.getByText("LEC0101").first()).toBeVisible();
+    await expect(page.getByText(/9:00 AM – 12:00 PM/).first()).toBeVisible();
+    await expect(page.getByText(/43 sections/).first()).toBeVisible();
+
+    // Pick Wednesday and the sections that meet on it are the ones that fit.
+    await page
+      .getByRole("group", { name: "Days you need" })
+      .getByRole("button", { name: "Wed" })
+      .click();
+    await expect(page.getByText("Fits your window").first()).toBeVisible();
+    await expect(page.getByText("Doesn't fit").first()).toBeVisible();
+  });
+
   test("the timetable lines up with its own hour labels", async ({ page }) => {
     // 4:54 PM on the Monday the snapshot covers.
     await page.clock.setFixedTime(new Date("2026-10-19T16:54:00"));

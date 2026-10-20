@@ -125,13 +125,25 @@ describe("ClassFinder", () => {
     expect(screen.getByText("MN 2100")).toBeInTheDocument();
   });
 
-  it("opens the weekly timetable of a course", async () => {
+  it("opens the section finder for a course, and the timetable from there", async () => {
     const user = await renderApp();
 
     await user.type(screen.getByPlaceholderText(/Search building/i), "isp100h5");
     const courseButton = await screen.findByRole("button", { name: /ISP100H5/ });
     await user.click(courseButton);
 
+    // Picking a course opens the finder: every section of it.
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: /Find another section/i }),
+      ).toBeInTheDocument(),
+    );
+    expect(screen.getAllByText(/sections/i)[0]).toBeInTheDocument();
+
+    // The course's own timetable is one click away.
+    await user.click(
+      screen.getByRole("button", { name: /the whole course's timetable/i }),
+    );
     await waitFor(() =>
       expect(
         screen.getByRole("heading", { name: "ISP100H5" }),
