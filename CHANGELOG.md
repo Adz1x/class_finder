@@ -38,10 +38,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   space here" on the campuses where the University publishes no occupancy.
 - **The St. George tab now shows real classrooms** - the building's
   classrooms and their capacities - instead of only a class schedule.
+- **The building order control is gone.** The buildings are ordered by how
+  many classes they have, as they always were.
 
 ### Engineering
 
-- 111 tests across three layers: 44 pytest, 50 Vitest, 17 Playwright.
+- 109 tests across three layers: 44 pytest, 48 Vitest, 17 Playwright.
 
 ## [0.3.0] — 2026-10-20
 

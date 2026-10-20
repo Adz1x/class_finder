@@ -344,29 +344,6 @@ export function classesInProgress(
   );
 }
 
-/**
- * How many classes are running in each building right now.
- *
- * The University publishes classroom occupancy for Mississauga only, so on
- * the other campuses this is the closest published thing to "is there space
- * here": a building with nothing running in it is a building whose
- * classrooms are mostly free.
- */
-export function classesRunningPerBuilding(
-  meetings: ClassMeeting[],
-  day: number,
-  nowMins: number,
-): Map<string, number> {
-  const counts = new Map<string, number>();
-  for (const meeting of meetings) {
-    if (meeting.day !== day) continue;
-    if (timeToMinutes(meeting.start) > nowMins) continue;
-    if (timeToMinutes(meeting.end) <= nowMins) continue;
-    counts.set(meeting.buildingCode, (counts.get(meeting.buildingCode) ?? 0) + 1);
-  }
-  return counts;
-}
-
 // ------------------------------------------------------------------ layout
 
 /**

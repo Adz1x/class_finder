@@ -3,7 +3,6 @@ import {
   buildingLabel,
   buildingSummaries,
   classesInProgress,
-  classesRunningPerBuilding,
   filterByTerm,
   findCourseMeetings,
   format12Hour,
@@ -272,19 +271,5 @@ describe("the hours the space database publishes", () => {
     ] as never;
 
     expect(publishedHours(rooms)).toEqual([7, 9, 12]);
-  });
-});
-
-describe("classes running per building", () => {
-  it("counts only the classes in progress", () => {
-    const counts = classesRunningPerBuilding(sampleClasses, 1, 13 * 60);
-
-    // The sample has one Monday class in MN and one in IB at this hour.
-    expect(counts.get("MN")).toBeGreaterThanOrEqual(1);
-    expect(counts.get("IB")).toBeUndefined();
-  });
-
-  it("counts nothing outside the day", () => {
-    expect(classesRunningPerBuilding(sampleClasses, 7, 13 * 60).size).toBe(0);
   });
 });

@@ -5,7 +5,6 @@ import WeeklySchedule from "./WeeklySchedule";
 import {
   buildingSummaries,
   classesInProgress,
-  classesRunningPerBuilding,
   filterByTerm,
   findCourseMeetings,
   format12Hour,
@@ -76,8 +75,6 @@ export default function ClassFinder() {
   const [query, setQuery] = useState<string>("");
   const [onlyFree, setOnlyFree] = useState(false);
   const [viewTerm, setViewTerm] = useState<Term | null>(null);
-  /** "quiet" = emptiest buildings first, "busy" = most classes first. */
-  const [order, setOrder] = useState<"quiet" | "busy">("quiet");
   const [route, setRoute] = useState<Route>({ mode: "list" });
 
   // A fixed instant stands in for the clock during prerender, so the rendered
@@ -205,42 +202,18 @@ export default function ClassFinder() {
     [campusClasses, query],
   );
 
-  // How many classes are running in each building right now. On the
-  // campuses where the University publishes no classroom occupancy, this is
-  // the closest published thing to "is there space here".
-  const runningNow = useMemo(
-    () => classesRunningPerBuilding(termClasses, ctx.uoftDay, ctx.nowMins),
-    [termClasses, ctx],
-  );
-
   // St. George has 68 buildings and Scarborough 13. Showing every one as a
   // chip wrapped the header onto three rows, so the busiest few get a chip
   // and the rest live behind a dropdown - the pattern the original static UI
   // used.
-  const rankedBuildings = useMemo(() => {
-    const list = [...visibleBuildings];
-    if (order === "quiet") {
-      // The emptiest buildings first: the app is for finding space.
-      list.sort(
-        (a, b) =>
-          (runningNow.get(a.code) ?? 0) - (runningNow.get(b.code) ?? 0) ||
-          b.meetingCount - a.meetingCount,
-      );
-    } else {
-      list.sort((a, b) => b.meetingCount - a.meetingCount);
-    }
-    return list;
-  }, [visibleBuildings, order, runningNow]);
-
-  // The chips are the buildings a student is most likely to want, and they
-  // stay the same all day: a chip that changed every hour would be harder to
-  // use than the list it jumps to.
-  const buildingsBySize = useMemo(
+  // The buildings with the most classes first: the busiest buildings are the
+  // ones a student is most likely to be looking for.
+  const rankedBuildings = useMemo(
     () => [...visibleBuildings].sort((a, b) => b.meetingCount - a.meetingCount),
     [visibleBuildings],
   );
-  const chipBuildings = buildingsBySize.slice(0, MAX_BUILDING_CHIPS);
-  const overflowBuildings = buildingsBySize.slice(MAX_BUILDING_CHIPS);
+  const chipBuildings = rankedBuildings.slice(0, MAX_BUILDING_CHIPS);
+  const overflowBuildings = rankedBuildings.slice(MAX_BUILDING_CHIPS);
 
   const classesForBuilding = useCallback(
     (code: string) => {
@@ -439,20 +412,6 @@ export default function ClassFinder() {
                   </button>
                 ))}
               </div>
-              <label className="flex items-center gap-2 text-slate-400">
-                <span className="text-[11px]">Order</span>
-                <select
-                  value={order}
-                  onChange={(event) =>
-                    setOrder(event.target.value as "quiet" | "busy")
-                  }
-                  aria-label="Order buildings by"
-                  className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-950/80 border border-slate-800 text-slate-300 focus:outline-none focus:border-blue-500"
-                >
-                  <option value="quiet">Emptiest now</option>
-                  <option value="busy">Most classes</option>
-                </select>
-              </label>
               <span className="flex items-center gap-2">
                 <span
                   className={`w-2 h-2 rounded-full ${
