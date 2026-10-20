@@ -14,6 +14,7 @@
     "data:verify": "cd scraper && uv run uoft-scraper verify --data ../data",
     "data:size": "node scripts/check-payload-size.mjs",
     "screenshots": "node scripts/capture-screenshots.mjs",
+    "og:image": "node scripts/make-og-image.mjs",
     "scraper:test": "cd scraper && uv run pytest"
   },
   "dependencies": {
