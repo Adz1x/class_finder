@@ -92,7 +92,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Engineering
 
-- 122 tests across three layers: 47 pytest, 53 Vitest, 22 Playwright.
+- **Find another section.** The University publishes every section of every
+  course - MAT223H1 has seventy-six of them - and the app now shows them.
+  Name the days and the hours you can attend and the sections that fit come
+  first; a section that meets on two days with different times is scored per
+  meeting, and says which of them clashes.
+- **A room for the times you need.** One window control answers both
+  questions: which section of a course can I take, and which room is free.
+  Name the days and the hours and the buildings answer for that window
+  instead of for right now - the room cards, the counts and the class list
+  all follow it. With no window, everything keeps its current meaning.
+- 167 tests across three layers: 47 pytest, 96 Vitest, 24 Playwright.
 
 ## [0.3.0] — 2026-10-20
 

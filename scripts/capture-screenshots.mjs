@@ -32,6 +32,18 @@ const shots = [
   { name: "course-timetable", url: "/#/course/UTM/ISP100H5", wait: 1800 },
   { name: "classroom-timetable", url: "/#/room/UTM/MN%202100", wait: 1800 },
   {
+    name: "section-finder",
+    url: "/#/sections/UTM/ISP100H5",
+    wait: 1600,
+    after: async (p) => {
+      await p
+        .getByRole("group", { name: "Days you need" })
+        .getByRole("button", { name: "Wed" })
+        .click();
+      await p.waitForTimeout(1000);
+    },
+  },
+  {
     name: "st-george",
     url: "/",
     wait: 1600,

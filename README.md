@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-122%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-167%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -36,6 +36,11 @@ how many classes are running in each building right now.
 
 ![St. George](docs/images/st-george.png)
 
+**Find another section** — every way of taking a course, with the ones that
+fit the times you named first.
+
+![Find another section](docs/images/section-finder.png)
+
 ---
 
 ## Reading further
@@ -61,6 +66,12 @@ how many classes are running in each building right now.
 - **How busy every building is right now**, on every campus, with the
   emptiest buildings first: the closest published thing to "is there space
   here" where the University publishes no room occupancy.
+- **Find another section** of a course. The University publishes every
+  section of every course: MAT223H1 has seventy-six of them. Name the days
+  and hours you can attend and the ones that fit come first, and a section
+  that only partly fits says which of its meetings clashes.
+- **A room for the times you need.** Name the days and the hours and the
+  buildings answer for that window instead of for right now.
 - **Search** by course code, building or classroom.
 - **Weekly timetables** for a course, a building or a single classroom.
 - A **Fall / Winter** switch, so you can see one term or the whole year.
@@ -74,7 +85,7 @@ how many classes are running in each building right now.
 | Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 122 across three layers, plus 4 automated accessibility checks |
+| Tests | 167 across three layers, plus 4 automated accessibility checks |
 
 ## The part that matters: it does not make things up
 
@@ -228,8 +239,8 @@ scraper/
     cli.py                  # `build` and `verify`
   tests/                    # 47 pytest tests + committed API fixtures
 tests/
-  unit/                     # 53 Vitest tests
-  e2e/                      # 22 Playwright tests
+  unit/                     # 96 Vitest tests
+  e2e/                      # 24 Playwright tests
 data/
   campus/<KEY>.json         # the dataset, one file per campus key
   rooms/<KEY>.json          # the classrooms with their occupancy, and where
@@ -256,7 +267,7 @@ crosses 150 KB, so the win cannot quietly be given back.
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 53 of the 122 tests are fast and deterministic.
+why 96 of the 167 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -267,8 +278,8 @@ publish, that there are no duplicates. It runs in CI.
 
 ```bash
 npm run scraper:test   # 47 pytest  - saved API fixtures, no network
-npm test               # 53 Vitest  - pure logic + React components
-npm run test:e2e       # 22 Playwright - against the production build
+npm test               # 96 Vitest  - pure logic + React components
+npm run test:e2e       # 24 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
 npm run data:size      # the gzipped payload budget
 ```

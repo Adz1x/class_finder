@@ -56,7 +56,7 @@ Each line is an input the spec implies that a task's own tests must pin down.
   export function roomStateForWindow(room: Room, window: TimeWindow): RoomState;
   ```
 
-- [ ] **Step 1: Write the failing tests** in `tests/unit/window.test.ts`.
+- [x] **Step 1: Write the failing tests** in `tests/unit/window.test.ts`.
 
   Build meetings with a local helper `meeting(overrides)` (a `ClassMeeting` with `day: 2`, `start: "10:00"`, `end: "12:00"` as defaults) and rooms with a local helper `room(hours)` (a `Room` whose `occupancy` is `{ "2": { 10: false, 11: false } }` by default).
 
@@ -75,12 +75,12 @@ Each line is an input the spec implies that a task's own tests must pin down.
   - With days `[2, 3]` picked, a room free on day 2 and busy on day 3 is **busy**.
   - With **no** day picked, a room free on one published day and busy on another is **free** — any published day will do.
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
   Run: `npx vitest run tests/unit/window.test.ts`
   Expected: FAIL — `Failed to resolve import "./lib/window"`.
 
-- [ ] **Step 3: Implement `src/components/lib/window.ts`**
+- [x] **Step 3: Implement `src/components/lib/window.ts`**
 
   The hour range a window touches: `startHour = Math.floor(startMins / 60)`, `endHour = Math.ceil(endMins / 60) - 1`, inclusive. A window with no hours bound touches every hour of the day. A window whose start is after its end has no hour bound and touches every hour.
 
@@ -100,12 +100,12 @@ Each line is an input the spec implies that a task's own tests must pin down.
     verdict is `"free"` if any published day is free, `"busy"` if any is
     busy, `"unknown"` otherwise.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
   Run: `npx vitest run tests/unit/window.test.ts`
   Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
   ```bash
   git add src/components/lib/window.ts tests/unit/window.test.ts
@@ -152,7 +152,7 @@ Each line is an input the spec implies that a task's own tests must pin down.
   export function sortSectionsByFit(sections: CourseSection[], window: TimeWindow): CourseSection[];
   ```
 
-- [ ] **Step 1: Write the failing tests** in `tests/unit/sections.test.ts`.
+- [x] **Step 1: Write the failing tests** in `tests/unit/sections.test.ts`.
 
   - `groupCourseSections` groups by `(sectionName, sessionCode)`: two meetings of `LEC0101` in session `20269` make one section with two meetings; the same `LEC0101` in session `20271` makes a **second** section.
   - A section's `days` are sorted and unique; its `buildings` are sorted and unique; its `instructor` is the first instructor of its meetings, or `null` when it has none.
@@ -162,12 +162,12 @@ Each line is an input the spec implies that a task's own tests must pin down.
   - The `reason` for a meeting that is not picked mentions the day it is on; the reason for one that starts too early names the start time.
   - `sortSectionsByFit` puts the fitting sections first, then the partial ones, then the rest; within a group, by the earliest meeting (day, then start time), then by section name.
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
   Run: `npx vitest run tests/unit/sections.test.ts`
   Expected: FAIL — `Failed to resolve import "./lib/sections"`.
 
-- [ ] **Step 3: Implement `src/components/lib/sections.ts`**
+- [x] **Step 3: Implement `src/components/lib/sections.ts`**
 
   `groupCourseSections` walks the meetings once, keyed by `` `${meeting.sessionCode}:${meeting.sectionName}` ``, and builds each section from its first meeting plus the collected days, buildings and instructors.
 
@@ -175,12 +175,12 @@ Each line is an input the spec implies that a task's own tests must pin down.
 
   `sortSectionsByFit` sorts by fit rank (`fits` 0, `partial` 1, `none` 2), then by the earliest meeting's day, then its start time, then the section name.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
   Run: `npx vitest run tests/unit/sections.test.ts`
   Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
   ```bash
   git add src/components/lib/sections.ts tests/unit/sections.test.ts
@@ -208,7 +208,7 @@ Each line is an input the spec implies that a task's own tests must pin down.
   export default function WindowControl(props: WindowControlProps): JSX.Element;
   ```
 
-- [ ] **Step 1: Write the failing tests** in `tests/unit/WindowControl.test.tsx`.
+- [x] **Step 1: Write the failing tests** in `tests/unit/WindowControl.test.tsx`.
 
   - It renders a button for each day, Monday to Sunday, named `Mon` … `Sun`.
   - Clicking `Tue` calls `onChange` with `{ ...window, days: [2] }`.
@@ -217,21 +217,21 @@ Each line is an input the spec implies that a task's own tests must pin down.
   - Typing `08:00` into "To" calls `onChange` with `endMins: 480`.
   - A "Clear" button calls `onChange` with `EMPTY_WINDOW`.
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
   Run: `npx vitest run tests/unit/WindowControl.test.tsx`
   Expected: FAIL — the module does not exist.
 
-- [ ] **Step 3: Implement `src/components/WindowControl.tsx`**
+- [x] **Step 3: Implement `src/components/WindowControl.tsx`**
 
   Seven day buttons, two `<input type="time">` fields, and a Clear button. The day buttons carry `aria-pressed` and the same button styles the campus tabs use (`bg-blue-600 text-white` when on, `bg-slate-800 text-slate-300` when off). The time inputs carry the same classes the search input uses. The "To" input's `min` is the "From" input's value, so the browser refuses an end before the start.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
   Run: `npx vitest run tests/unit/WindowControl.test.tsx`
   Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
   ```bash
   git add src/components/WindowControl.tsx tests/unit/WindowControl.test.tsx
@@ -278,7 +278,7 @@ Each line is an input the spec implies that a task's own tests must pin down.
   like the building list: it shows the sections of the active term, and the
   heading says which term and how many.
 
-- [ ] **Step 1: Write the failing E2E test** in `tests/e2e/app.spec.ts`.
+- [x] **Step 1: Write the failing E2E test** in `tests/e2e/app.spec.ts`.
 
   ```ts
   test("finds another section of a course that fits the window", async ({ page }) => {
@@ -301,12 +301,12 @@ Each line is an input the spec implies that a task's own tests must pin down.
 
   The exact heading and the fit wording are fixed in Task 4's Step 3.
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
   Run: `npx playwright test --grep "another section"`
   Expected: FAIL — the heading is not there.
 
-- [ ] **Step 3: Implement `src/components/SectionFinder.tsx` and the routes**
+- [x] **Step 3: Implement `src/components/SectionFinder.tsx` and the routes**
 
   The view, in the order top to bottom:
 
@@ -335,17 +335,17 @@ Each line is an input the spec implies that a task's own tests must pin down.
   `mode === "section"` — the latter renders the existing `WeeklySchedule`
   with only that section's meetings.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
   Run: `npx playwright test --grep "another section"`
   Expected: PASS.
 
-- [ ] **Step 5: Run the whole suite**
+- [x] **Step 5: Run the whole suite**
 
   Run: `npm run lint && npx vitest run && npx playwright test`
   Expected: all green.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
   ```bash
   git add src/components/SectionFinder.tsx src/components/ClassFinder.tsx tests/e2e/app.spec.ts
@@ -364,7 +364,7 @@ Each line is an input the spec implies that a task's own tests must pin down.
 - Consumes: `TimeWindow`, `EMPTY_WINDOW`, `windowIsEmpty`, `classesInWindow`, `roomStateForWindow` from `@/components/lib/window`; `WindowControl` from `@/components/WindowControl`.
 - Produces: no new exported names. `ClassFinder` gains the state `const [window, setWindow] = useState<TimeWindow>(EMPTY_WINDOW)` and passes it down.
 
-- [ ] **Step 1: Write the failing E2E test** in `tests/e2e/app.spec.ts`.
+- [x] **Step 1: Write the failing E2E test** in `tests/e2e/app.spec.ts`.
 
   ```ts
   test("a building answers for the window you need", async ({ page }) => {
@@ -386,12 +386,12 @@ Each line is an input the spec implies that a task's own tests must pin down.
   });
   ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
   Run: `npx playwright test --grep "window you need"`
   Expected: FAIL — the control and the window copy are not there.
 
-- [ ] **Step 3: Implement the window in the list view**
+- [x] **Step 3: Implement the window in the list view**
 
   In `ClassFinder.tsx`:
 
@@ -413,17 +413,17 @@ Each line is an input the spec implies that a task's own tests must pin down.
   - With no days picked, a room free in the window on some published day
     reads `Free in your window on some day`, because that is what it means.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
   Run: `npx playwright test --grep "window you need"`
   Expected: PASS.
 
-- [ ] **Step 5: Run the whole suite**
+- [x] **Step 5: Run the whole suite**
 
   Run: `npm run lint && npx vitest run && npx playwright test`
   Expected: all green.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
   ```bash
   git add src/components/ClassFinder.tsx tests/e2e/app.spec.ts
@@ -442,12 +442,12 @@ Each line is an input the spec implies that a task's own tests must pin down.
 - Consumes: nothing.
 - Produces: nothing.
 
-- [ ] **Step 1: Update the counts**
+- [x] **Step 1: Update the counts**
 
   The test counts in `README.md`, `docs/REPORT.md` and `docs/ARCHITECTURE.md`
   must match what the suite reports. Count them from the run, do not guess.
 
-- [ ] **Step 2: Write the entries**
+- [x] **Step 2: Write the entries**
 
   `CHANGELOG.md` — an "Application" entry for the section finder and one for
   the building's window.
@@ -460,14 +460,14 @@ Each line is an input the spec implies that a task's own tests must pin down.
 
   `docs/ARCHITECTURE.md` — the data layout table gains the two new modules.
 
-- [ ] **Step 3: Re-capture the screenshots**
+- [x] **Step 3: Re-capture the screenshots**
 
   Run: `npm run build && npx next start -p 3000` (in the background), then
   `npm run screenshots`.
   Expected: `captured classroom-list`, `captured course-timetable`,
   `captured classroom-timetable`, `captured st-george`.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
   Run: `npm run lint && npm run scraper:test && npx vitest run && npx playwright test && npm run data:verify && npm run data:size`
   Expected: all green, and the payload budget unchanged.

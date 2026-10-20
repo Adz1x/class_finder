@@ -58,6 +58,8 @@ How the project is put together, and why each piece is where it is.
         │                                                           │
         │   app/api/schedule/[campus]/route.ts   one payload, gzip  │
         │   components/ClassFinder.tsx            state + routing   │
+        │   components/SectionFinder.tsx          every section      │
+        │   components/WindowControl.tsx           days + hours       │
         │   components/WeeklySchedule.tsx         the weekly grid   │
         │   components/lib/schedule.ts            pure logic        │
         └───────────────────────────────────────────────────────────┘
@@ -184,11 +186,11 @@ the source it was given rather than a name it invented.
 
 ```
                  ┌───────────────────────────┐
-                 │  Playwright · 22 tests    │  the shipped product
+                 │  Playwright · 24 tests    │  the shipped product
                  │  + axe-core · 4 views     │
                  └───────────────────────────┘
                  ┌───────────────────────────┐
-                 │  Vitest · 53 tests        │  logic and components
+                 │  Vitest · 96 tests        │  logic and components
                  └───────────────────────────┘
                  ┌───────────────────────────┐
                  │  pytest · 47 tests        │  the data contract
