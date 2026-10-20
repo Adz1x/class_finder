@@ -100,10 +100,18 @@ export default function WeeklySchedule({
 
       {banner}
 
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 overflow-x-auto shadow-xl">
+      {/* The grid scrolls sideways on a narrow screen. A scrollable region
+          has to be reachable with the keyboard, or a keyboard user cannot
+          see Monday at all. */}
+      <div
+        className="bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 overflow-x-auto shadow-xl focus-visible:outline-none"
+        tabIndex={0}
+        role="group"
+        aria-label="Weekly timetable. Scroll sideways to see the rest of the week."
+      >
         <div className="min-w-[680px]">
           <div className="grid grid-cols-[60px_repeat(5,1fr)] mb-1">
-            <div className="py-2.5 px-2 text-center text-xs font-semibold text-slate-500 select-none">
+            <div className="py-2.5 px-2 text-center text-xs font-semibold text-slate-400 select-none">
               Time
             </div>
             {DAYS.map((day) => {
@@ -160,31 +168,58 @@ export default function WeeklySchedule({
                         Number(block.end.slice(3, 5));
                       const topPx = startMins - GRID_START_HOUR * 60;
                       const heightPx = Math.max(endMins - startMins, 24);
-                      return (
-                        <div
-                          key={`${block.start}-${block.title}-${index}`}
-                          onClick={
-                            onBlockClick ? () => onBlockClick(block) : undefined
-                          }
-                          style={{
-                            top: `${topPx}px`,
-                            height: `${heightPx}px`,
-                            left: `calc(${(block.lane / block.lanes) * 100}% + 2px)`,
-                            width: `calc(${100 / block.lanes}% - 4px)`,
-                          }}
-                          className={`absolute rounded-lg border ${
-                            block.lanes > 1 ? "border-dashed" : ""
-                          } p-1.5 text-xs z-10 overflow-hidden shadow-sm transition-all hover:z-20 hover:scale-[1.02] ${
-                            onBlockClick ? "cursor-pointer" : ""
-                          } flex flex-col justify-center ${style}`}
-                          title={`${block.title} ${format12Hour(block.start)} – ${format12Hour(block.end)}`}
-                        >
+                      const key = `${block.start}-${block.title}-${index}`;
+                      const position = {
+                        top: `${topPx}px`,
+                        height: `${heightPx}px`,
+                        left: `calc(${(block.lane / block.lanes) * 100}% + 2px)`,
+                        width: `calc(${100 / block.lanes}% - 4px)`,
+                      };
+                      const blockClass = `absolute rounded-lg border ${
+                        block.lanes > 1 ? "border-dashed" : ""
+                      } p-1.5 text-xs z-10 overflow-hidden shadow-sm transition-all hover:z-20 hover:scale-[1.02] ${
+                        onBlockClick ? "cursor-pointer" : ""
+                      } flex flex-col justify-center ${style}`;
+                      const label = `${block.title}, ${block.subtitle}, ${format12Hour(
+                        block.start,
+                      )} to ${format12Hour(block.end)}`;
+                      const body = (
+                        <>
                           <div className="font-bold truncate text-[11px] sm:text-xs">
                             {block.title}
                           </div>
                           <div className="text-[10px] opacity-80 truncate">
                             {block.subtitle}
                           </div>
+                        </>
+                      );
+
+                      // A block that opens something is a button, so it can be
+                      // reached with the keyboard and announced as one.
+                      if (onBlockClick) {
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => onBlockClick(block)}
+                            style={position}
+                            className={`${blockClass} text-left w-full`}
+                            aria-label={label}
+                            title={label}
+                          >
+                            {body}
+                          </button>
+                        );
+                      }
+
+                      return (
+                        <div
+                          key={key}
+                          style={position}
+                          className={blockClass}
+                          title={label}
+                        >
+                          {body}
                         </div>
                       );
                     })}

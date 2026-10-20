@@ -81,6 +81,19 @@ test.describe("class & room finder", () => {
     await expect(dropdown).toContainText("AH");
   });
 
+  test("a classroom can be opened with the keyboard", async ({ page }) => {
+    await page.goto("/");
+
+    // The room cards are buttons, so they are reachable and operable
+    // without a mouse.
+    const room = page.getByRole("button", { name: /MN 2100/ });
+    await room.focus();
+    await expect(room).toBeFocused();
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByRole("heading", { name: "MN 2100" })).toBeVisible();
+  });
+
   test("serves one campus per request, compressed", async ({ request }) => {
     const response = await request.get("/api/schedule/UTM");
     expect(response.ok()).toBe(true);

@@ -65,13 +65,27 @@ covered by an automated test pyramid.
 
 ### Engineering
 
-- 92 tests across three layers: 37 pytest, 45 Vitest, 10 Playwright.
+- 97 tests across three layers: 37 pytest, 45 Vitest, 15 Playwright.
 - Four CI jobs on GitHub Actions. None of them touches the UofT API.
 - `npm run data:verify` checks the dataset's invariants, including that the
   per-campus files add up to the totals and that no meeting carries a room
   the source did not publish.
 - `npm run data:size` enforces the payload budget in transferred bytes.
 - MIT licence, contribution guide, code of conduct and security policy.
+
+### Accessibility
+
+- **WCAG 2.1 AA**, checked by `@axe-core/playwright` against the classroom
+  list, a course timetable, a classroom timetable and St. George. The build
+  fails on any violation.
+- The room cards, the timetable blocks and the logo were `<div onClick>`:
+  clickable, but invisible to the keyboard and to a screen reader. They are
+  buttons now, with an accessible name.
+- The muted grey used for secondary text was 3.8:1 against the panel
+  background, under the 4.5:1 that AA requires for small text. It is 7.1:1
+  now.
+- Every interactive element draws a visible focus ring, and the weekly
+  grid's sideways scroll is focusable and labelled rather than a trap.
 
 ### Earlier
 

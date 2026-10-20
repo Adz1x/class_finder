@@ -263,7 +263,7 @@ export default function ClassFinder() {
         <div className="bg-slate-900/60 border border-rose-500/40 rounded-2xl p-8">
           <h2 className="text-lg font-bold text-rose-300">Could not load the schedule</h2>
           <p className="text-xs text-slate-400 mt-2">{loadError}</p>
-          <p className="text-xs text-slate-500 mt-4">
+          <p className="text-xs text-slate-400 mt-4">
             Run <code className="text-slate-300">npm run data:build</code> to regenerate
             the dataset, then reload.
           </p>
@@ -290,9 +290,10 @@ export default function ClassFinder() {
     <div className="min-h-screen flex flex-col antialiased">
       <header className="uoft-header border-b border-blue-800/60 sticky top-0 z-40 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div
-            className="flex items-center gap-3 cursor-pointer"
+          <button
+            type="button"
             onClick={() => selectCampus(activeCampus)}
+            className="flex items-center gap-3 cursor-pointer text-left"
           >
             <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-lg font-bold shadow-inner">
               <i className="fa-solid me-0.5 fa-graduation-cap" aria-hidden="true" />
@@ -305,7 +306,7 @@ export default function ClassFinder() {
                 Classroom Availability &amp; Course Schedules
               </p>
             </div>
-          </div>
+          </button>
 
           <div className="inline-flex rounded-xl bg-slate-950/70 p-1 border border-white/15 self-start sm:self-auto shadow-inner">
             {CAMPUSES.map((key) => (
@@ -462,7 +463,7 @@ export default function ClassFinder() {
               className={`inline-flex items-center gap-2.5 text-xs font-semibold text-slate-200 px-3.5 py-2 rounded-xl border ${
                 campusHasRooms
                   ? "bg-slate-800/70 border-slate-700/80 cursor-pointer select-none hover:bg-slate-800 transition shadow-sm"
-                  : "bg-slate-900/60 border-slate-800 text-slate-500 cursor-not-allowed"
+                  : "bg-slate-900/60 border-slate-800 text-slate-400 cursor-not-allowed"
               }`}
               title={
                 campusHasRooms
@@ -493,7 +494,7 @@ export default function ClassFinder() {
             <p className="text-slate-300 font-bold text-base mt-3">
               Loading the {activeCampus} timetable…
             </p>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-400 mt-1">
               Each campus is fetched on its own, so the page only downloads what
               it is about to show.
             </p>
@@ -536,13 +537,13 @@ export default function ClassFinder() {
         )}
       </main>
 
-      <footer className="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 bg-slate-950/40">
+      <footer className="border-t border-slate-800/80 py-5 text-center text-xs text-slate-400 bg-slate-950/40">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p>
             {meta.courseRowsFetched.toLocaleString()} course records from the UofT
             timetable API • {meta.classMeetings.toLocaleString()} class meetings
           </p>
-          <p className="text-slate-600">
+          <p className="text-slate-400">
             Fall {activeTerm === "F" ? "&" : ""} Winter 2026-27 • {snapshotLabel}
           </p>
         </div>
@@ -585,7 +586,7 @@ function ListView({
   if (!buildings.length && !courseMatches.length) {
     return (
       <div className="text-center py-16 bg-slate-900/50 rounded-2xl border border-slate-800">
-        <i className="fa-solid fa-door-closed text-slate-600 text-3xl mb-3" />
+        <i className="fa-solid fa-door-closed text-slate-400 text-3xl mb-3" />
         <p className="text-slate-200 font-bold text-base">No matching classes found</p>
         <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
           Try clearing your search term.
@@ -712,7 +713,7 @@ function ListView({
             ) : null}
 
             {rooms.length && onlyFree && !visibleRooms.length ? (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 No rooms in {b.code} are listed as available right now.
               </p>
             ) : null}
@@ -744,7 +745,7 @@ function ListView({
                       </span>
                       <span className="text-xs font-bold text-white">{meeting.courseCode}</span>
                       <span className="text-xs text-slate-400">{meeting.sectionName}</span>
-                      <span className="text-xs text-slate-500 truncate">
+                      <span className="text-xs text-slate-400 truncate">
                         {meeting.courseTitle}
                       </span>
                       <span className="text-[11px] text-amber-300/80 ml-auto flex items-center gap-2">
@@ -897,9 +898,11 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
   const extra = inProgress.length - named.length;
 
   return (
-    <div
+    <button
+      type="button"
       onClick={onOpen}
-      className={`group bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-blue-500/50 ${leftBorder} rounded-xl px-4 py-3.5 cursor-pointer transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3`}
+      aria-label={`${room.room}, ${room.buildingName}: ${status.statusTitle}. Open the weekly timetable.`}
+      className={`group bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-blue-500/50 ${leftBorder} rounded-xl px-4 py-3.5 cursor-pointer transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left w-full`}
     >
       <div className="flex items-start sm:items-center gap-3.5">
         <div>
@@ -913,7 +916,7 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
               <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
               {status.statusTitle}
             </span>
-            <span className="text-xs text-slate-500 font-medium hidden md:inline">
+            <span className="text-xs text-slate-400 font-medium hidden md:inline">
               {room.buildingName} • capacity {room.capacity}
             </span>
           </div>
@@ -942,12 +945,12 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
           >
             {status.nextFreeText}
           </div>
-          <div className="text-[11px] text-slate-500 font-medium">
+          <div className="text-[11px] text-slate-400 font-medium">
             Click for weekly timetable →
           </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 

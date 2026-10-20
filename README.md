@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-92%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-97%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -177,7 +177,7 @@ scraper/
   tests/                    # 37 pytest tests + committed API fixtures
 tests/
   unit/                     # 45 Vitest tests
-  e2e/                      # 10 Playwright tests
+  e2e/                      # 15 Playwright tests
 data/
   campus/<KEY>.json         # the dataset, one file per campus key
   rooms.json                # the UTM classroom inventory
@@ -197,7 +197,7 @@ crosses 150 KB, so the win cannot quietly be given back.
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 45 of the 92 tests are fast and deterministic.
+why 45 of the 97 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -209,18 +209,35 @@ publish, that there are no duplicates. It runs in CI.
 ```bash
 npm run scraper:test   # 37 pytest  - saved API fixtures, no network
 npm test               # 45 Vitest  - pure logic + React components
-npm run test:e2e       # 10 Playwright - against the production build
+npm run test:e2e       # 15 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
 npm run data:size      # the gzipped payload budget
 ```
 
 | Layer | What it protects |
 |---|---|
-| **pytest** | The data contract: pagination completeness, the course-code and session rules, cancelled sections, the Metis weekday derivation, the missing 13:00 hour |
+| **pytest** | The data contract: pagination completeness, the course-code and session rules, cancelled sections, the Metis weekday derivation, the missing 13:00 hour, the per-campus split |
 | **Vitest** | The app: time handling, term filtering, search, room availability states, the timetable layout, and the components — including "no invented room numbers" |
-| **Playwright** | The shipped product: campus tabs, course search, the weekly timetable, the classroom view, the API payload |
+| **Playwright** | The shipped product: campus tabs, course search, the weekly timetable, the classroom view, the API payload, keyboard operation |
 
 **No test touches the network.** Every fixture is committed.
+
+### Accessibility
+
+The target is **WCAG 2.1 AA**, and it is checked rather than claimed:
+`@axe-core/playwright` runs against the classroom list, a course timetable, a
+classroom timetable and St. George, and the build fails on any violation.
+
+That took real fixes. The room cards, the timetable blocks and the logo were
+`<div onClick>` — clickable, but invisible to the keyboard and to a screen
+reader. They are buttons now, with an accessible name and a visible focus
+ring. The muted grey used for secondary text was 3.8:1 against the panel
+background, under the 4.5:1 that AA requires; it is 7.1:1 now. The weekly
+grid scrolls sideways on a narrow screen, so it is focusable and labelled
+rather than a trap for keyboard users.
+
+This is automated coverage, not an external audit: a machine cannot judge
+whether the wording makes sense.
 
 ## Commands
 
