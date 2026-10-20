@@ -112,43 +112,71 @@ export function classesInWindow(
 /**
  * Is a room free across the whole window?
  *
+ * On the days that were picked, the room has to be free in every hour of
+ * the window: "I need it on Tuesday *and* Thursday" means both. With no
+ * day picked, any published day will do.
+ *
  * "Busy" wins over "unknown": a room booked in one hour of the window is
- * definitely not free for it. An hour the snapshot does not carry makes the
- * room unknown, never free.
+ * definitely not free for it, and that is the more useful fact. Unknown is
+ * for the case where the snapshot says nothing at all about an hour of the
+ * window.
  */
 export function roomStateForWindow(
   room: Room,
   window: TimeWindow,
 ): RoomState {
-  const days = window.days.length
-    ? window.days
-    : Object.keys(room.occupancy ?? {}).map(Number);
+  const publishedDays = Object.keys(room.occupancy ?? {}).map(Number);
+  const days = window.days.length ? window.days : publishedDays;
+  if (!days.length) return "unknown";
   const bounds = hourBounds(window);
 
+  let sawFree = false;
+  let sawBusy = false;
   let sawUnknown = false;
-  for (const day of days) {
-    const hours = room.occupancy?.[String(day)];
-    if (!hours) return "unknown";
-    const published = Object.keys(hours)
-      .map(Number)
-      .filter((value) => Number.isFinite(value));
-    const touched = bounds
-      ? published.filter(
-          (hour) => hour >= bounds.startHour && hour <= bounds.endHour,
-        )
-      : published;
 
-    for (const hour of touched) {
-      if (hours[String(hour)]) return "busy";
-    }
-    // The window needs every hour it covers; if the snapshot does not carry
-    // one of them, the room cannot be called free.
-    if (bounds) {
-      const carried = touched.length;
-      const needed = bounds.endHour - bounds.startHour + 1;
-      if (carried < needed) sawUnknown = true;
-    }
+  for (const day of days) {
+    const state = roomStateOnDay(room, day, bounds);
+    if (state === "free") sawFree = true;
+    else if (state === "busy") sawBusy = true;
+    else sawUnknown = true;
   }
 
-  return sawUnknown ? "unknown" : "free";
+  if (window.days.length) {
+    // Every day that was picked has to work.
+    if (sawBusy) return "busy";
+    if (sawUnknown) return "unknown";
+    return "free";
+  }
+
+  // Any published day will do.
+  if (sawFree) return "free";
+  if (sawBusy) return "busy";
+  return "unknown";
+}
+
+/** The room's state on one day, across the hours the window touches. */
+function roomStateOnDay(
+  room: Room,
+  day: number,
+  bounds: { startHour: number; endHour: number } | null,
+): RoomState {
+  const hours = room.occupancy?.[String(day)];
+  if (!hours) return "unknown";
+
+  const published = Object.keys(hours)
+    .map(Number)
+    .filter((value) => Number.isFinite(value));
+  const touched = bounds
+    ? published.filter((hour) => hour >= bounds.startHour && hour <= bounds.endHour)
+    : published;
+
+  for (const hour of touched) {
+    if (hours[String(hour)]) return "busy";
+  }
+
+  // The window needs every hour it covers; if the snapshot does not carry
+  // one of them, the room cannot be called free.
+  const needed = bounds ? bounds.endHour - bounds.startHour + 1 : published.length;
+  if (touched.length < needed) return "unknown";
+  return "free";
 }

@@ -71,6 +71,9 @@ Each line is an input the spec implies that a task's own tests must pin down.
   - `classesInWindow` returns only the meetings that overlap the window; an empty window returns them all.
   - `roomStateForWindow` is `"free"` for a room that is free in every hour the window touches, `"busy"` when it is booked in one of them, and `"unknown"` when the snapshot does not carry one of those hours.
   - A room whose occupancy carries only hour 10, with a window of 10:00–12:00 (hours 10 and 11), is **unknown**, never free.
+  - A room booked in hour 10 with a window of 10:00–12:00 is **busy**, not unknown: busy wins.
+  - With days `[2, 3]` picked, a room free on day 2 and busy on day 3 is **busy**.
+  - With **no** day picked, a room free on one published day and busy on another is **free** — any published day will do.
 
 - [ ] **Step 2: Run the test to verify it fails**
 
@@ -85,7 +88,17 @@ Each line is an input the spec implies that a task's own tests must pin down.
 
   `classesInWindow` keeps a meeting when it **overlaps** the window: `meetingStart < windowEnd && meetingEnd > windowStart`. An empty window keeps everything.
 
-  `roomStateForWindow` reads `room.occupancy[String(day)]` for every picked day and every hour the window touches: if any hour is missing from the occupancy, or the day is missing, the state is `"unknown"`; otherwise it is `"busy"` if any hour is booked and `"free"` if none is. An empty window asks about the whole published day.
+  `roomStateForWindow` computes each day's state and then combines them:
+
+  - The state of one day: `"busy"` if any hour the window touches is
+    booked; otherwise `"unknown"` if the snapshot does not carry every hour
+    the window touches; otherwise `"free"`.
+  - Days picked: every picked day has to be free. The verdict is `"busy"`
+    if any picked day is busy, `"unknown"` if any is unknown, `"free"`
+    otherwise. Busy wins over unknown.
+  - No days picked: the published days, and any of them will do. The
+    verdict is `"free"` if any published day is free, `"busy"` if any is
+    busy, `"unknown"` otherwise.
 
 - [ ] **Step 4: Run the test to verify it passes**
 
@@ -253,9 +266,17 @@ Each line is an input the spec implies that a task's own tests must pin down.
   Two new routes, added to the `Route` union in `ClassFinder.tsx`:
   ```ts
   | { mode: "sections"; campus: string; id: string }   // the finder, id = course code
-  | { mode: "section"; campus: string; id: string; section: string }
+  | { mode: "section"; campus: string; id: string; session: string; section: string }
   ```
-  `parseHash` reads `#/sections/<campus>/<code>` and `#/section/<campus>/<code>/<sectionName>`.
+  `parseHash` reads `#/sections/<campus>/<code>` and
+  `#/section/<campus>/<code>/<sessionCode>/<sectionName>`. The session code
+  is in the URL because 1,932 section names exist in both terms: `LEC0101`
+  is a Fall section and a Winter section, and a URL that named only the
+  section would name two different things.
+
+  The finder is scoped by the app's existing Fall/Winter toggle, exactly
+  like the building list: it shows the sections of the active term, and the
+  heading says which term and how many.
 
 - [ ] **Step 1: Write the failing E2E test** in `tests/e2e/app.spec.ts`.
 
@@ -386,6 +407,11 @@ Each line is an input the spec implies that a task's own tests must pin down.
     or `Not published for your window` for unknown.
   - The building's badge: with an empty window it keeps `2 of 27 free now`;
     with a window it reads `2 of 27 free for your window`.
+  - The campus-wide count in the header and the "only show empty classes"
+    toggle follow the window too, so nothing on the page keeps answering
+    about "now" while the page is answering about the window.
+  - With no days picked, a room free in the window on some published day
+    reads `Free in your window on some day`, because that is what it means.
 
 - [ ] **Step 4: Run the test to verify it passes**
 

@@ -157,6 +157,51 @@ The five inputs most likely to bite a student, each of which gets a test:
 5. **A course with one section, or one with a hundred and twenty-nine** —
    the finder must not assume a tidy number.
 
+## Resolved questions
+
+A reviewer read the first draft and asked seven questions. Here are the
+answers, and the reasoning behind each.
+
+**1. Does the finder list both terms?** No — it obeys the Fall/Winter toggle
+the whole app already has. ISP100H5 has 90 section/session pairs, 48 in
+Fall and 42 in Winter; the finder shows the 48 when the toggle says Fall.
+The heading carries the term and the count, so the rows do not repeat it.
+
+**2. How is a section identified in a URL?** By its session as well as its
+name: `#/section/<campus>/<code>/<sessionCode>/<sectionName>`. 1,932 section
+names exist in both terms — `LEC0101` is Fall and Winter — so a URL that
+names only the section names two different things.
+
+**3. What does a half-specified window mean?** The empty half means "any":
+no days picked is any day, no time bound is any time. It never means "no
+day fits". The state is one window, not two, so it cannot be half-empty in
+a way that means nothing.
+
+**4. Must a room be free on every picked day, or one?** On **every** picked
+day — that is what "I need it Tuesday *and* Thursday" means. With no day
+picked the window means any published day, and the room is free if it is
+free in that window on **at least one** published day; the badge says so
+("free in your window on some day"), because a room that is free on Monday
+and busy on Wednesday is not free for the week.
+
+**5. Containment or overlap for the building's class list?** Overlap. A
+class that started at 9 and runs until 11 *is* running in a 10-to-12
+window, and a student looking for somewhere to be at 10 needs to know it.
+Containment is for the other question — "can I take this section" — where a
+class that hangs over the end of the window does not fit.
+
+**6. Is the window one piece of state?** One, in `ClassFinder`, so it
+survives moving between the finder and the classroom list. Changing campus
+clears it, as changing campus clears the search. When a window is set, the
+campus-wide count, the building badges, the room cards and the "only show
+empty classes" toggle all answer for the window; with no window, all of
+them keep their current "now" meaning.
+
+**7. Unknown or busy, when a room's window covers both?** Busy wins. A room
+booked in one hour of the window is definitely not free for it, and that
+is the more useful fact. Unknown is for the case where the snapshot says
+nothing at all about some hour of the window.
+
 ## What the builder still has to decide
 
 Nothing that changes what gets built. The builder picks the component

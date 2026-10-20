@@ -150,4 +150,43 @@ describe("a room against a window", () => {
       roomStateForWindow(mn2100, { days: [3], startMins: 600, endMins: 720 }),
     ).toBe("unknown");
   });
+
+  it("is busy when it is booked in one of the days that were picked", () => {
+    const mn2100 = room({ 2: { 10: false, 11: false }, 3: { 10: true } });
+    expect(
+      roomStateForWindow(mn2100, { days: [2, 3], startMins: 600, endMins: 720 }),
+    ).toBe("busy");
+  });
+
+  it("is free when it is free on every day that was picked", () => {
+    const mn2100 = room({ 2: { 10: false, 11: false }, 3: { 10: false, 11: false } });
+    expect(
+      roomStateForWindow(mn2100, { days: [2, 3], startMins: 600, endMins: 720 }),
+    ).toBe("free");
+  });
+
+  it("is free on some day when no day was picked", () => {
+    // No day picked means any published day will do, so a room that is
+    // free on Tuesday and busy on Wednesday is free for the window.
+    const mn2100 = room({ 2: { 10: false, 11: false }, 3: { 10: true } });
+    expect(
+      roomStateForWindow(mn2100, { days: [], startMins: 600, endMins: 720 }),
+    ).toBe("free");
+  });
+
+  it("is busy on every day when no day was picked and it is booked in all of them", () => {
+    const mn2100 = room({ 2: { 10: true }, 3: { 10: true } });
+    expect(
+      roomStateForWindow(mn2100, { days: [], startMins: 600, endMins: 720 }),
+    ).toBe("busy");
+  });
+
+  it("is busy rather than unknown when it is booked in part of the window", () => {
+    // The snapshot has hour 10 but not hour 11, and the room is booked in
+    // hour 10: it is definitely not free for the window.
+    const mn2100 = room({ 2: { 10: true } });
+    expect(
+      roomStateForWindow(mn2100, { days: [2], startMins: 600, endMins: 720 }),
+    ).toBe("busy");
+  });
 });
