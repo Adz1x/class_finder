@@ -3,8 +3,8 @@
  *
  * The clock is pinned to a Monday at 10:00, which is inside the band of hours
  * the UofT space database publishes, so the classroom list shows real
- * availability instead of "not published". A screenshot taken at 9pm would
- * look broken, which is honest but makes a poor illustration.
+ * availability rather than an hour the source does not cover. A screenshot
+ * taken at 9pm would be honest but a poor illustration.
  *
  * Usage:
  *   npm run build && npx next start -p 3000

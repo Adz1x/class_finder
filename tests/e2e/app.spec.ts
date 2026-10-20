@@ -54,9 +54,40 @@ test.describe("class & room finder", () => {
   test("never invents a room number for a class", async ({ page }) => {
     await page.goto("/#/course/UTM/ISP100H5");
 
-    await expect(page.getByText(/room not published/i).first()).toBeVisible();
-    // The UofT API publishes no room numbers for these sessions.
+    // The UofT API lists no room number for these sections, so none is
+    // shown - and the course view says so once, instead of on every block.
+    await expect(
+      page.getByText(/No room number is listed for these sections/i),
+    ).toBeVisible();
     await expect(page.getByText(/Room: MN \d/)).toHaveCount(0);
+  });
+
+  test("St. George lists the classrooms the University publishes", async ({
+    page,
+  }) => {
+    // A fixed afternoon, so the order of the buildings is the same every run.
+    await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
+    await page.goto("/");
+    await page.getByRole("button", { name: "UTSG" }).click();
+
+    // 334 classrooms in 40 buildings, from UofT Space Management.
+    await expect(
+      page.getByText(/334 classrooms are listed for St. George/i),
+    ).toBeVisible();
+
+    // A real classroom of a real building, with the capacity it seats.
+    await expect(page.getByText(/Classrooms in HS/i)).toBeVisible();
+    await expect(page.getByText("610 · 251")).toBeVisible();
+  });
+
+  test("every building says how many classes are running in it", async ({
+    page,
+  }) => {
+    await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
+    await page.goto("/");
+
+    // The closest published thing to availability on a campus without it.
+    await expect(page.getByText(/running now/).first()).toBeVisible();
   });
 
   test("switches between campuses", async ({ page }) => {

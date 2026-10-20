@@ -3,16 +3,19 @@ import {
   buildingLabel,
   buildingSummaries,
   classesInProgress,
+  classesRunningPerBuilding,
   filterByTerm,
   findCourseMeetings,
   format12Hour,
   formatDuration,
+  formatHourRange,
   getLiveTimeContext,
   groupByBuilding,
   layoutLanes,
   minutesToTime,
   nextClassInBuilding,
   normalizeCode,
+  publishedHours,
   roomStateAt,
   roomStatusAt,
   searchCourseCodes,
@@ -247,5 +250,41 @@ describe("layoutLanes", () => {
     ]);
 
     expect(laid.every((b) => b.lanes === 1)).toBe(true);
+  });
+});
+
+describe("the hours the space database publishes", () => {
+  const hours = [7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20];
+
+  it("describes the gap in the band rather than hiding it", () => {
+    // A single range would claim the 13:00 hour, which the database omits.
+    expect(formatHourRange(hours)).toBe("7:00 AM – 12:00 PM and 2:00 PM – 8:00 PM");
+  });
+
+  it("describes a continuous band", () => {
+    expect(formatHourRange([7, 8, 9])).toBe("7:00 AM – 9:00 AM");
+  });
+
+  it("finds the hours a set of rooms publishes", () => {
+    const rooms = [
+      { occupancy: { "1": { "7": false, "9": true } } },
+      { occupancy: { "2": { "12": false } } },
+    ] as never;
+
+    expect(publishedHours(rooms)).toEqual([7, 9, 12]);
+  });
+});
+
+describe("classes running per building", () => {
+  it("counts only the classes in progress", () => {
+    const counts = classesRunningPerBuilding(sampleClasses, 1, 13 * 60);
+
+    // The sample has one Monday class in MN and one in IB at this hour.
+    expect(counts.get("MN")).toBeGreaterThanOrEqual(1);
+    expect(counts.get("IB")).toBeUndefined();
+  });
+
+  it("counts nothing outside the day", () => {
+    expect(classesRunningPerBuilding(sampleClasses, 7, 13 * 60).size).toBe(0);
   });
 });

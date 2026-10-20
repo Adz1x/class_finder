@@ -28,7 +28,7 @@ first version of the application invented room numbers — plausible-looking
 strings like `MN 3220` — because the timetable API returned an empty room
 field and the interface looked broken without one. Every one of those rooms
 was wrong. The rewrite deleted the guessing and replaced it with an
-interface that says **"room not published"**, which is the truth.
+interface that says what is true, once, instead of apologising on every row.
 
 The result is an application that is smaller, faster, and more useful than
 the one it replaced, and that makes a claim a reviewer can check.
@@ -36,10 +36,10 @@ the one it replaced, and that makes a claim a reviewer can check.
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 65 real UTM classrooms with published per-hour occupancy |
+| Classrooms | 65 UTM classrooms with published per-hour occupancy, 334 St. George classrooms with their capacities |
 | Invented values | **0** |
-| First load | **87 KB** (was 8.3 MB) |
-| Tests | 99 across three layers, plus 4 automated accessibility checks |
+| First load | **83 KB** (was 8.3 MB) |
+| Tests | 111 across three layers, plus 4 automated accessibility checks |
 
 ---
 
@@ -107,6 +107,43 @@ Both failures shared a shape: **a number that looked right and was not.**
 The rewrite was designed around making such numbers impossible to state
 without checking them.
 
+### 2.4 The availability investigation
+
+The missing room number is the first half of the problem. Classroom
+*occupancy* is the second half: even with a room, a student needs to know
+whether it is free. The timetable publishes no room, so the occupancy has to
+come from somewhere else. It does for Mississauga. Whether it does anywhere
+else was searched for rather than assumed, and the search is worth recording
+because the answer is a fact about the University:
+
+| Source checked | What it would give | Result |
+|---|---|---|
+| **Classroom Space Database** (Metis), `metis.utm.utoronto.ca/space/` | UTM classrooms, capacity, per-hour availability | **Found and used.** The page now redirects to the University single sign-on and the endpoint behind the committed snapshot could not be re-identified, so it cannot be refreshed automatically. |
+| **St. George classroom specification**, `lsm.utoronto.ca/webapp/f?p=210` | Every St. George classroom, its name and its capacity | **Found and used.** 40 buildings, 334 classrooms. |
+| **"Calendar of Availability"**, `lsm.utoronto.ca/webapp/f?p=200` | The St. George availability calendar, linked from the classroom app | **Withdrawn.** "Could not determine workspace for application (200)". The button that pointed at it is commented out in the page source. |
+| **Privacy-Synchronous Space Finder**, `lsm.utoronto.ca/syncstudy.html` | The St. George empty-classroom finder | The data exists and the app uses it, but it ships as an iOS/Android application with no public feed. |
+| **Scarborough classroom schedule**, `intranet.utsc.utoronto.ca` | The Scarborough classroom calendar, linked from the Registrar's room information page | **Behind a UTORid login.** |
+| **Scarborough classroom details**, `utsc.utoronto.ca/iits/classroom-support` | A Scarborough classroom inventory | Public, but a list of rooms, not a schedule. |
+| **Concept3D campus map**, `map.utoronto.ca` | The map the timetable links each building to | Wayfinding only. Its API is `api.concept3d.com` and its bundle contains no schedule, occupancy or booking endpoint. |
+| **Room reservation**, `lsm.utoronto.ca/webapp/f?p=220` | The room booking system | A request form, not a calendar. |
+| `classrooms.utoronto.ca`, `bookings.utoronto.ca`, `rooms.utoronto.ca`, `space.utoronto.ca`, `facilities.utoronto.ca`, `metis.utsg.utoronto.ca`, `metis.utsc.utoronto.ca` | A per-campus room system | **Do not resolve.** Each was checked against hosts that do respond, so the failure is the name, not the method. |
+| `getPageableCourses` with `availableSpace: true` | A timetable-side availability flag | The flag exists in the request payload and changes nothing: the response is identical, with the same empty room fields. |
+
+The conclusion is therefore a fact about the University rather than about
+this project:
+
+> The University publishes room-level classroom availability for
+> Mississauga, and a classroom *inventory* for St. George. It publishes no
+> room-level availability for St. George or Scarborough through any open
+> channel.
+
+So for those campuses the application publishes the two things that *are*
+open: the complete class timetable, and — from Space Management — the real
+classrooms of every St. George building with their capacities. What the
+application adds is the join a student would otherwise have to make by hand:
+how many classes are running in each building right now, and an ordering that
+puts the quietest buildings first.
+
 ---
 
 ## 3. Method
@@ -114,20 +151,21 @@ without checking them.
 ### 3.1 The pipeline
 
 ```
-   UofT Timetable Builder API                 UofT Classroom Space Database
-   getPageableCourses (370 pages)             Metis, UTM campus
-   getMatchingDivisions                            │
-   reference-data                                 │
-          │                                       │
-          ▼                                       ▼
-   ┌──────────────────────┐            ┌──────────────────────┐
-   │ parse.py             │            │ metis.py             │
-   │ verbatim codes,      │            │ 65 rooms, per-hour   │
-   │ real filters, no     │            │ occupancy, missing   │
-   │ room invention       │            │ hours recorded       │
-   └──────────┬───────────┘            └──────────┬───────────┘
-              │                                   │
-              └──────────────┬────────────────────┘
+   UofT Timetable Builder API        UofT Classroom Space      UofT Space
+   getPageableCourses (370 pages)     Database (Metis)          Management
+   getMatchingDivisions               UTM campus                St. George
+   reference-data                          │                        │
+          │                                │                        │
+          ▼                                ▼                        ▼
+   ┌──────────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+   │ parse.py             │     │ metis.py         │     │ classrooms       │
+   │ verbatim codes,      │     │ 65 rooms,        │     │ 334 classrooms,  │
+   │ real filters, no     │     │ per-hour         │     │ 40 buildings,    │
+   │ room invention       │     │ occupancy,       │     │ room + capacity  │
+   │                     │     │ missing hours    │     │                  │
+   └──────────┬───────────┘     └────────┬─────────┘     └────────┬─────────┘
+              │                          │                        │
+              └──────────────┬───────────┴────────────────────────┘
                              ▼
                   ┌────────────────────┐
                   │ build.py           │  21,408 meetings
@@ -137,6 +175,7 @@ without checking them.
                              ▼
                   ┌────────────────────┐
                   │ data/campus/*.json │  committed to the repo
+                  │ data/classrooms/*  │
                   └────────────────────┘
 ```
 
@@ -210,16 +249,27 @@ Result: **21,238 of 21,408** meetings carry a real building name.
 
 | Situation | What the interface does |
 |---|---|
-| The API publishes no room | Shows the building and **"room not published"** |
+| The API lists no room | Shows the building, and says so once in the course view |
 | The space database omits an hour (13:00) | Shows **unknown**, never "free" |
 | The current hour is outside the published band | One banner says so, once, instead of 65 cards reading "unknown" |
 | A building has no published name | Shows the code, not a guess |
-| The campus has no classroom data | Says so, and shows building-level schedules instead |
-| Availability is a dated snapshot | Says so: **"Classroom availability, not live"** |
+| The campus has no occupancy data | Lists the classrooms that are published, and how busy each building is |
+| Availability is a dated snapshot | Dated once, in the footer |
 
-The last one was a real bug. The header called the data "Live Classroom
-Availability" when it is a snapshot of one week. The word is gone from the
-header, the page metadata and the package description.
+Two of these were real defects, not stylistic preferences.
+
+The header called the data **"Live Classroom Availability"** when it is a
+snapshot of one week. The word is gone from the header, the page metadata and
+the package description.
+
+The second was repetition. Every class row ended with **"Room not published"**
+and every classroom card ended with **"Not published"** — the same sentence
+65 times on one screen, which reads as an error rather than as a fact about
+the source. The application now says it once, in the banner, and shows the
+room only when the source has one. The published band is described as it
+actually is — *"7:00 AM – 12:00 PM and 2:00 PM – 8:00 PM"* — because a
+single range from 7 AM to 9 PM would claim the 13:00 hour the database
+omits.
 
 ---
 
@@ -232,12 +282,12 @@ specific.
 
 | Layer | Tests | Protects | Network |
 |---|---:|---|---|
-| **pytest** | 39 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the per-campus split, the filter funnel | none — fixtures are committed |
-| **Vitest** | 45 | The application: time handling, term filtering, search, room states, the timetable layout, and the components — including "no invented room numbers" | none |
-| **Playwright** | 15 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the API payload, keyboard operation | none — a production build, served locally |
+| **pytest** | 44 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the per-campus split, the filter funnel | none — fixtures are committed |
+| **Vitest** | 50 | The application: time handling, term filtering, search, room states, the timetable layout, and the components — including "no invented room numbers" | none |
+| **Playwright** | 17 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the St. George classroom inventory, the API payload, keyboard operation | none — a production build, served locally |
 | **axe-core** | 4 views | WCAG 2.1 AA violations in the classroom list, a course timetable, a classroom timetable and St. George | none |
 
-**99 tests, none of which touches the University of Toronto's servers.** CI
+**111 tests, none of which touches the University of Toronto's servers.** CI
 runs them in four jobs; the data-verification and payload-budget jobs need
 no network either.
 
@@ -260,11 +310,11 @@ exactly the campus on screen, gzipped:
 
 | Campus | Meetings | On disk | Over the wire | Before |
 |---|---:|---:|---:|---:|
-| UTM | 5,178 | 2.1 MB | **87 KB** | 8.3 MB |
-| UTSG | 12,175 | 4.8 MB | 231 KB | |
-| UTSC | 3,961 | 1.5 MB | 69 KB | |
+| UTM | 5,178 | 2.1 MB | **83 KB** | 8.3 MB |
+| UTSG | 12,175 | 4.8 MB | 224 KB | |
+| UTSC | 3,961 | 1.5 MB | 68 KB | |
 | SHERIDAN | 94 | 36 KB | 2 KB | |
-| **Total** | **21,408** | **8.4 MB** | **389 KB** | 8.3 MB |
+| **Total** | **21,408** | **8.4 MB** | **377 KB** | 8.3 MB |
 
 A hundredfold reduction for the first screen, and a quarter of a megabyte
 for the whole catalogue. `npm run data:size` measures the gzipped size of
@@ -299,9 +349,9 @@ Every figure in this report can be checked:
 ```bash
 npm run data:verify     # the dataset's invariants
 npm run data:size       # the payload budget
-npm run scraper:test    # 39 tests, offline
-npm test                # 45 tests, offline
-npm run test:e2e        # 15 tests, against a local production build
+npm run scraper:test    # 44 tests, offline
+npm test                # 50 tests, offline
+npm run test:e2e        # 17 tests, against a local production build
 ```
 
 `data:verify` re-reads the per-campus files, unions them, and checks that
@@ -338,10 +388,17 @@ application's job is to make them visible rather than to hide them.
    sessions. No feature can tell a student the room their class is in. Any
    tool that claims to is guessing.
 
-2. **Classroom availability is UTM-only.** The space database covers
-   Mississauga. St. George and Scarborough have no room-level availability
-   at all, so the application shows complete building-level class schedules
-   for them instead.
+2. **Room-level availability is UTM-only, and that is the University's
+   doing.** Section 2.4 records every source that was checked. The
+   University publishes occupancy for Mississauga and a classroom inventory
+   for St. George; its St. George availability calendar was withdrawn, its
+   Scarborough calendar needs a UTORid, and the rest of the room data for
+   St. George lives in a mobile application. The application therefore
+   publishes, for St. George and Scarborough, the class timetable, the real
+   classrooms of each St. George building with their capacities, and how
+   many classes are running in each building right now. That last number is
+   the closest published thing to "is there space here" on those campuses,
+   and it is a proxy, not occupancy.
 
 3. **Availability is a snapshot, not live.** One week of the 2026 Fall
    term (30 September – 6 October 2026). It does not know about a room
@@ -349,7 +406,9 @@ application's job is to make them visible rather than to hide them.
    regenerated.
 
 4. **The published hours are a band.** 07:00–12:00 and 14:00–20:00, with
-   13:00 omitted. At any other hour the honest answer is "unknown".
+   13:00 omitted — the space database returns no 13:00 row for any of the
+   five days in the snapshot. At any other hour the honest answer is
+   "unknown".
 
 5. **Six building codes have no published name**: `AM` (1 meeting), `RO` (6),
    `ZO` (11), `BY` (24), `UY` (27), `TL` (101). Together, 170 of 21,408
@@ -369,8 +428,10 @@ application's job is to make them visible rather than to hide them.
 ## 6. What I would do next
 
 1. **Live availability.** A scheduled scraper would turn the snapshot into a
-   feed. The blocker is real: the space database has no documented API, and
-   the map markers it uses are behind a key-protected endpoint.
+   feed. The blocker is sharper than it was: the Mississauga space database
+   now sits behind the University single sign-on, and the endpoint behind
+   the committed snapshot could not be re-identified, so the first job is
+   finding a public read path again — or asking Space Management for one.
 2. **`.ics` calendar export** for a course, so a timetable lands in the
    student's own calendar. It needs the University academic calendar for
    term start and end dates — `data/term_dates.json`, sourced, not guessed.
@@ -380,6 +441,10 @@ application's job is to make them visible rather than to hide them.
    preview card.
 5. **The six unnamed buildings.** Worth chasing: each one is a code with a
    name somewhere, and the names are findable.
+6. **Scarborough classrooms.** The Registrar publishes a Scarborough room
+   information page and IITS publishes classroom details; neither is a
+   schedule, but the same treatment as St. George would give that tab real
+   rooms and capacities.
 
 ---
 
@@ -387,7 +452,8 @@ application's job is to make them visible rather than to hide them.
 
 Class schedules come from the University of Toronto's public Timetable
 Builder API. Classroom availability comes from the UofT Classroom Space
-Database. Building names come from
+Database. The St. George classroom inventory comes from UofT Space
+Management's classroom specification. Building names come from
 [Cobalt](https://github.com/cobalt-uoft/datasets), U of T's own open-data
 project.
 

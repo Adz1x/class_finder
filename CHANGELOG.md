@@ -6,6 +6,43 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Data
+
+- **The St. George classroom inventory.** UofT Space Management publishes
+  every classroom of every St. George building, with the number of students
+  it seats. The app now lists all **334 of them in 40 buildings**
+  (`data/classrooms/UTSG.json`), refreshed by
+  `node scripts/fetch-utsg-classrooms.mjs`.
+- **Where the University publishes room occupancy was searched for, not
+  assumed.** The Mississauga space database is the only open source of
+  room-level availability. The St. George "Calendar of Availability"
+  application has been withdrawn, the Scarborough classroom calendar is
+  behind a UTORid login, the St. George empty-classroom finder is a mobile
+  application with no public feed, and the campus map has no schedule
+  endpoint. Section 2.4 of the report records every source that was checked.
+
+### Application
+
+- **The repetition is gone.** Every class row used to end with "Room not
+  published" and every classroom card with "Not published" - the same
+  sentence 65 times on one screen, which reads as an error rather than as a
+  fact about the source. It is said once now, in the banner and the course
+  view, and a room is shown only when the source has one.
+- **The published band is described honestly.** "7:00 AM - 9:00 PM" claimed
+  the 13:00 hour the space database omits. It reads "7:00 AM - 12:00 PM and
+  2:00 PM - 8:00 PM" now.
+- **The snapshot date is dated once**, in the footer, instead of on every
+  view.
+- **How busy every building is right now**, on every campus, with the
+  emptiest buildings first. It is the closest published thing to "is there
+  space here" on the campuses where the University publishes no occupancy.
+- **The St. George tab now shows real classrooms** - the building's
+  classrooms and their capacities - instead of only a class schedule.
+
+### Engineering
+
+- 111 tests across three layers: 44 pytest, 50 Vitest, 17 Playwright.
+
 ## [0.3.0] — 2026-10-20
 
 The project becomes a real application: the data pipeline is rewritten and

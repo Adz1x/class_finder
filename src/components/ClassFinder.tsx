@@ -5,6 +5,7 @@ import WeeklySchedule from "./WeeklySchedule";
 import {
   buildingSummaries,
   classesInProgress,
+  classesRunningPerBuilding,
   filterByTerm,
   findCourseMeetings,
   format12Hour,
@@ -34,6 +35,14 @@ type Route =
   | { mode: "building"; campus: string; id: string };
 
 const CAMPUSES = ["UTM", "UTSG", "UTSC"] as const;
+
+/** The campus names, as the University writes them. */
+const CAMPUS_NAMES: Record<string, string> = {
+  UTM: "Mississauga",
+  UTSG: "St. George",
+  UTSC: "Scarborough",
+  SHERIDAN: "Sheridan College",
+};
 
 /** How many building chips to show before the rest move into a dropdown. */
 const MAX_BUILDING_CHIPS = 8;
@@ -67,6 +76,8 @@ export default function ClassFinder() {
   const [query, setQuery] = useState<string>("");
   const [onlyFree, setOnlyFree] = useState(false);
   const [viewTerm, setViewTerm] = useState<Term | null>(null);
+  /** "quiet" = emptiest buildings first, "busy" = most classes first. */
+  const [order, setOrder] = useState<"quiet" | "busy">("quiet");
   const [route, setRoute] = useState<Route>({ mode: "list" });
 
   // A fixed instant stands in for the clock during prerender, so the rendered
@@ -108,6 +119,7 @@ export default function ClassFinder() {
           campus: payload.campus,
           classes: payload.classes,
           rooms: payload.rooms,
+          classrooms: payload.classrooms ?? [],
           meta: payload.meta,
         };
         cache.current.set(activeCampus, dataset);
@@ -193,16 +205,42 @@ export default function ClassFinder() {
     [campusClasses, query],
   );
 
+  // How many classes are running in each building right now. On the
+  // campuses where the University publishes no classroom occupancy, this is
+  // the closest published thing to "is there space here".
+  const runningNow = useMemo(
+    () => classesRunningPerBuilding(termClasses, ctx.uoftDay, ctx.nowMins),
+    [termClasses, ctx],
+  );
+
   // St. George has 68 buildings and Scarborough 13. Showing every one as a
   // chip wrapped the header onto three rows, so the busiest few get a chip
   // and the rest live behind a dropdown - the pattern the original static UI
   // used.
-  const rankedBuildings = useMemo(
+  const rankedBuildings = useMemo(() => {
+    const list = [...visibleBuildings];
+    if (order === "quiet") {
+      // The emptiest buildings first: the app is for finding space.
+      list.sort(
+        (a, b) =>
+          (runningNow.get(a.code) ?? 0) - (runningNow.get(b.code) ?? 0) ||
+          b.meetingCount - a.meetingCount,
+      );
+    } else {
+      list.sort((a, b) => b.meetingCount - a.meetingCount);
+    }
+    return list;
+  }, [visibleBuildings, order, runningNow]);
+
+  // The chips are the buildings a student is most likely to want, and they
+  // stay the same all day: a chip that changed every hour would be harder to
+  // use than the list it jumps to.
+  const buildingsBySize = useMemo(
     () => [...visibleBuildings].sort((a, b) => b.meetingCount - a.meetingCount),
     [visibleBuildings],
   );
-  const chipBuildings = rankedBuildings.slice(0, MAX_BUILDING_CHIPS);
-  const overflowBuildings = rankedBuildings.slice(MAX_BUILDING_CHIPS);
+  const chipBuildings = buildingsBySize.slice(0, MAX_BUILDING_CHIPS);
+  const overflowBuildings = buildingsBySize.slice(MAX_BUILDING_CHIPS);
 
   const classesForBuilding = useCallback(
     (code: string) => {
@@ -284,7 +322,6 @@ export default function ClassFinder() {
   }
 
   const meta = data.meta;
-  const snapshotLabel = `Metis space database snapshot: week of ${meta.snapshotWeekStart}`;
 
   return (
     <div className="min-h-screen flex flex-col antialiased">
@@ -402,6 +439,20 @@ export default function ClassFinder() {
                   </button>
                 ))}
               </div>
+              <label className="flex items-center gap-2 text-slate-400">
+                <span className="text-[11px]">Order</span>
+                <select
+                  value={order}
+                  onChange={(event) =>
+                    setOrder(event.target.value as "quiet" | "busy")
+                  }
+                  aria-label="Order buildings by"
+                  className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-950/80 border border-slate-800 text-slate-300 focus:outline-none focus:border-blue-500"
+                >
+                  <option value="quiet">Emptiest now</option>
+                  <option value="busy">Most classes</option>
+                </select>
+              </label>
               <span className="flex items-center gap-2">
                 <span
                   className={`w-2 h-2 rounded-full ${
@@ -413,12 +464,8 @@ export default function ClassFinder() {
                     ? `Loading ${activeCampus}…`
                     : campusHasRooms
                       ? stats.unknownRooms === stats.totalRooms
-                        ? `Availability not published for this hour on ${activeCampus}`
-                        : `${stats.freeRooms} of ${stats.totalRooms} classrooms available on ${activeCampus}${
-                            stats.unknownRooms
-                              ? ` (${stats.unknownRooms} not published)`
-                              : ""
-                          }`
+                        ? `${stats.totalRooms} classrooms on ${activeCampus}`
+                        : `${stats.freeRooms} of ${stats.totalRooms} classrooms available on ${activeCampus}`
                       : `${termClasses.length} class meetings scheduled on ${activeCampus}`}
                   {" · "}
                   {activeTerm === "F" ? "Fall 2026" : "Winter 2027"}
@@ -543,8 +590,14 @@ export default function ClassFinder() {
             {meta.courseRowsFetched.toLocaleString()} course records from the UofT
             timetable API • {meta.classMeetings.toLocaleString()} class meetings
           </p>
-          <p className="text-slate-400">
-            Fall {activeTerm === "F" ? "&" : ""} Winter 2026-27 • {snapshotLabel}
+          <p>
+            Fall {activeTerm === "F" ? "&" : ""} Winter 2026-27 • Classroom
+            availability from the UofT Classroom Space Database, week of{" "}
+            {new Date(`${meta.snapshotWeekStart}T12:00:00`).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
           </p>
         </div>
       </footer>
@@ -597,7 +650,12 @@ function ListView({
 
   return (
     <div className="space-y-6">
-      <AvailabilityNotice data={data} ctx={ctx} campusRooms={campusRooms} />
+      <AvailabilityNotice
+        data={data}
+        ctx={ctx}
+        campus={data.campus}
+        campusRooms={campusRooms}
+      />
       {courseMatches.length ? (
         <div className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 space-y-3 shadow-md">
           <div className="flex items-center gap-2.5">
@@ -641,6 +699,9 @@ function ListView({
       {buildings.map((b) => {
         const buildingClasses = classesForBuilding(b.code);
         const rooms = campusRooms.filter((room) => room.building === b.code);
+        const classrooms = data.classrooms.filter(
+          (classroom) => classroom.building === b.code,
+        );
         const roomStates = rooms.map((room) => roomStatusAt(room, ctx).state);
         const freeCount = roomStates.filter((state) => state === "free").length;
         const unknownCount = roomStates.filter((state) => state === "unknown").length;
@@ -685,7 +746,28 @@ function ListView({
                     }
                   >
                     {freeCount} of {rooms.length} free now
-                    {unknownCount ? ` · ${unknownCount} unpublished` : ""}
+                  </span>
+                ) : null}
+                {todays.length ? (
+                  <span
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-lg border ${
+                      inProgress.length === 0
+                        ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                        : inProgress.length <= 2
+                          ? "bg-slate-900 text-slate-300 border-slate-800"
+                          : "bg-slate-900 text-slate-400 border-slate-800"
+                    }`}
+                    title="Classes running in this building right now"
+                  >
+                    {inProgress.length} running now
+                  </span>
+                ) : null}
+                {classrooms.length ? (
+                  <span
+                    className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300"
+                    title="Classrooms the University lists in this building"
+                  >
+                    {classrooms.length} classrooms
                   </span>
                 ) : null}
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
@@ -718,6 +800,46 @@ function ListView({
               </p>
             ) : null}
 
+            {/*
+              The classrooms the University lists for a building, for the
+              campuses where no occupancy is published. It is the one piece
+              of classroom data that is public for St. George, so it is
+              worth showing: these are the rooms to look for.
+            */}
+            {classrooms.length ? (
+              <div className="border-t border-slate-800/80 pt-3">
+                <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wide mb-2">
+                  Classrooms in {b.code}
+                  <span className="ml-2 font-normal normal-case tracking-normal text-slate-400">
+                    room number and capacity
+                  </span>
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {classrooms.map((classroom) => (
+                    <span
+                      key={`${classroom.building}-${classroom.room}`}
+                      className="text-[11px] font-semibold px-2 py-1 rounded-md bg-slate-900/70 border border-slate-800 text-slate-300"
+                      title={
+                        classroom.name
+                          ? `${classroom.room} ${classroom.name}${
+                              classroom.capacity ? ` • seats ${classroom.capacity}` : ""
+                            }`
+                          : classroom.room
+                      }
+                    >
+                      {classroom.room}
+                      {classroom.capacity ? (
+                        <span className="text-slate-400 font-normal">
+                          {" · "}
+                          {classroom.capacity}
+                        </span>
+                      ) : null}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
             {buildingClasses.length ? (
               <div className="border-t border-slate-800/80 pt-3 space-y-2">
                 <div className="flex items-center justify-between">
@@ -748,13 +870,12 @@ function ListView({
                       <span className="text-xs text-slate-400 truncate">
                         {meeting.courseTitle}
                       </span>
-                      <span className="text-[11px] text-amber-300/80 ml-auto flex items-center gap-2">
+                      <span className="text-[11px] text-emerald-300/90 ml-auto flex items-center gap-2">
                         {rooms.length ? (
-                          <span className="text-emerald-300/90">
+                          <span>
                             {freeCount} free in {b.code} now
                           </span>
                         ) : null}
-                        Room not published
                       </span>
                     </button>
                   ))}
@@ -808,28 +929,33 @@ interface RoomCardProps {
 function AvailabilityNotice({
   data,
   ctx,
+  campus,
   campusRooms,
 }: {
   data: Dataset;
   ctx: ReturnType<typeof getLiveTimeContext>;
+  campus: string;
   campusRooms: Room[];
 }) {
+  const classroomCount = data.classrooms.length;
+  const campusName = CAMPUS_NAMES[campus] ?? campus;
   const hours = publishedHours(campusRooms);
   const currentHour = Math.floor(ctx.nowMins / 60);
   const isPublished = hours.includes(currentHour);
   const band = formatHourRange(hours);
-  const snapshot = data.meta.snapshotWeekStart;
 
   if (!campusRooms.length) {
     return (
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-100 flex items-start gap-3">
-        <i className="fa-solid fa-circle-info mt-0.5 text-amber-300" aria-hidden="true" />
+      <div className="rounded-2xl border border-slate-700/70 bg-slate-900/60 px-4 py-3 text-xs text-slate-300 flex items-start gap-3">
+        <i className="fa-solid fa-circle-info mt-0.5 text-slate-400" aria-hidden="true" />
         <p className="leading-relaxed">
-          <strong className="font-bold">Classroom availability is published for UTM only.</strong>{" "}
-          The University of Toronto Classroom Space Database covers the
-          Mississauga campus. This campus shows complete building-level class
-          schedules instead — every class, its time, its building and its
-          instructor.
+          <strong className="font-bold text-slate-200">
+            {classroomCount} classrooms are listed for {campusName}.
+          </strong>{" "}
+          The University publishes classroom occupancy for Mississauga only, so
+          here you can see every class with its time, building and instructor,
+          the rooms in each building, and how many classes are running in it
+          right now.
         </p>
       </div>
     );
@@ -840,36 +966,26 @@ function AvailabilityNotice({
       className={`rounded-2xl border px-4 py-3 text-xs flex items-start gap-3 ${
         isPublished
           ? "border-slate-700/70 bg-slate-900/60 text-slate-300"
-          : "border-amber-500/30 bg-amber-500/10 text-amber-100"
+          : "border-slate-700/70 bg-slate-900/60 text-slate-300"
       }`}
     >
-      <i
-        className={`fa-solid ${isPublished ? "fa-camera-retro" : "fa-clock"} mt-0.5 ${
-          isPublished ? "text-slate-400" : "text-amber-300"
-        }`}
-        aria-hidden="true"
-      />
+      <i className="fa-solid fa-clock mt-0.5 text-slate-400" aria-hidden="true" />
       <p className="leading-relaxed">
         {isPublished ? (
           <>
             <strong className="font-bold text-slate-200">
-              Classroom availability, not live.
+              Classroom availability, {band}.
             </strong>{" "}
-            These numbers come from the UofT Classroom Space Database snapshot of
-            the week of {snapshot}. It publishes {band}
-            {hours.includes(13) ? "" : " (1:00 PM is not published)"}, and no
-            other hour.
+            From the UofT Classroom Space Database. Rooms are listed as free
+            only when the database says they are.
           </>
         ) : (
           <>
-            <strong className="font-bold">
-              It is {format12Hour(`${String(currentHour).padStart(2, "0")}:00`)} and
-              the space database publishes {band}
-              {hours.includes(13) ? "" : " (1:00 PM is not published)"}.
+            <strong className="font-bold text-slate-200">
+              It is {format12Hour(`${String(currentHour).padStart(2, "0")}:00`)};
+              the space database covers {band}.
             </strong>{" "}
-            It does not publish this hour, so every room below reads
-            <em> unknown</em> rather than <em> free</em>. The class times below
-            are real and current.
+            Rooms outside those hours show as unknown rather than free.
           </>
         )}
       </p>
@@ -934,17 +1050,21 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
 
       <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 border-slate-800/80 pt-2 sm:pt-0">
         <div className="text-left sm:text-right">
-          <div
-            className={`text-xs sm:text-sm font-bold ${
-              status.state === "busy"
-                ? "text-rose-300"
-                : status.state === "free"
-                  ? "text-emerald-300"
-                  : "text-slate-400"
-            }`}
-          >
-            {status.nextFreeText}
-          </div>
+          {/*
+            The status line only says something when the hour is actually
+            published. Otherwise it would repeat the same sentence on every
+            card, which reads as an error rather than as a fact about the
+            snapshot. The banner above the list says it once.
+          */}
+          {status.state !== "unknown" ? (
+            <div
+              className={`text-xs sm:text-sm font-bold ${
+                status.state === "busy" ? "text-rose-300" : "text-emerald-300"
+              }`}
+            >
+              {status.nextFreeText}
+            </div>
+          ) : null}
           <div className="text-[11px] text-slate-400 font-medium">
             Click for weekly timetable →
           </div>
@@ -1024,9 +1144,9 @@ function ScheduleView({
         blockStyle="room"
         banner={
           <div className="rounded-xl border px-4 py-3 bg-blue-500/15 border-blue-500/40 text-blue-200 text-sm font-semibold">
-            The UofT timetable API does not publish which course is scheduled in
-            which room, so this view shows occupancy only.{" "}
-            {data.meta.snapshotWeekStart} snapshot.
+            This is the room&apos;s occupancy for the week the space database
+            covers. The timetable does not publish which course is scheduled in
+            which room, so the course list is not shown here.
           </div>
         }
       />
@@ -1049,7 +1169,7 @@ function ScheduleView({
     end: meeting.end,
     title: `${meeting.courseCode} ${meeting.sectionName}`,
     subtitle: `${meeting.buildingName}${
-      meeting.room ? ` • ${meeting.room}` : " • room not published"
+      meeting.room ? ` • ${meeting.room}` : ""
     }`,
     lane: 0,
     lanes: 1,
@@ -1105,7 +1225,7 @@ function ScheduleView({
               </button>
             ))}
             <span className="text-xs font-medium opacity-90">
-              Rooms are not published by the UofT timetable API
+              No room number is listed for these sections
             </span>
           </div>
         </div>

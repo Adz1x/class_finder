@@ -65,6 +65,7 @@ export const sampleDatasets: Record<string, Dataset> = {
   UTM: {
     campus: "UTM",
     meta,
+    classrooms: [],
     rooms: [
       room(),
       room({ room: "MN 3200", occupancy: { 1: { 9: false, 12: false } } }),
@@ -90,6 +91,10 @@ export const sampleDatasets: Record<string, Dataset> = {
     campus: "UTSG",
     meta,
     rooms: [],
+    classrooms: [
+      { building: "BA", room: "1130", name: "Auditorium", capacity: 159 },
+      { building: "BA", room: "1160", name: "Adel Sedra Auditorium", capacity: 300 },
+    ],
     classes: [
       meeting({
         courseCode: "CSC108H1",
@@ -109,6 +114,7 @@ export const sampleDatasets: Record<string, Dataset> = {
     campus: "UTSC",
     meta,
     rooms: [],
+    classrooms: [],
     classes: [
       meeting({
         courseCode: "ABP102Y1",

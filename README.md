@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-99%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-111%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -31,8 +31,8 @@ UofT Classroom Space Database, plus the classes running in each building.
 
 ![Classroom timetable](docs/images/classroom-timetable.png)
 
-**St. George** — building-level class schedules, with 68 buildings kept
-tidy behind a compact picker.
+**St. George** — the real classrooms of every building, their capacities, and
+how many classes are running in each building right now.
 
 ![St. George](docs/images/st-george.png)
 
@@ -54,20 +54,25 @@ tidy behind a compact picker.
   records, 21,408 class meetings, all 8 faculties, 3 campuses.
 - **Real classroom availability** for UTM, from the official UofT Classroom
   Space Database: 65 actual rooms, per-hour occupancy, real capacity.
+- **The real St. George classrooms** - 334 of them in 40 buildings, from UofT
+  Space Management, each with the number of students it seats.
+- **How busy every building is right now**, on every campus, with the
+  emptiest buildings first: the closest published thing to "is there space
+  here" where the University publishes no room occupancy.
 - **Search** by course code, building or classroom.
 - **Weekly timetables** for a course, a building or a single classroom.
 - A **Fall / Winter** switch, so you can see one term or the whole year.
-- A payload of **87 KB** for the first screen - the dataset is split per
+- A payload of **83 KB** for the first screen - the dataset is split per
   campus and served compressed, so the browser only downloads the campus it
   is about to show.
 
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 65 real UTM classrooms with published per-hour occupancy |
+| Classrooms | 65 UTM classrooms with published per-hour occupancy, 334 St. George classrooms with their capacities |
 | Invented values | **0** |
-| First load | **87 KB** (was 8.3 MB) |
-| Tests | 99 across three layers, plus 4 automated accessibility checks |
+| First load | **83 KB** (was 8.3 MB) |
+| Tests | 111 across three layers, plus 4 automated accessibility checks |
 
 ## The part that matters: it does not make things up
 
@@ -78,22 +83,37 @@ none. Across all 22,659 meeting times in the 2026-27 sessions, the
 An earlier version of this project guessed them anyway, from a hard-coded
 table of plausible room numbers, and shipped rooms that no class was ever
 scheduled in. This version deletes that code. Where the source publishes
-nothing, the interface says so:
+nothing, the interface says so — once, and then gets on with it:
 
-> **Room not published**
+> **No room number is listed for these sections**
 
 The same rule applies everywhere:
 
 | Thing | What the app does |
 |---|---|
-| A class with no published room | Shows the building and "room not published" |
+| A class with no published room | Shows the building, and says so once in the course view |
 | An hour the space database omits (13:00) | Shows **unknown**, never "free" |
 | A building with no published name | Shows "Name not listed" |
-| A campus with no classroom data | Says so, and shows building-level schedules instead |
+| A campus with no published room occupancy | Lists the classrooms that are published, and how busy each building is |
 
 Classroom availability is a **dated snapshot**, not a live feed, and the
-interface says that too — in a banner, once, rather than repeating it on
+interface says that too — in the footer, once, rather than repeating it on
 every card.
+
+### What the University publishes, campus by campus
+
+| Campus | Classrooms | Occupancy | Source |
+|---|---|---|---|
+| **Mississauga** | 65 rooms, with capacity | **Per hour**, for the snapshot week | UofT Classroom Space Database |
+| **St. George** | 334 classrooms in 40 buildings, with capacity | Not published | UofT Space Management classroom specification |
+| **Scarborough** | Not published | Not published | — |
+
+Every open source was checked; [§2.4 of the report](docs/REPORT.md) records
+the search, including the St. George availability calendar that was
+withdrawn and the Scarborough calendar that needs a UTORid. Room-level
+occupancy for St. George and Scarborough is not published through any open
+channel, so the application publishes what is open — the timetable, the real
+classrooms, and how many classes are running in each building right now.
 
 ## Quick start
 
@@ -149,11 +169,11 @@ that those files add up to the totals in `meta.json` exactly:
 
 | Campus key | Meetings | On disk | Over the wire (gzipped) | In the UI |
 |---|---:|---:|---:|---|
-| `UTM` | 5,178 | 2.1 MB | **87 KB** | yes (the default) |
-| `UTSG` | 12,175 | 4.8 MB | 231 KB | yes |
-| `UTSC` | 3,961 | 1.5 MB | 69 KB | yes |
+| `UTM` | 5,178 | 2.1 MB | **83 KB** | yes (the default) |
+| `UTSG` | 12,175 | 4.8 MB | 224 KB | yes |
+| `UTSC` | 3,961 | 1.5 MB | 68 KB | yes |
 | `SHERIDAN` | 94 | 36 KB | 2 KB | no tab - as before |
-| **Total** | **21,408** | **8.4 MB** | **389 KB** | |
+| **Total** | **21,408** | **8.4 MB** | **377 KB** | |
 
 ### Where the numbers come from
 
@@ -161,7 +181,8 @@ that those files add up to the totals in `meta.json` exactly:
 |---|---|
 | Course catalogue | `POST https://api.easi.utoronto.ca/ttb/getPageableCourses` |
 | Faculties | `GET https://api.easi.utoronto.ca/ttb/getMatchingDivisions` |
-| UTM classroom space | `https://metis.utm.utoronto.ca/` (snapshot committed in `data/`) |
+| UTM classroom space | `https://metis.utm.utoronto.ca/space/` (snapshot committed in `data/`) |
+| St. George classrooms | `https://lsm.utoronto.ca/webapp/f?p=210` (snapshot in `data/classrooms/`) |
 | Building names | [`cobalt-uoft/datasets`](https://github.com/cobalt-uoft/datasets) — U of T's own open-data project |
 
 Building names from Cobalt were only accepted when the campus Cobalt records
@@ -192,14 +213,17 @@ scraper/
     metis.py                # space database -> rooms + occupancy
     build.py                # assembly + provenance, split per campus
     cli.py                  # `build` and `verify`
-  tests/                    # 39 pytest tests + committed API fixtures
+  tests/                    # 44 pytest tests + committed API fixtures
 tests/
-  unit/                     # 45 Vitest tests
-  e2e/                      # 15 Playwright tests
+  unit/                     # 50 Vitest tests
+  e2e/                      # 17 Playwright tests
 data/
   campus/<KEY>.json         # the dataset, one file per campus key
   rooms.json                # the UTM classroom inventory
+  classrooms/<KEY>.json     # the classrooms the University lists per campus
   meta.json                 # provenance and the invariants the split must match
+scripts/
+  fetch-utsg-classrooms.mjs # refreshes the St. George classroom inventory
 ```
 
 Three decisions worth calling out:
@@ -207,15 +231,15 @@ Three decisions worth calling out:
 **The dataset is stored one file per campus.** The catalogue is 8.3 MB of
 JSON, and the app only ever shows one campus at a time. Serving the whole
 thing cost 8.3 MB before the first pixel; the default campus now costs
-**87 KB over the wire** - a hundredfold difference - and St. George, which
-is the biggest of the four, costs 231 KB. `npm run data:size` measures the
+**83 KB over the wire** - a hundredfold difference - and St. George, which
+is the biggest of the four, costs 224 KB. `npm run data:size` measures the
 gzipped size of each payload and fails the build if the default campus
 crosses 150 KB, so the win cannot quietly be given back.
 
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 45 of the 99 tests are fast and deterministic.
+why 50 of the 111 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -225,9 +249,9 @@ publish, that there are no duplicates. It runs in CI.
 ## Testing
 
 ```bash
-npm run scraper:test   # 39 pytest  - saved API fixtures, no network
-npm test               # 45 Vitest  - pure logic + React components
-npm run test:e2e       # 15 Playwright - against the production build
+npm run scraper:test   # 44 pytest  - saved API fixtures, no network
+npm test               # 50 Vitest  - pure logic + React components
+npm run test:e2e       # 17 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
 npm run data:size      # the gzipped payload budget
 ```
@@ -236,7 +260,7 @@ npm run data:size      # the gzipped payload budget
 |---|---|
 | **pytest** | The data contract: pagination completeness, the course-code and session rules, cancelled sections, the Metis weekday derivation, the missing 13:00 hour, the per-campus split |
 | **Vitest** | The app: time handling, term filtering, search, room availability states, the timetable layout, and the components — including "no invented room numbers" |
-| **Playwright** | The shipped product: campus tabs, course search, the weekly timetable, the classroom view, the API payload, keyboard operation |
+| **Playwright** | The shipped product: campus tabs, course search, the weekly timetable, the classroom view, the St. George classroom inventory, the API payload, keyboard operation |
 
 **No test touches the network.** Every fixture is committed.
 
@@ -271,12 +295,14 @@ whether the wording makes sense.
 | `npm run data:verify` | Check the committed dataset's invariants |
 | `npm run data:size` | Check the gzipped payload against the budget |
 | `npm run screenshots` | Re-capture the images in `docs/images/` |
+| `node scripts/fetch-utsg-classrooms.mjs` | Refresh the St. George classroom inventory |
 
 ## Data and attribution
 
 Class schedules come from the University of Toronto's public Timetable Builder
-API; classroom availability comes from U of T's Classroom Space Database;
-building names come from Cobalt, U of T's open-data project.
+API; classroom availability comes from U of T's Classroom Space Database; the
+St. George classroom inventory comes from U of T Space Management; building
+names come from Cobalt, U of T's open-data project.
 
 The University of Toronto publishes **no terms of use, rate-limit statement
 or versioning policy** for the timetable API. The API is read at a polite

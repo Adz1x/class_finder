@@ -35,6 +35,17 @@ export interface Room {
   hoursMissing: number[];
 }
 
+export interface Classroom {
+  /** The building the classroom is in. */
+  building: string;
+  /** The room number, as the University lists it: "1130". */
+  room: string;
+  /** The room's name, when it has one: "Adel Sedra Auditorium". */
+  name: string | null;
+  /** How many students it seats, when the University publishes it. */
+  capacity: number | null;
+}
+
 export interface Meta {
   generatedAt: string;
   sessions: string[];
@@ -55,6 +66,8 @@ export interface Dataset {
   campus: string;
   classes: ClassMeeting[];
   rooms: Room[];
+  /** Classrooms the University lists for this campus, without occupancy. */
+  classrooms: Classroom[];
   meta: Meta;
 }
 
@@ -63,6 +76,7 @@ export interface CampusPayload {
   campus: string;
   classes: ClassMeeting[];
   rooms: Room[];
+  classrooms: Classroom[];
   meta: Meta;
 }
 

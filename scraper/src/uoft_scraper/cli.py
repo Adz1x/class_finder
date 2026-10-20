@@ -201,6 +201,38 @@ def _verify(args: argparse.Namespace) -> int:
             failures.append(f"invalid time range in {meeting['courseCode']}")
             break
 
+    # The classroom inventories the University publishes per campus. They
+    # carry no meeting, so the only things to check are that the file says
+    # which campus it belongs to and that every classroom has the room
+    # number and capacity the source gave it.
+    classroom_dir = data_dir / "classrooms"
+    classroom_files = (
+        sorted(classroom_dir.glob("*.json")) if classroom_dir.is_dir() else []
+    )
+    classroom_count = 0
+    for path in classroom_files:
+        inventory = json.loads(path.read_text(encoding="utf-8"))
+        if inventory.get("campus") != path.stem:
+            failures.append(
+                f"classroom file {path.name} says it belongs to "
+                f"{inventory.get('campus')!r}"
+            )
+        for building, building_rooms in (inventory.get("classrooms") or {}).items():
+            for classroom in building_rooms:
+                classroom_count += 1
+                if not classroom.get("room"):
+                    failures.append(
+                        f"classroom without a room number in {path.name} ({building})"
+                    )
+                    break
+                capacity = classroom.get("capacity")
+                if capacity is not None and capacity <= 0:
+                    failures.append(
+                        f"classroom {classroom['room']} in {building} has a "
+                        f"capacity of {capacity}"
+                    )
+                    break
+
     if args.live:
         client = TtbClient(sessions=tuple(meta["sessions"]))
         rows = client.fetch_all_courses()
@@ -251,6 +283,7 @@ def _verify(args: argparse.Namespace) -> int:
     print(
         f"verify OK: {len(classes)} class meetings across "
         f"{len(per_campus)} campuses, {len(rooms)} rooms, "
+        f"{classroom_count} published classrooms, "
         f"{meta['courseRowsFetched']} course rows, "
         f"{sum(1 for m in classes if m.get('room'))} meetings with a published room"
     )

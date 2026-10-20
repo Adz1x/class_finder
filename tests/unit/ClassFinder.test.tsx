@@ -116,11 +116,13 @@ describe("ClassFinder", () => {
   it("never shows an invented room number", async () => {
     await renderApp();
 
-    // Every class row says the room is not published, and no room number is
-    // invented next to a class.
-    expect(screen.getAllByText("Room not published").length).toBeGreaterThan(0);
-    expect(screen.queryByText(/MN 3220/)).not.toBeInTheDocument();
+    // A class row never carries a room number, because the timetable does
+    // not publish one. The real classrooms appear only in the room list.
     expect(screen.queryByText(/Room: MN/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/MN 3220/)).not.toBeInTheDocument();
+
+    // The classroom list shows the rooms the space database publishes.
+    expect(screen.getByText("MN 2100")).toBeInTheDocument();
   });
 
   it("opens the weekly timetable of a course", async () => {

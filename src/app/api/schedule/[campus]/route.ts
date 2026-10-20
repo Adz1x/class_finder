@@ -1,7 +1,13 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
-import type { CampusPayload, ClassMeeting, Meta, Room } from "@/components/lib/types";
+import type {
+  CampusPayload,
+  ClassMeeting,
+  Classroom,
+  Meta,
+  Room,
+} from "@/components/lib/types";
 
 /**
  * Serves the dataset one campus at a time.
@@ -42,6 +48,38 @@ function readJson<T>(path: string): T {
   }
 }
 
+/** The classroom inventory the University publishes for a campus, if any. */
+interface ClassroomFile {
+  campus: string;
+  source: string;
+  buildings: Record<string, string>;
+  classrooms: Record<string, { room: string; name: string | null; capacity?: number }[]>;
+}
+
+function loadClassrooms(campus: CampusKey): Classroom[] {
+  const path = join(process.cwd(), "data", "classrooms", `${campus}.json`);
+  let file: ClassroomFile;
+  try {
+    file = JSON.parse(readFileSync(path, "utf-8")) as ClassroomFile;
+  } catch {
+    // A campus without a published inventory simply has none.
+    return [];
+  }
+
+  const classrooms: Classroom[] = [];
+  for (const [building, rooms] of Object.entries(file.classrooms ?? {})) {
+    for (const room of rooms) {
+      classrooms.push({
+        building,
+        room: room.room,
+        name: room.name,
+        capacity: room.capacity ?? null,
+      });
+    }
+  }
+  return classrooms;
+}
+
 function load(campus: CampusKey): { plain: Bytes; gzip: Bytes } {
   const cached = cache.get(campus);
   if (cached) return cached;
@@ -57,6 +95,7 @@ function load(campus: CampusKey): { plain: Bytes; gzip: Bytes } {
     campus,
     classes,
     rooms: allRooms.filter((room) => room.campusKey === campus),
+    classrooms: loadClassrooms(campus),
     meta,
   };
 

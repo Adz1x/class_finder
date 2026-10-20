@@ -224,13 +224,32 @@ export function formatHour(hour: number): string {
   return `${h12}:00 ${suffix}`;
 }
 
-/** "7:00 AM – 8:00 PM" for a list of whole hours. */
+/**
+ * "7:00 AM – 12:00 PM and 2:00 PM – 8:00 PM" for a list of whole hours.
+ *
+ * The published hours are not always continuous - the space database omits
+ * 13:00 - so a single range would claim an hour the data does not have.
+ * Each run of consecutive hours is described separately, which shows the gap
+ * instead of hiding it.
+ */
 export function formatHourRange(hours: number[]): string {
   if (!hours.length) return "";
-  const first = hours[0];
-  const last = hours[hours.length - 1];
-  // The band ends at the last published hour, inclusive.
-  return `${formatHour(first)} – ${formatHour(last + 1)}`;
+
+  const runs: number[][] = [];
+  let start = hours[0];
+  let previous = hours[0];
+  for (const hour of hours.slice(1)) {
+    if (hour !== previous + 1) {
+      runs.push([start, previous]);
+      start = hour;
+    }
+    previous = hour;
+  }
+  runs.push([start, previous]);
+
+  return runs
+    .map(([from, to]) => `${formatHour(from)} – ${formatHour(to)}`)
+    .join(" and ");
 }
 
 /** The next published hour at or after the given hour, or null. */
@@ -323,6 +342,29 @@ export function classesInProgress(
       timeToMinutes(meeting.start) <= nowMins &&
       timeToMinutes(meeting.end) > nowMins,
   );
+}
+
+/**
+ * How many classes are running in each building right now.
+ *
+ * The University publishes classroom occupancy for Mississauga only, so on
+ * the other campuses this is the closest published thing to "is there space
+ * here": a building with nothing running in it is a building whose
+ * classrooms are mostly free.
+ */
+export function classesRunningPerBuilding(
+  meetings: ClassMeeting[],
+  day: number,
+  nowMins: number,
+): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const meeting of meetings) {
+    if (meeting.day !== day) continue;
+    if (timeToMinutes(meeting.start) > nowMins) continue;
+    if (timeToMinutes(meeting.end) <= nowMins) continue;
+    counts.set(meeting.buildingCode, (counts.get(meeting.buildingCode) ?? 0) + 1);
+  }
+  return counts;
 }
 
 // ------------------------------------------------------------------ layout

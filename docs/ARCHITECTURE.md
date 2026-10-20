@@ -35,6 +35,16 @@ How the project is put together, and why each piece is where it is.
         │   meta.json             1 KB     provenance + invariants  │
         │   building_names.json  12 KB     87 names, each sourced   │
         └───────────────────────────┬───────────────────────────────┘
+                                    │
+   ┌────────────────────────────────┘
+   │  UofT Space Management (St. George classroom specification)
+   │  scripts/fetch-utsg-classrooms.mjs  - a browser, because the
+   │  application is an Oracle APEX app that only fills its room list
+   │  after a building has been chosen
+   ▼
+        ┌───────────────────────────────────────────────────────────┐
+        │   classrooms/UTSG.json   17 KB   334 classrooms          │
+        └───────────────────────────┬───────────────────────────────┘
                                     │  read at request time
                                     ▼
         ┌───────────────────────────────────────────────────────────┐
@@ -150,6 +160,7 @@ that loads, and the campus tab follows the link.
 | `data/meta.json` | Provenance: rows fetched vs. expected, the snapshot week, the filter funnel, the per-campus counts | `uoft-scraper build` |
 | `data/building_names.json` | 87 building codes → names, each with its source | hand-curated, from Cobalt |
 | `data/utm_metis_data.json` | The raw Metis snapshot the rooms were parsed from | the space database |
+| `data/classrooms/<KEY>.json` | The classrooms the University lists for a campus, with their capacity | `scripts/fetch-utsg-classrooms.mjs` |
 
 `meta.json` is the contract between the scraper and the application. The
 application reads it for the snapshot week and the published hours; `verify`
