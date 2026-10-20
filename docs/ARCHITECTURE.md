@@ -184,7 +184,7 @@ the source it was given rather than a name it invented.
 
 ```
                  ┌───────────────────────────┐
-                 │  Playwright · 21 tests    │  the shipped product
+                 │  Playwright · 22 tests    │  the shipped product
                  │  + axe-core · 4 views     │
                  └───────────────────────────┘
                  ┌───────────────────────────┐

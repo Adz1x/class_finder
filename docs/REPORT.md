@@ -39,7 +39,7 @@ the one it replaced, and that makes a claim a reviewer can check.
 | Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 121 across three layers, plus 4 automated accessibility checks |
+| Tests | 122 across three layers, plus 4 automated accessibility checks |
 
 ---
 
@@ -342,6 +342,7 @@ Result: **21,238 of 21,408** meetings carry a real building name.
 |---|---|
 | The API lists no room | Shows the building, and says so once in the course view |
 | The snapshot does not carry an hour | Shows **unknown**, never "free" |
+| A block on the weekly grid | Starts on the hour line it names, and the now-line sits where the clock says it is |
 | A room is booked for several hours | Says **when it is free again**, not when the hour ends: "Free next at 4:00 PM", never "Booked until 11:00 AM" |
 | A room has no free hour left in the day | Says so, instead of a time that never comes |
 | The current hour is outside the published band | One banner says so, once, instead of 65 cards reading "unknown" |
@@ -377,10 +378,10 @@ specific.
 |---|---:|---|---|
 | **pytest** | 47 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the rooms-only rebuild, the per-campus split, the filter funnel | none — fixtures are committed |
 | **Vitest** | 53 | The application: time handling, term filtering, search, room states, the timetable layout, and the components — including "no invented room numbers" | none |
-| **Playwright** | 21 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the St. George and Scarborough classroom inventories, the St. George availability, the order the rooms are in, the API payload, keyboard operation | none — a production build, served locally |
+| **Playwright** | 22 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the St. George and Scarborough classroom inventories, the St. George availability, the order the rooms are in, the API payload, keyboard operation | none — a production build, served locally |
 | **axe-core** | 4 views | WCAG 2.1 AA violations in the classroom list, a course timetable, a classroom timetable and St. George | none |
 
-**121 tests, none of which touches the University of Toronto's servers.** CI
+**122 tests, none of which touches the University of Toronto's servers.** CI
 runs them in four jobs; the data-verification and payload-budget jobs need
 no network either.
 
@@ -444,7 +445,7 @@ npm run data:verify     # the dataset's invariants
 npm run data:size       # the payload budget
 npm run scraper:test    # 47 tests, offline
 npm test                # 53 tests, offline
-npm run test:e2e        # 21 tests, against a local production build
+npm run test:e2e        # 22 tests, against a local production build
 ```
 
 `data:verify` re-reads the per-campus files, unions them, and checks that

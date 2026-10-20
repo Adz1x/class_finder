@@ -62,6 +62,42 @@ test.describe("class & room finder", () => {
     await expect(page.getByText(/Room: MN \d/)).toHaveCount(0);
   });
 
+  test("the timetable lines up with its own hour labels", async ({ page }) => {
+    // 4:54 PM on the Monday the snapshot covers.
+    await page.clock.setFixedTime(new Date("2026-10-19T16:54:00"));
+    await page.goto("/#/room/UTM/IB%20335");
+    await page.waitForSelector(".hour-row");
+
+    const grid = await page.evaluate(() => {
+      const labels = [...document.querySelectorAll<HTMLElement>(".hour-row")]
+        .filter((el) => el.textContent?.trim())
+        .map((el) => ({
+          hour: el.textContent!.trim(),
+          top: el.getBoundingClientRect().top,
+        }));
+      const red = document.querySelector<HTMLElement>(".bg-rose-500.rounded-full");
+      const blocks = [
+        ...document.querySelectorAll<HTMLElement>(
+          ".relative.border-l > .absolute.rounded-lg",
+        ),
+      ].map((el) => el.getBoundingClientRect().top);
+      return { labels, redTop: red?.getBoundingClientRect().top ?? null, blocks };
+    });
+
+    const at = (hour: string) => grid.labels.find((l) => l.hour === hour)!.top;
+
+    // The now-line at 4:54 PM belongs between the 4 PM and 5 PM labels.
+    expect(grid.redTop).toBeGreaterThan(at("4 PM"));
+    expect(grid.redTop).toBeLessThan(at("5 PM"));
+
+    // Every block inside the grid starts on one of the hour lines.
+    const hourLines = grid.labels.map((label) => label.top);
+    const strays = grid.blocks.filter(
+      (top) => top >= 0 && !hourLines.some((line) => Math.abs(line - top) < 1.5),
+    );
+    expect(strays).toEqual([]);
+  });
+
   test("the rooms that free soonest come first, and say when they free", async ({
     page,
   }) => {

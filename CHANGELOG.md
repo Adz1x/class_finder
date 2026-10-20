@@ -69,6 +69,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   wrong: it named the end of the current hour, not the time the room
   actually frees. A room booked from ten to one reads "Free next at 1:00 PM",
   and a room with no free hour left in the day says so.
+- **The weekly grid lines up with itself.** The hour labels carried a
+  negative margin that quietly took eight pixels off every hour row, so
+  they drifted eight pixels an hour away from the blocks and the now-line
+  - by 4:54 PM, an hour. The lift is a transform now, so it cannot change
+  the layout.
 - **The rooms are ordered by when they free.** The one that is free now
   comes first, then the one that frees soonest, then the rooms with no
   known free hour left in the day.
@@ -87,7 +92,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Engineering
 
-- 121 tests across three layers: 47 pytest, 53 Vitest, 21 Playwright.
+- 122 tests across three layers: 47 pytest, 53 Vitest, 22 Playwright.
 
 ## [0.3.0] — 2026-10-20
 

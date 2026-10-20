@@ -44,9 +44,18 @@ export default function WeeklySchedule({
     timeLabels.push(
       <div
         key={`label-${hour}`}
-        className="hour-row pr-2 text-right text-[11px] text-slate-400 font-medium -mt-2 select-none"
+        className="hour-row pr-2 text-right text-[11px] text-slate-400 font-medium select-none flex items-start justify-end"
       >
-        {label}
+        {/*
+          The label sits on the line it names, so its text is lifted by half
+          its own height. The lift has to be a transform: a negative margin
+          would shorten the row, and the row's height is the grid's scale -
+          an hour is 60 pixels, and the blocks and the now-line are placed
+          on that scale. A margin that quietly took eight pixels off every
+          row would drift the labels away from everything else, eight
+          pixels an hour.
+        */}
+        <span className="-translate-y-1/2">{label}</span>
       </div>,
     );
     backgroundLines.push(
