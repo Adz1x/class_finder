@@ -87,6 +87,34 @@ class ClassMeeting:
             "room": self.room,
         }
 
+    @classmethod
+    def from_json(cls, row: dict[str, Any]) -> "ClassMeeting":
+        """Read a meeting back from the dataset.
+
+        The inverse of `to_json`, so a committed dataset can be re-read
+        without refetching the catalogue.
+        """
+        return cls(
+            course_code=row["courseCode"],
+            course_title=row["courseTitle"],
+            section_name=row["sectionName"],
+            section_type=row["sectionType"],
+            section_number=row["sectionNumber"],
+            teach_method=row["teachMethod"],
+            instructors=tuple(row.get("instructors") or ()),
+            campus=row["campus"],
+            campus_key=row["campusKey"],
+            faculty_code=row["facultyCode"],
+            session=row["session"],
+            session_code=row["sessionCode"],
+            day=row["day"],
+            start=row["start"],
+            end=row["end"],
+            building_code=row["buildingCode"],
+            building_name=row["buildingName"],
+            room=row.get("room"),
+        )
+
 
 @dataclass(frozen=True)
 class Room:

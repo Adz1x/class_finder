@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "data:build": "cd scraper && uv run uoft-scraper build --out ../data",
+    "data:rooms": "cd scraper && uv run uoft-scraper rebuild-rooms --data ../data",
     "data:verify": "cd scraper && uv run uoft-scraper verify --data ../data",
     "data:size": "node scripts/check-payload-size.mjs",
     "screenshots": "node scripts/capture-screenshots.mjs",

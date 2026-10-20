@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import sys
 from pathlib import Path
 from typing import Sequence
 
 from .api import DEFAULT_BASE_URL, DEFAULT_SESSIONS, TtbClient
-from .build import build_dataset, write_dataset
+from .build import BuildResult, build_dataset, write_dataset
 from .metis import load_snapshot
+from .models import ClassMeeting, Snapshot
 from .parse import measure_funnel
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -64,6 +66,82 @@ def _build(args: argparse.Namespace) -> int:
     if snapshot.course_rows_fetched != snapshot.course_rows_expected:
         print("FAILED: incomplete fetch", file=sys.stderr)
         return 1
+    return 0
+
+
+def _rebuild_rooms(args: argparse.Namespace) -> int:
+    """Rebuild the dataset with a new space database snapshot.
+
+    The timetable and the space database have different clocks. The
+    timetable is the whole catalogue and changes when the University
+    changes it; the space database publishes one week at a time and is
+    re-captured weekly. Refetching 370 pages of the timetable to swap one
+    week of room occupancy would be wasteful and would put load on the
+    University's servers for no reason, so this command keeps the committed
+    catalogue and replaces only the rooms and the snapshot provenance.
+    """
+    data_dir = Path(args.data)
+    metis = load_snapshot(args.metis)
+
+    campus_dir = data_dir / "campus"
+    rows: list[dict] = []
+    for path in sorted(campus_dir.glob("*.json")):
+        rows.extend(json.loads(path.read_text(encoding="utf-8")))
+
+    committed = json.loads((data_dir / "meta.json").read_text(encoding="utf-8"))
+    if committed["classMeetings"] != len(rows):
+        print(
+            f"FAILED: meta says {committed['classMeetings']} class meetings but "
+            f"the campus files hold {len(rows)}",
+            file=sys.stderr,
+        )
+        return 1
+
+    snapshot = Snapshot(
+        generated_at=dt.datetime.now(dt.timezone.utc).isoformat(),
+        sessions=tuple(committed["sessions"]),
+        snapshot_week_start=metis.week_start,
+        snapshot_week_end=metis.week_end,
+        snapshot_week_days=tuple(sorted(metis.days)),
+        course_rows_fetched=committed["courseRowsFetched"],
+        course_rows_expected=committed["courseRowsExpected"],
+        class_meetings=len(rows),
+        rooms=len(metis.rooms),
+        meetings_with_published_room=committed["meetingsWithPublishedRoom"],
+        divisions=tuple(committed["divisions"]),
+        source_urls=committed["sourceUrls"],
+        raw_meeting_times_seen=committed.get("rawMeetingTimesSeen", 0),
+        filter_funnel=committed.get("filterFunnel", {}),
+        campus_breakdown=committed.get("campusBreakdown", {}),
+    )
+
+    result = BuildResult(
+        meetings=[ClassMeeting.from_json(row) for row in rows],
+        rooms=list(metis.rooms),
+        snapshot=snapshot,
+        divisions=list(committed["divisions"]),
+        faculty_breakdown=committed.get("facultyBreakdown", {}),
+    )
+    paths = write_dataset(result, data_dir)
+
+    missing = sorted({hour for room in metis.rooms for hour in room.hours_missing})
+    print("=" * 68)
+    print("ROOMS REBUILT (catalogue unchanged)")
+    print("=" * 68)
+    print(
+        f"  metis snapshot week : {snapshot.snapshot_week_start} .. "
+        f"{snapshot.snapshot_week_end} "
+        f"(weekdays {list(snapshot.snapshot_week_days)})"
+    )
+    print(f"  class meetings      : {snapshot.class_meetings} (unchanged)")
+    print(f"  rooms in inventory  : {snapshot.rooms}")
+    print(
+        "  hours the source does not publish : "
+        + (", ".join(f"{hour:02d}:00" for hour in missing) if missing else "none")
+    )
+    for name, path in paths.items():
+        print(f"  wrote {name:<14} -> {path} ({path.stat().st_size / 1024:.0f} KB)")
+    print("=" * 68)
     return 0
 
 
@@ -310,6 +388,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     build.add_argument("--max-workers", type=int, default=8)
     build.set_defaults(func=_build)
+
+    rebuild = sub.add_parser(
+        "rebuild-rooms",
+        help="replace the rooms with a new space database snapshot, keeping the catalogue",
+    )
+    rebuild.add_argument("--data", default=str(DEFAULT_OUT), help="dataset directory")
+    rebuild.add_argument("--metis", default=str(DEFAULT_METIS), help="Metis space database")
+    rebuild.set_defaults(func=_rebuild_rooms)
 
     verify = sub.add_parser("verify", help="check the generated dataset")
     verify.add_argument("--data", default=str(DEFAULT_OUT), help="dataset directory")

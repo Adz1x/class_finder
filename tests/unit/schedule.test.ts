@@ -155,10 +155,17 @@ describe("room availability", () => {
     expect(roomStateAt(mn2100, 1, 9)).toBe("busy");
   });
 
-  it("treats the unpublished 13:00 hour as unknown, never free", () => {
+  it("publishes 13:00, which the first capture left out", () => {
     const mn2100 = sampleRooms[0];
-    expect(roomStateAt(mn2100, 1, 13)).toBe("unknown");
-    expect(roomStateAt(mn2100, 1, 11)).toBe("unknown");
+    // The space database's own time selector omits 13:00, and the first
+    // capture copied that list. The source publishes 1 PM quite happily.
+    expect(roomStateAt(mn2100, 1, 13)).toBe("busy");
+  });
+
+  it("treats an hour outside the published band as unknown, never free", () => {
+    const mn2100 = sampleRooms[0];
+    expect(roomStateAt(mn2100, 1, 6)).toBe("unknown");
+    expect(roomStateAt(mn2100, 1, 21)).toBe("unknown");
   });
 
   it("treats a day the snapshot does not cover as unknown", () => {
@@ -187,7 +194,9 @@ describe("room availability", () => {
   });
 
   it("describes an unknown hour honestly", () => {
-    const status = roomStatusAt(sampleRooms[0], getLiveTimeContext(new Date(2026, 9, 19, 13, 5)));
+    // 06:05 is before the published band, so the source has nothing to say
+    // about it and the room reads as unknown rather than free.
+    const status = roomStatusAt(sampleRooms[0], getLiveTimeContext(new Date(2026, 9, 19, 6, 5)));
     expect(status.state).toBe("unknown");
     expect(status.statusTitle).toBe("Unknown");
     expect(status.nextFreeText).toMatch(/not published/i);

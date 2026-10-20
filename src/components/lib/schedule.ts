@@ -200,7 +200,7 @@ export function searchCourseCodes(
 /**
  * The hours the space database publishes at all, sorted.
  *
- * The Metis snapshot covers a band of hours and omits 13:00, so "the current
+ * The snapshot covers a band of hours - 07:00 to 20:00 - so "the current
  * hour" is often simply not in the data. Knowing the published band lets the
  * UI say so once, instead of repeating "unknown" on every room card.
  */
@@ -225,12 +225,11 @@ export function formatHour(hour: number): string {
 }
 
 /**
- * "7:00 AM – 12:00 PM and 2:00 PM – 8:00 PM" for a list of whole hours.
+ * "7:00 AM – 8:00 PM" for a list of whole hours.
  *
- * The published hours are not always continuous - the space database omits
- * 13:00 - so a single range would claim an hour the data does not have.
- * Each run of consecutive hours is described separately, which shows the gap
- * instead of hiding it.
+ * The published hours are not always continuous - a capture that skipped an
+ * hour would leave a gap - so each run of consecutive hours is described
+ * separately. A single range would claim an hour the data does not have.
  */
 export function formatHourRange(hours: number[]): string {
   if (!hours.length) return "";
@@ -263,8 +262,8 @@ export function nextPublishedHour(hours: number[], hour: number): number | null 
 /**
  * Availability of a room at a given hour.
  *
- * The UTM space database publishes a per-hour snapshot, and omits the 13:00
- * hour entirely. An omitted hour is **unknown**, never "free".
+ * The UTM space database publishes a per-hour snapshot. An hour the snapshot
+ * does not carry is **unknown**, never "free" - the two are different facts.
  */
 export function roomStateAt(
   room: Room,

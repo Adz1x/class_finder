@@ -8,6 +8,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Data
 
+- **The 1 PM hole was ours, not the University's.** The Classroom Space
+  Database's own time selector omits 13:00, and the first capture iterated
+  that selector - so the snapshot could never contain 1 PM, and the app
+  reported the missing hour as a fact about the University. The server
+  publishes 13:00 perfectly well: `POST /space/index.php` with
+  `time_par=13` returns real rows, and `duration=2` renders a window of
+  `01:00 PM -> 03:00 PM`, which can only exist if 13:00 is a real hour.
+  The timetable agrees - 774 UTM classes start at 1 PM, more than at 2 PM.
+  The snapshot was recaptured for the current week with 13:00 included, and
+  the published band is now 07:00-20:00 with no gap.
+- **`uoft-scraper rebuild-rooms`**: the timetable and the space database
+  have different clocks, so a new week of room occupancy no longer means
+  refetching 370 pages of the catalogue. The command keeps the committed
+  catalogue and replaces only the rooms and the snapshot provenance, and it
+  refuses to run if the dataset's own numbers do not add up.
 - **The St. George classroom inventory.** UofT Space Management publishes
   every classroom of every St. George building, with the number of students
   it seats. The app now lists all **334 of them in 40 buildings**
@@ -46,7 +61,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Engineering
 
-- 109 tests across three layers: 44 pytest, 48 Vitest, 17 Playwright.
+- 114 tests across three layers: 47 pytest, 49 Vitest, 18 Playwright.
 
 ## [0.3.0] — 2026-10-20
 

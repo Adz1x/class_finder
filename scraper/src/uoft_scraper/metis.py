@@ -10,9 +10,19 @@ Two properties of the data are handled carefully:
 
 * The snapshot covers a single week. The weekday of each date is derived
   from the ISO date itself — no hard-coded date-to-weekday table.
-* The Metis form has no row for 13:00, so the occupancy of the 13:00 hour
-  is **unknown**, not "free". Missing hours are reported in the dataset so
-  the UI can say so instead of silently claiming a room is available.
+* An hour the snapshot does not carry is **unknown**, not "free". The
+  University emits a "no rooms available" row for an hour it knows about
+  but has nothing free for, so an *absent* hour is a gap in the capture
+  rather than a fact about the room. Missing hours are reported in the
+  dataset so the UI can say so instead of silently claiming a room is
+  available.
+
+That second rule earned its keep. The first capture of this data copied
+the hour list from the space database's own time selector, and that
+selector omits 13:00 — so the snapshot had a hole at 1 PM and the hole was
+reported as a fact about the University. The server publishes 13:00 quite
+happily; the capture simply never asked for it. The published band is
+07:00–20:00 with no gap in it.
 """
 
 from __future__ import annotations
@@ -95,8 +105,10 @@ def parse_metis(raw: dict[str, Any]) -> MetisSnapshot:
         for room in all_rooms:
             occupancy[room][weekday][hour] = room not in free
 
-    # Hours the Metis form does not publish at all (13:00 in the 2026-27
-    # Fall snapshot). Their occupancy is unknown, not free.
+    # Hours the snapshot does not carry at all. Their occupancy is unknown,
+    # not free: the University answers an hour it knows about with a "no
+    # rooms available" row, so a missing hour means the hour was never
+    # asked for.
     all_hours = sorted({hour for hours in hours_by_day.values() for hour in hours})
     missing = tuple(
         hour

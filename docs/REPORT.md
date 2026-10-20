@@ -123,7 +123,10 @@ because the answer is a fact about the University:
 | **"Calendar of Availability"**, `lsm.utoronto.ca/webapp/f?p=200` | The St. George availability calendar, linked from the classroom app | **Withdrawn.** "Could not determine workspace for application (200)". The button that pointed at it is commented out in the page source. |
 | **Privacy-Synchronous Space Finder**, `lsm.utoronto.ca/syncstudy.html` | The St. George empty-classroom finder | The data exists and the app uses it, but it ships as an iOS/Android application with no public feed. |
 | **Scarborough classroom schedule**, `intranet.utsc.utoronto.ca` | The Scarborough classroom calendar, linked from the Registrar's room information page | **Behind a UTORid login.** |
-| **Scarborough classroom details**, `utsc.utoronto.ca/iits/classroom-support` | A Scarborough classroom inventory | Public, but a list of rooms, not a schedule. |
+| **Scarborough classroom details**, `utsc.utoronto.ca/iits/classroom-support` | A Scarborough classroom inventory | **Found and used.** 71 classrooms in 10 buildings, with capacity, room type, AV features and accessibility. |
+| **Scarborough room finder**, `intranet2/s2/classes/roomfinder.action` | A room finder, and the calendar's sibling | The action exists but every path under `/intranet2/s2/` redirects to the login - including a path that does not exist at all, so probing cannot distinguish a real action from a miss. |
+| **Scarborough calendar feed**, `intranet2/s2/services/ctlfeed.action` | A server-rendered feed of room bookings | The URL is recoverable from the Internet Archive's index of real requests, and an archived 2021 copy of it renders bookings with their times. No archived copy of the *calendar* content exists, and the feed itself needs a session. |
+| **The Scarborough stack**, from an archived error page | The shape of the data behind the calendar | Apache Struts 2, MyBatis, PostgreSQL, and a `reservations` table joined to an `events` row and a `resourceid` that is the room - with `resourceid = 0` as the pseudo-resource and `resstate = 1` meaning reserved. |
 | **Concept3D campus map**, `map.utoronto.ca` | The map the timetable links each building to | Wayfinding only. Its API is `api.concept3d.com` and its bundle contains no schedule, occupancy or booking endpoint. |
 | **Room reservation**, `lsm.utoronto.ca/webapp/f?p=220` | The room booking system | A request form, not a calendar. |
 | `classrooms.utoronto.ca`, `bookings.utoronto.ca`, `rooms.utoronto.ca`, `space.utoronto.ca`, `facilities.utoronto.ca`, `metis.utsg.utoronto.ca`, `metis.utsc.utoronto.ca` | A per-campus room system | **Do not resolve.** Each was checked against hosts that do respond, so the failure is the name, not the method. |
@@ -133,16 +136,66 @@ The conclusion is therefore a fact about the University rather than about
 this project:
 
 > The University publishes room-level classroom availability for
-> Mississauga, and a classroom *inventory* for St. George. It publishes no
-> room-level availability for St. George or Scarborough through any open
-> channel.
+> Mississauga, and a classroom *inventory* for St. George and Scarborough.
+> It publishes no room-level availability for St. George or Scarborough
+> through any open channel.
 
 So for those campuses the application publishes the two things that *are*
-open: the complete class timetable, and — from Space Management — the real
-classrooms of every St. George building with their capacities. What the
-application adds is the join a student would otherwise have to make by hand:
-how many classes are running in each building right now, and an ordering that
-puts the quietest buildings first.
+open: the complete class timetable, and the real classrooms of every
+St. George and Scarborough building with their capacities — 334 and 71 of
+them, from two different University services. What the application adds is
+the join a student would otherwise have to make by hand: how many classes
+are running in each building right now.
+
+The Scarborough schedule deserves one more note, because it is the closest
+this project came. The intranet's URL space was recovered from the Internet
+Archive's index of real requests — a calendar, a room finder, a booking feed
+and a booking detail — and an archived error page leaked the stack behind
+it. What the archive does not hold is a single copy of the calendar's
+content, and the live application needs a UTORid that a separate Keycloak
+realm refuses. The timetable API was checked again for Scarborough rooms:
+4,059 meetings, every `buildingRoomNumber` empty.
+
+### 2.5 The 1 PM hole was ours
+
+The first version of this report carried this sentence: *"The published hours
+are a band. 07:00–12:00 and 14:00–20:00, with 13:00 omitted."* It was
+presented as a fact about the University, and the application repeated it to
+the user. It was a fact about a capture.
+
+The space database is a server-rendered PHP page. Its own time selector
+offers `07, 08, 09, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20` — **13 is not in
+the list**. The first capture iterated the selector and asked for exactly the
+hours it offered, so the snapshot could never contain 1 PM, and the parser
+faithfully reported the missing hour as *unknown*. The application then said,
+with a straight face, that the University does not publish 1 PM.
+
+The server has no such opinion. Asked directly:
+
+```http
+POST https://metis.utm.utoronto.ca/space/index.php
+Content-Type: application/x-www-form-urlencoded
+
+date_par=2026-10-20&building_par=All&time_par=13&duration=1
+```
+
+it answers with a real row — `KN 137`, `01:00 PM -> 02:00 PM` — and with
+`duration=2` it renders a window of `01:00 PM -> 03:00 PM`, which can only
+exist if 13:00 is a first-class hour of its own.
+
+The timetable says the same thing from the other direction. **774 UTM class
+meetings start at 1:00 PM** — more than start at 2:00 PM (439) and nearly as
+many as at 11:00 AM (707). 1:00 PM is one of the busiest hours of the
+teaching day. A grid with a hole there is not a property of the day; it is a
+property of the request.
+
+The fix was to ask for the hours instead of copying the page's list. The
+snapshot was recaptured for the current week with 13:00 included, and the
+published band is now **07:00–20:00 with no gap in it**.
+
+The lesson is the one this project keeps learning: *the absence of a value
+in your dataset is not evidence about the world.* It was reported as a fact
+about the University for a fortnight.
 
 ---
 
@@ -221,10 +274,14 @@ that it adds up.
   never reconstructed.
 - **The Metis weekday is derived from the ISO date**, not from the order the
   hours happen to appear in.
-- **An hour the source omits is unknown, not free.** The snapshot publishes
-  07:00–12:00 and 14:00–20:00; it omits 13:00 entirely. A room at 13:00 is
-  reported as *unknown*, never as *free*, because "the database does not
-  say" and "nobody is in it" are different facts.
+- **An hour the snapshot does not carry is unknown, not free.** The
+  University answers an hour it knows about with a "no rooms available" row,
+  so an *absent* hour means the hour was never asked for. A room in an
+  absent hour is reported as *unknown*, never as *free*, because "the
+  database does not say" and "nobody is in it" are different facts. The
+  snapshot now carries every hour from 07:00 to 20:00, so nothing is
+  missing — but the rule stays, because it is what would catch the next
+  capture that drops an hour.
 
 ### 3.4 Building names
 
@@ -250,7 +307,7 @@ Result: **21,238 of 21,408** meetings carry a real building name.
 | Situation | What the interface does |
 |---|---|
 | The API lists no room | Shows the building, and says so once in the course view |
-| The space database omits an hour (13:00) | Shows **unknown**, never "free" |
+| The snapshot does not carry an hour | Shows **unknown**, never "free" |
 | The current hour is outside the published band | One banner says so, once, instead of 65 cards reading "unknown" |
 | A building has no published name | Shows the code, not a guess |
 | The campus has no occupancy data | Lists the classrooms that are published, and how busy each building is |
@@ -405,10 +462,10 @@ application's job is to make them visible rather than to hide them.
    booked yesterday, and it will not know about changes until the dataset is
    regenerated.
 
-4. **The published hours are a band.** 07:00–12:00 and 14:00–20:00, with
-   13:00 omitted — the space database returns no 13:00 row for any of the
-   five days in the snapshot. At any other hour the honest answer is
-   "unknown".
+4. **The published hours are a band.** 07:00–20:00, with no gap in it. At
+   any other hour — 6 AM, 10 PM — the honest answer is "unknown". The
+   snapshot covers one week; the space database serves only the current
+   week, so a capture of last week cannot be refreshed.
 
 5. **Six building codes have no published name**: `AM` (1 meeting), `RO` (6),
    `ZO` (11), `BY` (24), `UY` (27), `TL` (101). Together, 170 of 21,408

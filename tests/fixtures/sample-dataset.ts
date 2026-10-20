@@ -31,11 +31,30 @@ function room(overrides: Partial<Room> = {}): Room {
     buildingName: "Maanjiwe Nendamowinan",
     capacity: "60",
     campusKey: "UTM",
+    // The published band, 07:00 to 20:00, with no hole in it. The first
+    // capture of this data copied the hour list from the space database's
+    // own time selector, which omits 13:00, and the hole was reported as a
+    // fact about the University. It was a fact about the capture.
     occupancy: {
-      1: { 7: false, 8: false, 9: true, 12: true, 14: false },
+      1: {
+        7: false,
+        8: false,
+        9: true,
+        10: false,
+        11: true,
+        12: true,
+        13: true,
+        14: false,
+        15: true,
+        16: true,
+        17: true,
+        18: true,
+        19: false,
+        20: false,
+      },
       2: { 9: false },
     },
-    hoursMissing: [13],
+    hoursMissing: [],
     ...overrides,
   };
 }
@@ -43,8 +62,8 @@ function room(overrides: Partial<Room> = {}): Room {
 const meta: Meta = {
   generatedAt: "2026-10-19T21:40:41.833805+00:00",
   sessions: ["20269", "20271"],
-  snapshotWeekStart: "2026-09-30",
-  snapshotWeekEnd: "2026-10-06",
+  snapshotWeekStart: "2026-10-19",
+  snapshotWeekEnd: "2026-10-23",
   snapshotWeekDays: [1, 2, 3, 4, 5],
   courseRowsFetched: 7383,
   courseRowsExpected: 7383,
