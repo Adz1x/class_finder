@@ -240,6 +240,7 @@ scripts/
   fetch-utsg-classrooms.mjs # refreshes the St. George classroom inventory
   fetch-utsc-classrooms.mjs # refreshes the Scarborough classroom inventory
   fetch-utsg-availability.mjs # refreshes the St. George room availability
+  auth-lsm-cookies.mjs    # signs in to Space Management, saves the session
 ```
 
 Three decisions worth calling out:
@@ -314,6 +315,7 @@ whether the wording makes sense.
 | `npm run screenshots` | Re-capture the images in `docs/images/` |
 | `node scripts/fetch-utsg-classrooms.mjs` | Refresh the St. George classroom inventory |
 | `node scripts/fetch-utsc-classrooms.mjs` | Refresh the Scarborough classroom inventory |
+| `node scripts/auth-lsm-cookies.mjs` | Sign in to Space Management and save the session for the captures |
 | `node scripts/fetch-utsg-availability.mjs` | Refresh the St. George room availability (needs a signed-in session) |
 
 ## Data and attribution

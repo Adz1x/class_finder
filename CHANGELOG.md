@@ -36,6 +36,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the source it came from, because the source is not the same for every
   campus: Mississauga publishes a classroom space database, St. George
   publishes the booking portal's room list, Scarborough publishes neither.
+- **`scripts/auth-lsm-cookies.mjs`**: the sign-on's session cookie is a
+  browser *session* cookie, so it does not survive the browser closing and
+  the profile cannot keep it. The capture needs it as a cookie jar, so the
+  helper signs in, writes the jar to the home directory and exits. Nothing
+  is typed by the script and no password is written down.
 - **The St. George classroom inventory.** UofT Space Management publishes
   every classroom of every St. George building, with the number of students
   it seats. The app now lists all **334 of them in 40 buildings**
