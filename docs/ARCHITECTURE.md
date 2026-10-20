@@ -168,7 +168,7 @@ reads it to check that the campus files still add up.
                  │  Vitest · 45 tests        │  logic and components
                  └───────────────────────────┘
                  ┌───────────────────────────┐
-                 │  pytest · 38 tests        │  the data contract
+                 │  pytest · 39 tests        │  the data contract
                  └───────────────────────────┘
 ```
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 
 from uoft_scraper.api import TtbClient
-from uoft_scraper.build import build_dataset, write_dataset
+from uoft_scraper.build import BuildResult, build_dataset, write_dataset
 from uoft_scraper.metis import parse_metis
 from uoft_scraper.parse import parse_courses
 
@@ -165,6 +165,33 @@ def test_the_dataset_is_written_one_file_per_campus(
         path.stem: len(json.loads(path.read_text(encoding="utf-8")))
         for path in files
     }
+
+
+def test_the_written_dataset_is_deterministic(tmp_path, page_001, isp100h5, metis_sample):
+    """The same catalogue must produce the same bytes.
+
+    The API returns rows in a different order on every run, and the scraper
+    fetches them in parallel, so without a sort every rebuild would produce
+    a different file and `git diff` would be useless.
+    """
+    client = make_client(page_001, isp100h5)
+    result = build_dataset(client, parse_metis(metis_sample))
+
+    shuffled = BuildResult(
+        meetings=list(reversed(result.meetings)),
+        rooms=result.rooms,
+        snapshot=result.snapshot,
+        divisions=result.divisions,
+        faculty_breakdown=result.faculty_breakdown,
+    )
+
+    write_dataset(result, tmp_path / "a")
+    write_dataset(shuffled, tmp_path / "b")
+
+    written = sorted((tmp_path / "a" / "campus").glob("*.json"))
+    assert written
+    for path in written:
+        assert path.read_bytes() == (tmp_path / "b" / "campus" / path.name).read_bytes()
 
 
 def test_the_raw_meeting_time_count_is_recorded(page_001, isp100h5, metis_sample):

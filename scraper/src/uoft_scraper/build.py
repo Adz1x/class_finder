@@ -116,6 +116,27 @@ def build_dataset(
     )
 
 
+def _sort_key(row: dict[str, Any]) -> tuple[Any, ...]:
+    """A total order for a class meeting.
+
+    The API returns rows in whatever order the pages come back, and the
+    scraper fetches them in parallel, so the same catalogue produces a
+    different order on every run. Sorting makes the written dataset
+    byte-for-byte reproducible, which turns "did the data change?" into a
+    question `git diff` can answer.
+    """
+    return (
+        row["courseCode"],
+        row["sessionCode"],
+        row["sectionName"],
+        row["day"],
+        row["start"],
+        row["end"],
+        row["buildingCode"],
+        row["room"] or "",
+    )
+
+
 def write_dataset(result: BuildResult, out_dir: str | Path) -> dict[str, Path]:
     """Write the dataset, split per campus, and return the paths written."""
     out = Path(out_dir)
@@ -135,7 +156,7 @@ def write_dataset(result: BuildResult, out_dir: str | Path) -> dict[str, Path]:
     for key in sorted(by_campus):
         path = campus_dir / f"{key}.json"
         path.write_text(
-            json.dumps(by_campus[key], separators=(",", ":")),
+            json.dumps(sorted(by_campus[key], key=_sort_key), separators=(",", ":")),
             encoding="utf-8",
         )
         paths[f"campus:{key}"] = path

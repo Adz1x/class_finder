@@ -39,7 +39,7 @@ the one it replaced, and that makes a claim a reviewer can check.
 | Classrooms | 65 real UTM classrooms with published per-hour occupancy |
 | Invented values | **0** |
 | First load | **87 KB** (was 8.3 MB) |
-| Tests | 98 across three layers, plus 4 automated accessibility checks |
+| Tests | 99 across three layers, plus 4 automated accessibility checks |
 
 ---
 
@@ -232,12 +232,12 @@ specific.
 
 | Layer | Tests | Protects | Network |
 |---|---:|---|---|
-| **pytest** | 38 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the per-campus split, the filter funnel | none — fixtures are committed |
+| **pytest** | 39 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the per-campus split, the filter funnel | none — fixtures are committed |
 | **Vitest** | 45 | The application: time handling, term filtering, search, room states, the timetable layout, and the components — including "no invented room numbers" | none |
 | **Playwright** | 15 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the API payload, keyboard operation | none — a production build, served locally |
 | **axe-core** | 4 views | WCAG 2.1 AA violations in the classroom list, a course timetable, a classroom timetable and St. George | none |
 
-**98 tests, none of which touches the University of Toronto's servers.** CI
+**99 tests, none of which touches the University of Toronto's servers.** CI
 runs them in four jobs; the data-verification and payload-budget jobs need
 no network either.
 
@@ -299,7 +299,7 @@ Every figure in this report can be checked:
 ```bash
 npm run data:verify     # the dataset's invariants
 npm run data:size       # the payload budget
-npm run scraper:test    # 38 tests, offline
+npm run scraper:test    # 39 tests, offline
 npm test                # 45 tests, offline
 npm run test:e2e        # 15 tests, against a local production build
 ```
@@ -308,6 +308,24 @@ npm run test:e2e        # 15 tests, against a local production build
 they add up to the totals in `meta.json` exactly, that no meeting carries a
 room the source did not publish, that there are no duplicates, and that the
 filter funnel adds up.
+
+**The dataset is byte-for-byte reproducible.** Re-running the scraper
+against the live API produces files whose SHA-256 digests match the
+committed ones exactly:
+
+```
+UTM        80330865dc8e6ccd  ==  80330865dc8e6ccd
+UTSG       e336af8e3665b9f3  ==  e336af8e3665b9f3
+UTSC       539265e2d86ab360  ==  539265e2d86ab360
+SHERIDAN   499cc324c6a31d3b  ==  499cc324c6a31d3b
+rooms      IDENTICAL
+```
+
+That needed one change: the API returns rows in a different order on every
+run, and the scraper fetches pages in parallel, so the same catalogue
+produced a different file every time. The meetings are now sorted by a
+total order before they are written, which turns "did the data change?"
+into a question `git diff` can answer.
 
 ---
 

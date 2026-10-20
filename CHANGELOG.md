@@ -66,7 +66,7 @@ covered by an automated test pyramid.
 
 ### Engineering
 
-- 98 tests across three layers: 38 pytest, 45 Vitest, 15 Playwright.
+- 99 tests across three layers: 39 pytest, 45 Vitest, 15 Playwright.
 - Four CI jobs on GitHub Actions. None of them touches the UofT API.
 - `npm run data:verify` checks the dataset's invariants, including that the
   per-campus files add up to the totals and that no meeting carries a room

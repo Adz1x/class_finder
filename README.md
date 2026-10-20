@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-98%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-99%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -67,7 +67,7 @@ tidy behind a compact picker.
 | Classrooms | 65 real UTM classrooms with published per-hour occupancy |
 | Invented values | **0** |
 | First load | **87 KB** (was 8.3 MB) |
-| Tests | 98 across three layers, plus 4 automated accessibility checks |
+| Tests | 99 across three layers, plus 4 automated accessibility checks |
 
 ## The part that matters: it does not make things up
 
@@ -192,7 +192,7 @@ scraper/
     metis.py                # space database -> rooms + occupancy
     build.py                # assembly + provenance, split per campus
     cli.py                  # `build` and `verify`
-  tests/                    # 38 pytest tests + committed API fixtures
+  tests/                    # 39 pytest tests + committed API fixtures
 tests/
   unit/                     # 45 Vitest tests
   e2e/                      # 15 Playwright tests
@@ -215,7 +215,7 @@ crosses 150 KB, so the win cannot quietly be given back.
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 45 of the 98 tests are fast and deterministic.
+why 45 of the 99 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -225,7 +225,7 @@ publish, that there are no duplicates. It runs in CI.
 ## Testing
 
 ```bash
-npm run scraper:test   # 38 pytest  - saved API fixtures, no network
+npm run scraper:test   # 39 pytest  - saved API fixtures, no network
 npm test               # 45 Vitest  - pure logic + React components
 npm run test:e2e       # 15 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
