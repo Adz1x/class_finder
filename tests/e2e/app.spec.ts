@@ -80,10 +80,27 @@ test.describe("class & room finder", () => {
     await expect(page.getByText("610 · 251")).toBeVisible();
   });
 
-  test("every building says how many classes are running in it", async ({
+  test("Scarborough lists the classrooms the University publishes", async ({
     page,
   }) => {
     await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
+    await page.goto("/");
+    await page.getByRole("button", { name: "UTSC" }).click();
+
+    // 71 classrooms in 10 buildings, from the Registrar's room information
+    // page and the IITS classroom specifications.
+    await expect(
+      page.getByText(/71 classrooms are listed for Scarborough/i),
+    ).toBeVisible();
+
+    // A real classroom of a real building, with the capacity it seats.
+    await expect(page.getByText(/Classrooms in IA/i)).toBeVisible();
+    await expect(page.getByText("IA-B1010 · 36")).toBeVisible();
+  });
+
+  test("every building says how many classes are running in it", async ({
+    page,
+  }) => {    await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
     await page.goto("/");
 
     // The closest published thing to availability on a campus without it.

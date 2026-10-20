@@ -38,6 +38,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   space here" on the campuses where the University publishes no occupancy.
 - **The St. George tab now shows real classrooms** - the building's
   classrooms and their capacities - instead of only a class schedule.
+- **The Scarborough tab has its real classrooms too** - 71 of them in 10
+  buildings, from the IITS classroom specifications: room number, capacity,
+  room type, features and accessibility.
 - **The building order control is gone.** The buildings are ordered by how
   many classes they have, as they always were.
 

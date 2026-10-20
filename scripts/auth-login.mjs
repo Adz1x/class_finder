@@ -41,19 +41,24 @@ const TARGETS = [
     url: "https://metis.utm.utoronto.ca/space/",
     // Signed in when the app itself is on screen, not the SSO page.
     signedIn: () =>
-      !location.href.includes("idp") && !location.href.includes("login"),
+      !/idp|login|sso/i.test(location.href) &&
+      /Log Out|Space Database/i.test(document.body.innerText),
     expect: "the space database",
   },
   {
     name: "St. George Space Management portal",
     url: "https://lsm.utoronto.ca/lsm_portal",
-    signedIn: () => !location.href.includes("login") && !location.href.includes("idp"),
+    signedIn: () =>
+      !/login|idp|sso/i.test(location.href) &&
+      !/Log in to your account/i.test(document.body.innerText),
     expect: "the LSM portal",
   },
   {
     name: "Scarborough classroom calendar",
     url: "https://intranet.utsc.utoronto.ca/intranet2/s2/calendar/show.action?filter=-4",
-    signedIn: () => !location.href.includes("login") && !location.href.includes("sso1"),
+    signedIn: () =>
+      !/login|sso1|idp/i.test(location.href) &&
+      !/Sign in to your account/i.test(document.body.innerText),
     expect: "the classroom calendar",
   },
 ];
