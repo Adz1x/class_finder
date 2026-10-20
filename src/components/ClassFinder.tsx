@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import WeeklySchedule from "./WeeklySchedule";
 import {
   buildingSummaries,
@@ -8,15 +8,18 @@ import {
   filterByTerm,
   findCourseMeetings,
   format12Hour,
+  formatHourRange,
   getLiveTimeContext,
   layoutLanes,
   nextClassInBuilding,
   normalizeCode,
+  publishedHours,
   roomStatusAt,
   searchCourseCodes,
   timeToMinutes,
 } from "./lib/schedule";
 import type {
+  CampusPayload,
   ClassMeeting,
   Dataset,
   Room,
@@ -31,6 +34,9 @@ type Route =
   | { mode: "building"; campus: string; id: string };
 
 const CAMPUSES = ["UTM", "UTSG", "UTSC"] as const;
+
+/** How many building chips to show before the rest move into a dropdown. */
+const MAX_BUILDING_CHIPS = 8;
 
 /** Deterministic stand-in for the clock during prerender. */
 const PLACEHOLDER_TIME = new Date(0);
@@ -50,6 +56,7 @@ function parseHash(hash: string): Route {
 export default function ClassFinder() {
   const [data, setData] = useState<Dataset | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadingCampus, setLoadingCampus] = useState(false);
   // The clock is read in an effect rather than during render: Next.js
   // prerenders this route and treats `new Date()` in render as an unstable
   // value that would freeze on the server.
@@ -67,25 +74,55 @@ export default function ClassFinder() {
   const ctx = useMemo(() => getLiveTimeContext(now ?? PLACEHOLDER_TIME), [now]);
   const activeTerm = viewTerm ?? ctx.term;
 
+  // A deep link names its campus, so that is the campus whose data has to be
+  // on screen. The tab follows the link rather than the other way round.
+  const activeCampus = route.mode === "list" ? campus : route.campus;
+
   // ------------------------------------------------------------------ data
+
+  // The dataset is stored one file per campus and only the campus on screen
+  // is fetched - the whole catalogue is 8.3 MB and the default campus is a
+  // fifth of that. A campus that has been visited is kept in memory, so
+  // moving back and forth between tabs costs nothing.
+  const cache = useRef(new Map<string, Dataset>());
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/schedule")
+    const cached = cache.current.get(activeCampus);
+    if (cached) {
+      setData(cached);
+      setLoadingCampus(false);
+      setLoadError(null);
+      return;
+    }
+
+    setLoadingCampus(true);
+    fetch(`/api/schedule/${encodeURIComponent(activeCampus)}`)
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
+        return response.json() as Promise<CampusPayload>;
       })
-      .then((json: Dataset) => {
-        if (!cancelled) setData(json);
+      .then((payload: CampusPayload) => {
+        if (cancelled) return;
+        const dataset: Dataset = {
+          campus: payload.campus,
+          classes: payload.classes,
+          rooms: payload.rooms,
+          meta: payload.meta,
+        };
+        cache.current.set(activeCampus, dataset);
+        setData(dataset);
+        setLoadingCampus(false);
       })
       .catch((error: unknown) => {
-        if (!cancelled) setLoadError(error instanceof Error ? error.message : String(error));
+        if (cancelled) return;
+        setLoadingCampus(false);
+        setLoadError(error instanceof Error ? error.message : String(error));
       });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [activeCampus]);
 
   useEffect(() => {
     const tick = () => setNow(new Date());
@@ -117,34 +154,11 @@ export default function ClassFinder() {
 
   // ------------------------------------------------------------- derived
 
-  const buildingCampus = useMemo(() => {
-    const counts = new Map<string, Map<string, number>>();
-    for (const meeting of data?.classes ?? []) {
-      const perBuilding = counts.get(meeting.buildingCode) ?? new Map<string, number>();
-      perBuilding.set(
-        meeting.campusKey,
-        (perBuilding.get(meeting.campusKey) ?? 0) + 1,
-      );
-      counts.set(meeting.buildingCode, perBuilding);
-    }
-    const map = new Map<string, string>();
-    for (const [code, perBuilding] of counts) {
-      let best = "";
-      let bestCount = -1;
-      for (const [key, count] of perBuilding) {
-        if (count > bestCount) {
-          best = key;
-          bestCount = count;
-        }
-      }
-      map.set(code, best);
-    }
-    return map;
-  }, [data]);
-
+  // The payload is already scoped to one campus, so there is nothing left to
+  // filter: every meeting in it belongs to the campus on screen.
   const campusClasses = useMemo(
-    () => (data ? data.classes.filter((c) => c.campusKey === campus) : []),
-    [data, campus],
+    () => (data && data.campus === activeCampus ? data.classes : []),
+    [data, activeCampus],
   );
 
   const termClasses = useMemo(
@@ -153,9 +167,9 @@ export default function ClassFinder() {
   );
 
   const campusRooms = useMemo(() => {
-    if (!data) return [] as Room[];
-    return data.rooms.filter((room) => buildingCampus.get(room.building) === campus);
-  }, [data, buildingCampus, campus]);
+    if (!data || data.campus !== activeCampus) return [] as Room[];
+    return data.rooms;
+  }, [data, activeCampus]);
 
   const campusHasRooms = campusRooms.length > 0;
 
@@ -178,6 +192,17 @@ export default function ClassFinder() {
     () => (query ? searchCourseCodes(campusClasses, query, 12) : []),
     [campusClasses, query],
   );
+
+  // St. George has 68 buildings and Scarborough 13. Showing every one as a
+  // chip wrapped the header onto three rows, so the busiest few get a chip
+  // and the rest live behind a dropdown - the pattern the original static UI
+  // used.
+  const rankedBuildings = useMemo(
+    () => [...visibleBuildings].sort((a, b) => b.meetingCount - a.meetingCount),
+    [visibleBuildings],
+  );
+  const chipBuildings = rankedBuildings.slice(0, MAX_BUILDING_CHIPS);
+  const overflowBuildings = rankedBuildings.slice(MAX_BUILDING_CHIPS);
 
   const classesForBuilding = useCallback(
     (code: string) => {
@@ -267,7 +292,7 @@ export default function ClassFinder() {
         <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div
             className="flex items-center gap-3 cursor-pointer"
-            onClick={() => selectCampus(campus)}
+            onClick={() => selectCampus(activeCampus)}
           >
             <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-lg font-bold shadow-inner">
               <i className="fa-solid me-0.5 fa-graduation-cap" aria-hidden="true" />
@@ -277,7 +302,7 @@ export default function ClassFinder() {
                 UofT Class &amp; Room Finder
               </h1>
               <p className="text-xs text-blue-200 font-medium">
-                Live Classroom Availability &amp; Course Schedules
+                Classroom Availability &amp; Course Schedules
               </p>
             </div>
           </div>
@@ -289,7 +314,7 @@ export default function ClassFinder() {
                 type="button"
                 onClick={() => selectCampus(key)}
                 className={`px-4 py-1.5 rounded-lg text-xs transition-all ${
-                  campus === key
+                  activeCampus === key
                     ? "font-bold bg-blue-600 text-white shadow"
                     : "font-semibold text-slate-300 hover:text-white"
                 }`}
@@ -317,11 +342,11 @@ export default function ClassFinder() {
                 >
                   All Buildings
                 </button>
-                {visibleBuildings.map((b) => (
+                {chipBuildings.map((b) => (
                   <button
                     key={b.code}
                     type="button"
-                    title={b.name}
+                    title={`${b.name} — ${b.meetingCount} class meetings`}
                     onClick={() => selectBuilding(b.code)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       building === b.code
@@ -332,6 +357,25 @@ export default function ClassFinder() {
                     {b.code}
                   </button>
                 ))}
+                {overflowBuildings.length ? (
+                  <select
+                    value={overflowBuildings.some((b) => b.code === building) ? building : ""}
+                    onChange={(event) => {
+                      if (event.target.value) selectBuilding(event.target.value);
+                    }}
+                    aria-label="More buildings"
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 focus:outline-none focus:border-blue-500 shrink-0 max-w-[13rem]"
+                  >
+                    <option value="">
+                      More buildings ({overflowBuildings.length})…
+                    </option>
+                    {overflowBuildings.map((b) => (
+                      <option key={b.code} value={b.code}>
+                        {b.code} — {b.name} ({b.meetingCount})
+                      </option>
+                    ))}
+                  </select>
+                ) : null}
               </div>
             </div>
 
@@ -358,17 +402,23 @@ export default function ClassFinder() {
                 ))}
               </div>
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    loadingCampus ? "bg-blue-400 animate-pulse" : "bg-emerald-400 animate-pulse"
+                  }`}
+                />
                 <span>
-                  {campusHasRooms
-                    ? stats.unknownRooms === stats.totalRooms
-                      ? `Availability not published for this hour on ${campus}`
-                      : `${stats.freeRooms} of ${stats.totalRooms} classrooms available on ${campus}${
-                          stats.unknownRooms
-                            ? ` (${stats.unknownRooms} not published)`
-                            : ""
-                        }`
-                    : `${termClasses.length} class meetings scheduled on ${campus}`}
+                  {loadingCampus
+                    ? `Loading ${activeCampus}…`
+                    : campusHasRooms
+                      ? stats.unknownRooms === stats.totalRooms
+                        ? `Availability not published for this hour on ${activeCampus}`
+                        : `${stats.freeRooms} of ${stats.totalRooms} classrooms available on ${activeCampus}${
+                            stats.unknownRooms
+                              ? ` (${stats.unknownRooms} not published)`
+                              : ""
+                          }`
+                      : `${termClasses.length} class meetings scheduled on ${activeCampus}`}
                   {" · "}
                   {activeTerm === "F" ? "Fall 2026" : "Winter 2027"}
                 </span>
@@ -391,7 +441,7 @@ export default function ClassFinder() {
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder={
                     campusHasRooms
-                      ? `Search building (e.g. ${campus === "UTM" ? "MN, IB" : "BA, SS"}), classroom (e.g. MN 2100), or course code...`
+                      ? `Search building (e.g. ${activeCampus === "UTM" ? "MN, IB" : "BA, SS"}), classroom (e.g. MN 2100), or course code...`
                       : `Search building (e.g. BA, SS) or course code...`
                   }
                   className="w-full bg-slate-800/90 border border-slate-700 rounded-xl pl-9 pr-16 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition shadow-inner"
@@ -437,24 +487,35 @@ export default function ClassFinder() {
       </section>
 
       <main className="max-w-7xl mx-auto w-full px-4 py-6 flex-1">
-        {route.mode === "list" ? (
+        {loadingCampus ? (
+          <div className="text-center py-16 bg-slate-900/50 rounded-2xl border border-slate-800">
+            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse inline-block" />
+            <p className="text-slate-300 font-bold text-base mt-3">
+              Loading the {activeCampus} timetable…
+            </p>
+            <p className="text-xs text-slate-500 mt-1">
+              Each campus is fetched on its own, so the page only downloads what
+              it is about to show.
+            </p>
+          </div>
+        ) : route.mode === "list" ? (
           <ListView
             data={data}
             ctx={ctx}
             activeTerm={activeTerm}
-            buildings={visibleBuildings}
+            buildings={rankedBuildings}
             campusRooms={campusRooms}
             classesForBuilding={classesForBuilding}
             courseMatches={courseMatches}
             onlyFree={onlyFree && campusHasRooms}
             onOpenCourse={(code) =>
-              navigate(`#/course/${encodeURIComponent(campus)}/${encodeURIComponent(code)}`)
+              navigate(`#/course/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
             onOpenBuilding={(code) =>
-              navigate(`#/building/${encodeURIComponent(campus)}/${encodeURIComponent(code)}`)
+              navigate(`#/building/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
             onOpenRoom={(room) =>
-              navigate(`#/room/${encodeURIComponent(campus)}/${encodeURIComponent(room)}`)
+              navigate(`#/room/${encodeURIComponent(activeCampus)}/${encodeURIComponent(room)}`)
             }
           />
         ) : (
@@ -466,10 +527,10 @@ export default function ClassFinder() {
             onTermChange={(term) => setViewTerm(term)}
             onBack={goHome}
             onOpenCourse={(code) =>
-              navigate(`#/course/${encodeURIComponent(campus)}/${encodeURIComponent(code)}`)
+              navigate(`#/course/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
             onOpenBuilding={(code) =>
-              navigate(`#/building/${encodeURIComponent(campus)}/${encodeURIComponent(code)}`)
+              navigate(`#/building/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
           />
         )}
@@ -535,6 +596,7 @@ function ListView({
 
   return (
     <div className="space-y-6">
+      <AvailabilityNotice data={data} ctx={ctx} campusRooms={campusRooms} />
       {courseMatches.length ? (
         <div className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 space-y-3 shadow-md">
           <div className="flex items-center gap-2.5">
@@ -578,6 +640,9 @@ function ListView({
       {buildings.map((b) => {
         const buildingClasses = classesForBuilding(b.code);
         const rooms = campusRooms.filter((room) => room.building === b.code);
+        const roomStates = rooms.map((room) => roomStatusAt(room, ctx).state);
+        const freeCount = roomStates.filter((state) => state === "free").length;
+        const unknownCount = roomStates.filter((state) => state === "unknown").length;
         const visibleRooms = onlyFree
           ? rooms.filter((room) => roomStatusAt(room, ctx).state === "free")
           : rooms;
@@ -593,7 +658,7 @@ function ListView({
             key={b.code}
             className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 space-y-3 shadow-md"
           >
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
               <button
                 type="button"
                 onClick={() => onOpenBuilding(b.code)}
@@ -604,9 +669,28 @@ function ListView({
                 </span>
                 <h2 className="font-bold text-white text-base">{b.name}</h2>
               </button>
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
-                {b.meetingCount} class meetings · {activeTerm === "F" ? "Fall" : "Winter"}
-              </span>
+              <div className="flex items-center gap-2 flex-wrap">
+                {rooms.length ? (
+                  <span
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-lg border ${
+                      freeCount
+                        ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                        : "bg-slate-900 text-slate-400 border-slate-800"
+                    }`}
+                    title={
+                      unknownCount
+                        ? `${unknownCount} of ${rooms.length} rooms are not published for this hour`
+                        : undefined
+                    }
+                  >
+                    {freeCount} of {rooms.length} free now
+                    {unknownCount ? ` · ${unknownCount} unpublished` : ""}
+                  </span>
+                ) : null}
+                <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
+                  {b.meetingCount} class meetings · {activeTerm === "F" ? "Fall" : "Winter"}
+                </span>
+              </div>
             </div>
 
             {visibleRooms.length ? (
@@ -663,28 +747,37 @@ function ListView({
                       <span className="text-xs text-slate-500 truncate">
                         {meeting.courseTitle}
                       </span>
-                      <span className="text-[11px] text-amber-300/80 ml-auto">
+                      <span className="text-[11px] text-amber-300/80 ml-auto flex items-center gap-2">
+                        {rooms.length ? (
+                          <span className="text-emerald-300/90">
+                            {freeCount} free in {b.code} now
+                          </span>
+                        ) : null}
                         Room not published
                       </span>
                     </button>
                   ))}
-                  {todays.length > shown.length ? (
-                    <button
-                      type="button"
-                      onClick={() => setShowAllClasses(true)}
-                      className="text-[11px] font-semibold text-blue-400 hover:text-blue-300"
-                    >
-                      Show {todays.length - shown.length} more
-                    </button>
-                  ) : null}
-                  {todays.length > 6 && shown.length >= 6 ? (
-                    <button
-                      type="button"
-                      onClick={() => setShowAllClasses(false)}
-                      className="text-[11px] font-semibold text-slate-400 hover:text-slate-300"
-                    >
-                      Show fewer
-                    </button>
+                  {todays.length > shown.length || (todays.length > 6 && shown.length >= 6) ? (
+                    <div className="flex items-center gap-3 pt-0.5">
+                      {todays.length > shown.length ? (
+                        <button
+                          type="button"
+                          onClick={() => setShowAllClasses(true)}
+                          className="text-[11px] font-semibold text-blue-400 hover:text-blue-300"
+                        >
+                          Show {todays.length - shown.length} more
+                        </button>
+                      ) : null}
+                      {todays.length > 6 && shown.length >= 6 ? (
+                        <button
+                          type="button"
+                          onClick={() => setShowAllClasses(false)}
+                          className="text-[11px] font-semibold text-slate-400 hover:text-slate-300"
+                        >
+                          Show fewer
+                        </button>
+                      ) : null}
+                    </div>
                   ) : null}
                 </div>
               </div>
@@ -702,6 +795,85 @@ interface RoomCardProps {
   next: ClassMeeting | null;
   inProgress: ClassMeeting[];
   onOpen: () => void;
+}
+
+/**
+ * One place to explain what the availability data is and is not.
+ *
+ * Before this, every room card repeated "the space database does not publish
+ * this hour", so a campus whose snapshot had ended looked broken rather than
+ * simply outside the published band.
+ */
+function AvailabilityNotice({
+  data,
+  ctx,
+  campusRooms,
+}: {
+  data: Dataset;
+  ctx: ReturnType<typeof getLiveTimeContext>;
+  campusRooms: Room[];
+}) {
+  const hours = publishedHours(campusRooms);
+  const currentHour = Math.floor(ctx.nowMins / 60);
+  const isPublished = hours.includes(currentHour);
+  const band = formatHourRange(hours);
+  const snapshot = data.meta.snapshotWeekStart;
+
+  if (!campusRooms.length) {
+    return (
+      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-100 flex items-start gap-3">
+        <i className="fa-solid fa-circle-info mt-0.5 text-amber-300" aria-hidden="true" />
+        <p className="leading-relaxed">
+          <strong className="font-bold">Classroom availability is published for UTM only.</strong>{" "}
+          The University of Toronto Classroom Space Database covers the
+          Mississauga campus. This campus shows complete building-level class
+          schedules instead — every class, its time, its building and its
+          instructor.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`rounded-2xl border px-4 py-3 text-xs flex items-start gap-3 ${
+        isPublished
+          ? "border-slate-700/70 bg-slate-900/60 text-slate-300"
+          : "border-amber-500/30 bg-amber-500/10 text-amber-100"
+      }`}
+    >
+      <i
+        className={`fa-solid ${isPublished ? "fa-camera-retro" : "fa-clock"} mt-0.5 ${
+          isPublished ? "text-slate-400" : "text-amber-300"
+        }`}
+        aria-hidden="true"
+      />
+      <p className="leading-relaxed">
+        {isPublished ? (
+          <>
+            <strong className="font-bold text-slate-200">
+              Classroom availability, not live.
+            </strong>{" "}
+            These numbers come from the UofT Classroom Space Database snapshot of
+            the week of {snapshot}. It publishes {band}
+            {hours.includes(13) ? "" : " (1:00 PM is not published)"}, and no
+            other hour.
+          </>
+        ) : (
+          <>
+            <strong className="font-bold">
+              It is {format12Hour(`${String(currentHour).padStart(2, "0")}:00`)} and
+              the space database publishes {band}
+              {hours.includes(13) ? "" : " (1:00 PM is not published)"}.
+            </strong>{" "}
+            It does not publish this hour, so every room below reads
+            <em> unknown</em> rather than <em> free</em>. The class times below
+            are real and current.
+          </>
+        )}
+      </p>
+    </div>
+  );
 }
 
 function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
@@ -752,7 +924,7 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
                 }`
               : next
                 ? `Next class in this building at ${format12Hour(next.start)}: ${next.courseCode} ${next.sectionName}`
-                : status.subText}
+                : null}
           </p>
         </div>
       </div>

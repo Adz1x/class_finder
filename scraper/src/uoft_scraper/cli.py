@@ -36,6 +36,10 @@ def _build(args: argparse.Namespace) -> int:
         f"(expected {snapshot.course_rows_expected})"
     )
     print(f"  class meetings      : {snapshot.class_meetings}")
+    print(
+        f"  meeting times seen  : {snapshot.raw_meeting_times_seen} "
+        f"(before filters; {snapshot.raw_meeting_times_seen - snapshot.class_meetings} dropped)"
+    )
     print(f"  rooms in inventory  : {snapshot.rooms}")
     print(
         f"  published rooms     : {snapshot.meetings_with_published_room} "
@@ -49,8 +53,11 @@ def _build(args: argparse.Namespace) -> int:
     print(f"  divisions covered   : {', '.join(result.divisions)}")
     for division, count in result.faculty_breakdown.items():
         print(f"      {division:<8} {count}")
+    print("  meetings per campus :")
+    for key, count in sorted(snapshot.campus_breakdown.items()):
+        print(f"      {key:<10} {count}")
     for name, path in paths.items():
-        print(f"  wrote {name:<8} -> {path} ({path.stat().st_size / 1024:.0f} KB)")
+        print(f"  wrote {name:<14} -> {path} ({path.stat().st_size / 1024:.0f} KB)")
     print("=" * 68)
 
     if snapshot.course_rows_fetched != snapshot.course_rows_expected:
@@ -66,11 +73,37 @@ def _verify(args: argparse.Namespace) -> int:
     catalogue and asserts the dataset still matches what the API publishes.
     """
     data_dir = Path(args.data)
-    classes = json.loads((data_dir / "classes.json").read_text(encoding="utf-8"))
     rooms = json.loads((data_dir / "rooms.json").read_text(encoding="utf-8"))
     meta = json.loads((data_dir / "meta.json").read_text(encoding="utf-8"))
 
     failures: list[str] = []
+
+    # The dataset is stored one file per campus key. Reading them back and
+    # unioning them is the check that the split never lost or invented a
+    # meeting.
+    campus_dir = data_dir / "campus"
+    campus_files = sorted(campus_dir.glob("*.json")) if campus_dir.is_dir() else []
+    if not campus_files:
+        failures.append(f"no campus files found in {campus_dir}")
+
+    classes: list[dict] = []
+    per_campus: dict[str, int] = {}
+    for path in campus_files:
+        rows = json.loads(path.read_text(encoding="utf-8"))
+        per_campus[path.stem] = len(rows)
+        classes.extend(rows)
+
+    expected_breakdown: dict[str, int] = meta.get("campusBreakdown") or {}
+    for key, count in sorted(expected_breakdown.items()):
+        if key not in per_campus:
+            failures.append(f"campus file missing for {key} ({count} meetings)")
+        elif per_campus[key] != count:
+            failures.append(
+                f"campus {key} holds {per_campus[key]} meetings, "
+                f"meta says {count}"
+            )
+    for key in sorted(set(per_campus) - set(expected_breakdown)):
+        failures.append(f"campus file {key} is not listed in meta.campusBreakdown")
 
     if meta["courseRowsFetched"] != meta["courseRowsExpected"]:
         failures.append(
@@ -80,7 +113,8 @@ def _verify(args: argparse.Namespace) -> int:
 
     if meta["classMeetings"] != len(classes):
         failures.append(
-            f"meta classMeetings ({meta['classMeetings']}) != classes.json ({len(classes)})"
+            f"meta classMeetings ({meta['classMeetings']}) != the "
+            f"{len(classes)} meetings in the campus files"
         )
     if meta["rooms"] != len(rooms):
         failures.append(f"meta rooms ({meta['rooms']}) != rooms.json ({len(rooms)})")
@@ -174,7 +208,8 @@ def _verify(args: argparse.Namespace) -> int:
         return 1
 
     print(
-        f"verify OK: {len(classes)} class meetings, {len(rooms)} rooms, "
+        f"verify OK: {len(classes)} class meetings across "
+        f"{len(per_campus)} campuses, {len(rooms)} rooms, "
         f"{meta['courseRowsFetched']} course rows, "
         f"{sum(1 for m in classes if m.get('room'))} meetings with a published room"
     )

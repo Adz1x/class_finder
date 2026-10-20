@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "UofT Class & Room Finder",
   description:
-    "Find UofT classes and classrooms: live classroom availability from the UTM space database and complete course schedules from the UofT timetable API.",
+    "Find UofT classes and classrooms: classroom availability from the UTM space database and complete course schedules from the UofT timetable API.",
 };
 
 export default function RootLayout({

@@ -27,6 +27,8 @@ export interface Room {
   building: string;
   buildingName: string;
   capacity: string;
+  /** The campus the classroom belongs to. */
+  campusKey: string;
   /** day (1 = Monday) -> hour -> is the room booked. */
   occupancy: Record<string, Record<string, boolean>>;
   /** Hours the source does not publish at all. */
@@ -49,6 +51,16 @@ export interface Meta {
 }
 
 export interface Dataset {
+  /** The campus this payload holds. */
+  campus: string;
+  classes: ClassMeeting[];
+  rooms: Room[];
+  meta: Meta;
+}
+
+/** What `/api/schedule/<campus>` returns. */
+export interface CampusPayload {
+  campus: string;
   classes: ClassMeeting[];
   rooms: Room[];
   meta: Meta;

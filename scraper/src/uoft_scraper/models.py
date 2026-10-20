@@ -9,7 +9,7 @@ class in the 2026-27 Fall/Winter sessions.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 #: Day-of-week numbering used by the UofT API: 1 = Monday ... 7 = Sunday.
@@ -98,6 +98,9 @@ class Room:
     capacity: str
     occupancy: dict[int, dict[int, bool]]
     hours_missing: tuple[int, ...] = ()
+    #: The campus the classroom belongs to. Metis is UTM's classroom space
+    #: database, so every room in the inventory is a UTM classroom.
+    campus_key: str = "UTM"
 
     def to_json(self) -> dict[str, Any]:
         return {
@@ -105,6 +108,7 @@ class Room:
             "building": self.building,
             "buildingName": self.building_name,
             "capacity": self.capacity,
+            "campusKey": self.campus_key,
             "occupancy": {
                 str(day): {str(hour): busy for hour, busy in sorted(hours.items())}
                 for day, hours in sorted(self.occupancy.items())
@@ -129,6 +133,13 @@ class Snapshot:
     meetings_with_published_room: int
     divisions: tuple[str, ...]
     source_urls: dict[str, str]
+    #: Meeting times the API published before any filter was applied. The
+    #: difference against ``class_meetings`` is the filter funnel, so it has
+    #: to be recorded rather than remembered.
+    raw_meeting_times_seen: int = 0
+    #: How many meetings each campus key holds. The per-campus files must
+    #: match this exactly, so the split can never drift from the totals.
+    campus_breakdown: dict[str, int] = field(default_factory=dict)
 
     def to_json(self) -> dict[str, Any]:
         return {
@@ -144,4 +155,6 @@ class Snapshot:
             "meetingsWithPublishedRoom": self.meetings_with_published_room,
             "divisions": list(self.divisions),
             "sourceUrls": self.source_urls,
+            "rawMeetingTimesSeen": self.raw_meeting_times_seen,
+            "campusBreakdown": dict(sorted(self.campus_breakdown.items())),
         }

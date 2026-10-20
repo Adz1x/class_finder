@@ -2,16 +2,23 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import ClassFinder from "@/components/ClassFinder";
-import { sampleDataset } from "../fixtures/sample-dataset";
+import { sampleDatasets } from "../fixtures/sample-dataset";
 
+/**
+ * The app fetches one campus at a time, so the mock serves the payload for
+ * whichever campus was asked for.
+ */
 function mockScheduleApi() {
   vi.stubGlobal(
     "fetch",
-    vi.fn(async () => ({
-      ok: true,
-      status: 200,
-      json: async () => sampleDataset,
-    })),
+    vi.fn(async (url: string) => {
+      const campus = String(url).split("/").pop() ?? "UTM";
+      return {
+        ok: true,
+        status: 200,
+        json: async () => sampleDatasets[campus] ?? sampleDatasets.UTM,
+      };
+    }),
   );
 }
 

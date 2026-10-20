@@ -21,7 +21,9 @@ export default defineConfig({
   ],
   webServer: {
     command: `npm run build && npx next start -p ${PORT}`,
-    url: `${baseURL}/api/schedule`,
+    // The dataset is served one campus at a time, so the readiness probe
+    // asks for the campus the app loads first.
+    url: `${baseURL}/api/schedule/UTM`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
     stdout: "pipe",

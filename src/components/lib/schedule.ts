@@ -198,6 +198,50 @@ export function searchCourseCodes(
 // -------------------------------------------------------------------- rooms
 
 /**
+ * The hours the space database publishes at all, sorted.
+ *
+ * The Metis snapshot covers a band of hours and omits 13:00, so "the current
+ * hour" is often simply not in the data. Knowing the published band lets the
+ * UI say so once, instead of repeating "unknown" on every room card.
+ */
+export function publishedHours(rooms: Room[]): number[] {
+  const hours = new Set<number>();
+  for (const room of rooms) {
+    for (const dayHours of Object.values(room.occupancy ?? {})) {
+      for (const hour of Object.keys(dayHours)) {
+        const value = Number(hour);
+        if (Number.isFinite(value)) hours.add(value);
+      }
+    }
+  }
+  return [...hours].sort((a, b) => a - b);
+}
+
+/** "7:00 AM" for a whole hour. */
+export function formatHour(hour: number): string {
+  const suffix = hour >= 12 ? "PM" : "AM";
+  const h12 = hour % 12 || 12;
+  return `${h12}:00 ${suffix}`;
+}
+
+/** "7:00 AM – 8:00 PM" for a list of whole hours. */
+export function formatHourRange(hours: number[]): string {
+  if (!hours.length) return "";
+  const first = hours[0];
+  const last = hours[hours.length - 1];
+  // The band ends at the last published hour, inclusive.
+  return `${formatHour(first)} – ${formatHour(last + 1)}`;
+}
+
+/** The next published hour at or after the given hour, or null. */
+export function nextPublishedHour(hours: number[], hour: number): number | null {
+  for (const candidate of hours) {
+    if (candidate >= hour) return candidate;
+  }
+  return null;
+}
+
+/**
  * Availability of a room at a given hour.
  *
  * The UTM space database publishes a per-hour snapshot, and omits the 13:00
@@ -226,8 +270,8 @@ export function roomStatusAt(
     return {
       state,
       statusTitle: "Unknown",
-      nextFreeText: "Availability not published for this hour",
-      subText: "The UTM space database does not publish this hour",
+      nextFreeText: "Not published",
+      subText: "This hour is outside the space database snapshot",
       busyUntil: null,
     };
   }

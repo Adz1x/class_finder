@@ -19,7 +19,7 @@ import {
   termOfSession,
   timeToMinutes,
 } from "@/components/lib/schedule";
-import { sampleDataset } from "../fixtures/sample-dataset";
+import { sampleClasses, sampleRooms } from "../fixtures/sample-dataset";
 
 describe("time helpers", () => {
   it("converts a clock time to minutes", () => {
@@ -89,12 +89,12 @@ describe("terms", () => {
   });
 
   it("filters meetings by the session's term", () => {
-    const fall = filterByTerm(sampleDataset.classes, "F");
-    const winter = filterByTerm(sampleDataset.classes, "S");
+    const fall = filterByTerm(sampleClasses, "F");
+    const winter = filterByTerm(sampleClasses, "S");
 
     expect(fall.every((m) => m.sessionCode === "20269")).toBe(true);
     expect(winter.every((m) => m.sessionCode === "20271")).toBe(true);
-    expect(fall.length + winter.length).toBe(sampleDataset.classes.length);
+    expect(fall.length + winter.length).toBe(sampleClasses.length);
   });
 });
 
@@ -108,13 +108,13 @@ describe("buildings", () => {
   });
 
   it("groups meetings by building", () => {
-    const grouped = groupByBuilding(sampleDataset.classes);
+    const grouped = groupByBuilding(sampleClasses);
     expect(grouped.get("MN")?.length).toBe(3);
     expect(grouped.get("BA")?.length).toBe(1);
   });
 
   it("summarises buildings, sorted by code", () => {
-    const summaries = buildingSummaries(sampleDataset.classes);
+    const summaries = buildingSummaries(sampleClasses);
     expect(summaries.map((b) => b.code)).toEqual(["AA", "BA", "IB", "MN"]);
     expect(summaries[3].meetingCount).toBe(3);
   });
@@ -122,52 +122,52 @@ describe("buildings", () => {
 
 describe("courses", () => {
   it("finds a course by its code, ignoring case and spacing", () => {
-    const found = findCourseMeetings(sampleDataset.classes, "isp100h5");
+    const found = findCourseMeetings(sampleClasses, "isp100h5");
     expect(found.length).toBe(3);
     expect(found.every((m) => m.courseCode === "ISP100H5")).toBe(true);
   });
 
   it("does not match a course by its section code", () => {
     // The old dataset produced "ISP100H5F" labels, which nobody can search for.
-    expect(findCourseMeetings(sampleDataset.classes, "ISP100H5F")).toHaveLength(0);
+    expect(findCourseMeetings(sampleClasses, "ISP100H5F")).toHaveLength(0);
   });
 
   it("ranks exact matches first", () => {
-    const codes = searchCourseCodes(sampleDataset.classes, "isp100");
+    const codes = searchCourseCodes(sampleClasses, "isp100");
     expect(codes[0]).toBe("ISP100H5");
   });
 
   it("returns nothing for an empty query", () => {
-    expect(searchCourseCodes(sampleDataset.classes, "")).toHaveLength(0);
+    expect(searchCourseCodes(sampleClasses, "")).toHaveLength(0);
   });
 });
 
 describe("room availability", () => {
   it("reports a listed room as free", () => {
-    const mn2100 = sampleDataset.rooms[0];
+    const mn2100 = sampleRooms[0];
     expect(roomStateAt(mn2100, 1, 8)).toBe("free");
   });
 
   it("reports an unlisted room as booked", () => {
-    const mn2100 = sampleDataset.rooms[0];
+    const mn2100 = sampleRooms[0];
     expect(roomStateAt(mn2100, 1, 9)).toBe("busy");
   });
 
   it("treats the unpublished 13:00 hour as unknown, never free", () => {
-    const mn2100 = sampleDataset.rooms[0];
+    const mn2100 = sampleRooms[0];
     expect(roomStateAt(mn2100, 1, 13)).toBe("unknown");
     expect(roomStateAt(mn2100, 1, 11)).toBe("unknown");
   });
 
   it("treats a day the snapshot does not cover as unknown", () => {
-    const mn2100 = sampleDataset.rooms[0];
+    const mn2100 = sampleRooms[0];
     expect(roomStateAt(mn2100, 5, 9)).toBe("unknown");
   });
 
   it("describes the current status of a room", () => {
     // Monday 09:00: MN 2100 is listed as booked in the snapshot.
     const status = roomStatusAt(
-      sampleDataset.rooms[0],
+      sampleRooms[0],
       getLiveTimeContext(new Date(2026, 9, 19, 9, 0)),
     );
     expect(status.state).toBe("busy");
@@ -177,7 +177,7 @@ describe("room availability", () => {
 
   it("describes an available room", () => {
     const status = roomStatusAt(
-      sampleDataset.rooms[1],
+      sampleRooms[1],
       getLiveTimeContext(new Date(2026, 9, 19, 9, 0)),
     );
     expect(status.state).toBe("free");
@@ -185,7 +185,7 @@ describe("room availability", () => {
   });
 
   it("describes an unknown hour honestly", () => {
-    const status = roomStatusAt(sampleDataset.rooms[0], getLiveTimeContext(new Date(2026, 9, 19, 13, 5)));
+    const status = roomStatusAt(sampleRooms[0], getLiveTimeContext(new Date(2026, 9, 19, 13, 5)));
     expect(status.state).toBe("unknown");
     expect(status.statusTitle).toBe("Unknown");
     expect(status.nextFreeText).toMatch(/not published/i);
@@ -193,7 +193,7 @@ describe("room availability", () => {
 });
 
 describe("classes in a building", () => {
-  const mnClasses = sampleDataset.classes.filter((c) => c.buildingCode === "MN");
+  const mnClasses = sampleClasses.filter((c) => c.buildingCode === "MN");
 
   it("finds the next class of the day", () => {
     const next = nextClassInBuilding(mnClasses, 1, 0);

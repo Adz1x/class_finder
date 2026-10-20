@@ -166,6 +166,21 @@ def parse_course_row(row: dict[str, Any]) -> list[ClassMeeting]:
     return meetings
 
 
+def count_raw_meeting_times(rows: Iterable[dict[str, Any]]) -> int:
+    """Count every ``meetingTimes`` entry the API published, before filtering.
+
+    The difference between this and the number of meetings that survive the
+    filters is the filter funnel. It has to be measured, not remembered: the
+    README and the project report both cite it, and a number nobody can
+    reproduce is not a number worth citing.
+    """
+    total = 0
+    for row in rows:
+        for section in row.get("sections") or []:
+            total += len(section.get("meetingTimes") or [])
+    return total
+
+
 def parse_courses(rows: Iterable[dict[str, Any]]) -> list[ClassMeeting]:
     """Parse many rows, dropping exact duplicates."""
     seen: set[tuple[Any, ...]] = set()

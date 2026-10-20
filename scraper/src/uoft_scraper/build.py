@@ -2,13 +2,17 @@
 
 Outputs (all under ``--out``):
 
-``classes.json``
-    Every class meeting, with the full metadata the API publishes.
+``campus/<KEY>.json``
+    Every class meeting for one campus key. The dataset is split per campus
+    because the app only ever shows one campus at a time: serving the whole
+    catalogue cost 8.3 MB on first load, and the default campus is a fifth of
+    that. The split is the reason the campus keys - not the campus names -
+    are the unit of storage.
 ``rooms.json``
     The UTM classroom inventory and its occupancy for the snapshot week.
 ``meta.json``
     Provenance: how many rows were fetched vs. expected, the snapshot week,
-    and the source URLs.
+    the source URLs, and the per-campus counts the split has to match.
 """
 
 from __future__ import annotations
@@ -22,7 +26,7 @@ from typing import Any, Sequence
 from .api import DEFAULT_BASE_URL, TtbClient
 from .metis import MetisSnapshot, load_snapshot
 from .models import ClassMeeting, Room, Snapshot
-from .parse import parse_courses
+from .parse import count_raw_meeting_times, parse_courses
 
 
 @dataclass
@@ -43,6 +47,7 @@ def build_dataset(
 ) -> BuildResult:
     """Fetch, parse and summarise the whole dataset."""
     rows = client.fetch_all_courses()
+    raw_meeting_times = count_raw_meeting_times(rows)
     meetings = parse_courses(rows)
 
     reference_divisions: list[str] = []
@@ -56,9 +61,13 @@ def build_dataset(
         reference_divisions = []
 
     breakdown: dict[str, int] = {}
+    campus_breakdown: dict[str, int] = {}
     for meeting in meetings:
         if meeting.faculty_code:
             breakdown[meeting.faculty_code] = breakdown.get(meeting.faculty_code, 0) + 1
+        campus_breakdown[meeting.campus_key] = (
+            campus_breakdown.get(meeting.campus_key, 0) + 1
+        )
 
     missing_divisions = [
         division for division in reference_divisions if division not in breakdown
@@ -82,6 +91,8 @@ def build_dataset(
             "referenceData": f"{client.base_url}/reference-data",
             "metisSpaceDatabase": "https://metis.utm.utoronto.ca/",
         },
+        raw_meeting_times_seen=raw_meeting_times,
+        campus_breakdown=dict(sorted(campus_breakdown.items())),
     )
 
     if missing_divisions:
@@ -105,19 +116,29 @@ def build_dataset(
 
 
 def write_dataset(result: BuildResult, out_dir: str | Path) -> dict[str, Path]:
-    """Write the three JSON files and return their paths."""
+    """Write the dataset, split per campus, and return the paths written."""
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
+    campus_dir = out / "campus"
+    campus_dir.mkdir(parents=True, exist_ok=True)
 
-    paths = {
-        "classes": out / "classes.json",
+    paths: dict[str, Path] = {
         "rooms": out / "rooms.json",
         "meta": out / "meta.json",
     }
-    paths["classes"].write_text(
-        json.dumps([meeting.to_json() for meeting in result.meetings], separators=(",", ":")),
-        encoding="utf-8",
-    )
+
+    by_campus: dict[str, list[dict[str, Any]]] = {}
+    for meeting in result.meetings:
+        by_campus.setdefault(meeting.campus_key, []).append(meeting.to_json())
+
+    for key in sorted(by_campus):
+        path = campus_dir / f"{key}.json"
+        path.write_text(
+            json.dumps(by_campus[key], separators=(",", ":")),
+            encoding="utf-8",
+        )
+        paths[f"campus:{key}"] = path
+
     paths["rooms"].write_text(
         json.dumps([room.to_json() for room in result.rooms], separators=(",", ":")),
         encoding="utf-8",

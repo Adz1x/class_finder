@@ -1,6 +1,6 @@
 {
   "name": "class-finder",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,6 +12,8 @@
     "test:e2e": "playwright test",
     "data:build": "cd scraper && uv run uoft-scraper build --out ../data",
     "data:verify": "cd scraper && uv run uoft-scraper verify --data ../data",
+    "data:size": "node scripts/check-payload-size.mjs",
+    "screenshots": "node scripts/capture-screenshots.mjs",
     "scraper:test": "cd scraper && uv run pytest"
   },
   "dependencies": {
@@ -36,7 +38,7 @@
     "typescript": "^5",
     "vitest": "^2.1.8"
   },
-  "description": "Find UofT classes and classrooms: live classroom availability from the UTM space database and complete course schedules from the UofT timetable API.",
+  "description": "Find UofT classes and classrooms: classroom availability from the UTM space database and complete course schedules from the UofT timetable API.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Adz1x/class_finder.git"

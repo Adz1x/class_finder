@@ -66,19 +66,51 @@ test.describe("class & room finder", () => {
     await expect(page.getByRole("button", { name: "BA", exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "UTSC" }).click();
-    await expect(page.getByRole("button", { name: "AA", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "IA", exact: true })).toBeVisible();
+    await expect(page.getByText(/class meetings scheduled on UTSC/i)).toBeVisible();
   });
 
-  test("serves the full dataset from the API", async ({ request }) => {
-    const response = await request.get("/api/schedule");
+  test("keeps 68 St. George buildings behind one dropdown", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "UTSG" }).click();
+
+    // Only the busiest buildings get a chip; the rest are in the dropdown.
+    const dropdown = page.getByRole("combobox", { name: "More buildings" });
+    await expect(dropdown).toBeVisible();
+    await expect(dropdown).toContainText("More buildings (");
+    await expect(dropdown).toContainText("AH");
+  });
+
+  test("serves one campus per request, compressed", async ({ request }) => {
+    const response = await request.get("/api/schedule/UTM");
     expect(response.ok()).toBe(true);
 
     const data = await response.json();
-    expect(data.classes.length).toBeGreaterThan(20_000);
+    expect(data.campus).toBe("UTM");
+    expect(data.classes.length).toBeGreaterThan(5_000);
+    expect(data.rooms.length).toBe(65);
     expect(data.meta.courseRowsFetched).toBe(data.meta.courseRowsExpected);
     expect(data.meta.meetingsWithPublishedRoom).toBe(0);
     expect(
       data.classes.some((c: { courseCode: string }) => c.courseCode === "ISP100H5"),
     ).toBe(true);
+    // Every meeting in the payload belongs to the campus that was asked for.
+    expect(data.classes.every((c: { campusKey: string }) => c.campusKey === "UTM")).toBe(true);
+  });
+
+  test("the campus payloads add up to the whole catalogue", async ({ request }) => {
+    let total = 0;
+    for (const campus of ["UTM", "UTSG", "UTSC", "SHERIDAN"]) {
+      const response = await request.get(`/api/schedule/${campus}`);
+      expect(response.ok()).toBe(true);
+      const data = await response.json();
+      total += data.classes.length;
+    }
+    expect(total).toBe(21_408);
+  });
+
+  test("refuses a campus that does not exist", async ({ request }) => {
+    const response = await request.get("/api/schedule/UVIC");
+    expect(response.status()).toBe(404);
   });
 });

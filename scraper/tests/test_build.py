@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 
 from uoft_scraper.api import TtbClient
-from uoft_scraper.build import build_dataset
+from uoft_scraper.build import build_dataset, write_dataset
 from uoft_scraper.metis import parse_metis
 from uoft_scraper.parse import parse_courses
 
@@ -133,3 +133,55 @@ def test_json_payload_shape(page_001, isp100h5, metis_sample):
         "room",
     }
     json.dumps(payload)  # must be serialisable
+
+
+def test_the_dataset_is_written_one_file_per_campus(
+    tmp_path, page_001, isp100h5, metis_sample
+):
+    """The app fetches one campus at a time, so the dataset is stored that way."""
+    client = make_client(page_001, isp100h5)
+    result = build_dataset(client, parse_metis(metis_sample))
+    write_dataset(result, tmp_path)
+
+    files = sorted((tmp_path / "campus").glob("*.json"))
+    assert files, "no campus files were written"
+    assert not (tmp_path / "classes.json").exists(), (
+        "the single whole-catalogue file is gone: it cost 8.3 MB on first load"
+    )
+
+    total = 0
+    for path in files:
+        rows = json.loads(path.read_text(encoding="utf-8"))
+        assert rows, f"{path.name} is empty"
+        assert all(row["campusKey"] == path.stem for row in rows)
+        total += len(rows)
+
+    # The split must not lose or invent a single meeting.
+    assert total == len(result.meetings)
+
+    meta = json.loads((tmp_path / "meta.json").read_text(encoding="utf-8"))
+    assert meta["classMeetings"] == total
+    assert meta["campusBreakdown"] == {
+        path.stem: len(json.loads(path.read_text(encoding="utf-8")))
+        for path in files
+    }
+
+
+def test_the_raw_meeting_time_count_is_recorded(page_001, isp100h5, metis_sample):
+    """The filter funnel has to be measurable, not remembered."""
+    client = make_client(page_001, isp100h5)
+    result = build_dataset(client, parse_metis(metis_sample))
+
+    snapshot = result.snapshot
+    assert snapshot.raw_meeting_times_seen >= snapshot.class_meetings
+    assert snapshot.raw_meeting_times_seen > 0
+
+
+def test_every_classroom_belongs_to_a_campus(page_001, isp100h5, metis_sample):
+    """The space database publishes UTM's classrooms, so they say so."""
+    client = make_client(page_001, isp100h5)
+    result = build_dataset(client, parse_metis(metis_sample))
+
+    for room in result.rooms:
+        assert room.campus_key == "UTM"
+        assert room.to_json()["campusKey"] == "UTM"

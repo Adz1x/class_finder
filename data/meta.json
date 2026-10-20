@@ -33,5 +33,11 @@
     "divisions": "https://api.easi.utoronto.ca/ttb/getMatchingDivisions",
     "referenceData": "https://api.easi.utoronto.ca/ttb/reference-data",
     "metisSpaceDatabase": "https://metis.utm.utoronto.ca/"
+  },
+  "campusBreakdown": {
+    "SHERIDAN": 94,
+    "UTM": 5178,
+    "UTSC": 3961,
+    "UTSG": 12175
   }
 }
