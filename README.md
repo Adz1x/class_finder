@@ -1,230 +1,257 @@
+<div align="center">
+
 # UofT Class & Room Finder
 
-Find University of Toronto classes and classrooms.
+**Find University of Toronto classes and empty classrooms — and never be told a
+room number that the University has not published.**
 
-- **Complete course schedules** for Fall 2026 (session `20269`) and Winter 2027 (session `20271`) — 7,383 course records, 21,408 class meetings, all 8 faculties.
-- **Real classroom availability** for UTM, from the official UTM Classroom Space Database (Metis) — 65 actual rooms with per-hour occupancy.
-- Search by course code, building or classroom; weekly timetable per course, per building, per classroom.
+[![Next.js](https://img.shields.io/badge/Next.js-16.4-000?logo=next.js)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
+[![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
+[![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
+[![Tests](https://img.shields.io/badge/tests-92%20passing-brightgreen)](#testing)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+</div>
 
 ---
 
-## What the data does *not* contain — and why
+## Screenshots
 
-The UofT timetable API publishes `building.buildingRoomNumber` as an **empty string** for
-every one of the 22,659 meeting times in these two sessions. There is no public source
-that maps a class to a room. This project therefore **never invents a room number**:
+**Classroom list** — every UTM classroom with its real availability from the
+UofT Classroom Space Database, plus the classes running in each building.
 
-| Situation | What the app shows |
+![Classroom list](docs/images/classroom-list.png)
+
+**Course timetable** — every section of a course across the week.
+
+![Course timetable](docs/images/course-timetable.png)
+
+**Classroom timetable** — a single room's occupancy for the snapshot week.
+
+![Classroom timetable](docs/images/classroom-timetable.png)
+
+**St. George** — building-level class schedules, with 68 buildings kept
+tidy behind a compact picker.
+
+![St. George](docs/images/st-george.png)
+
+---
+
+## What it does
+
+- **Complete course schedules** for Fall 2026 and Winter 2027 — 7,383 course
+  records, 21,408 class meetings, all 8 faculties, 3 campuses.
+- **Real classroom availability** for UTM, from the official UofT Classroom
+  Space Database: 65 actual rooms, per-hour occupancy, real capacity.
+- **Search** by course code, building or classroom.
+- **Weekly timetables** for a course, a building or a single classroom.
+- A **Fall / Winter** switch, so you can see one term or the whole year.
+- A payload of **87 KB** for the first screen - the dataset is split per
+  campus and served compressed, so the browser only downloads the campus it
+  is about to show.
+
+## The part that matters: it does not make things up
+
+The UofT timetable API publishes **no room numbers**. Not "a few missing" —
+none. Across all 22,659 meeting times in the 2026-27 sessions, the
+`buildingRoomNumber` field is an empty string.
+
+An earlier version of this project guessed them anyway, from a hard-coded
+table of plausible room numbers, and shipped rooms that no class was ever
+scheduled in. This version deletes that code. Where the source publishes
+nothing, the interface says so:
+
+> **Room not published**
+
+The same rule applies everywhere:
+
+| Thing | What the app does |
 |---|---|
-| Class in a building, no room published | The building, and the label **"room not published"** |
-| UTM classroom (Metis covers it) | The real room, its capacity and its availability |
-| St. George / Scarborough classroom | Building-level class schedule — the only thing UofT publishes |
+| A class with no published room | Shows the building and "room not published" |
+| An hour the space database omits (13:00) | Shows **unknown**, never "free" |
+| A building with no published name | Shows "Name not listed" |
+| A campus with no classroom data | Says so, and shows building-level schedules instead |
 
-Metis also omits the **13:00** hour entirely. That hour is reported as *unknown*, never as
-"free".
+Classroom availability is a **dated snapshot**, not a live feed, and the
+interface says that too — in a banner, once, rather than repeating it on
+every card.
 
-The previous version of this project shipped 100% fabricated room numbers. That code
-(`assign_smart_room`, `REAL_BUILDING_ROOMS`, `SKIP_ESTIMATED_ROOMS` and the `estimated`
-field) has been deleted.
-
----
-
-## Stack
-
-| Layer | Tooling |
-|---|---|
-| App | Next.js 16.4 (App Router, Turbopack, Cache Components), React 19.3, Tailwind v4, TypeScript |
-| Scraper | Python 3.10–3.13, `uv`, standard library only |
-| Unit tests | pytest (scraper), Vitest + Testing Library (app) |
-| End-to-end | Playwright (Chromium) |
-| CI | GitHub Actions — three jobs, no network access to UofT |
-
----
-
-## Getting started
-
-### Prerequisites
-
-- **Node.js 22+** and npm
-- **[uv](https://docs.astral.sh/uv/)** for the Python side (`uv sync` creates the venv for you)
-
-### Install and run
+## Quick start
 
 ```bash
-npm install                 # JavaScript dependencies
-npm run dev                 # http://localhost:3000
+npm install
+npm run dev          # http://localhost:3000
 ```
 
-The dataset in `data/` is committed, so the app runs immediately — no scraping needed.
+The dataset is committed, so the app runs immediately — no scraping needed.
 
-### The Python side
+The Python side (scraper):
 
 ```bash
 cd scraper
-uv sync                     # creates scraper/.venv
-uv run pytest               # 34 unit tests, no network
+uv sync
+uv run pytest
 ```
 
----
+> **On Windows:** `node_modules` is a Windows install, so run npm, Next and
+> uv through `cmd.exe`. Running them from WSL fails on a missing native
+> binary.
 
-## Commands
+## The data pipeline
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Development server |
-| `npm run build` | Production build (prerenders `/` and `/api/schedule`) |
-| `npm run start` | Serve the production build |
-| `npm run lint` | ESLint |
-| `npm test` | Vitest — 43 unit/component tests |
-| `npm run test:e2e` | Playwright — 7 end-to-end tests (builds and starts the app itself) |
-| `npm run scraper:test` | pytest — 34 scraper tests |
-| `npm run data:build` | Fetch the timetable and rewrite `data/` |
-| `npm run data:verify` | Check the committed dataset's invariants |
+The interesting bug in this project was a silent one.
 
-Playwright needs its browser once:
+`getPageableCourses` **ignores the `pageSize` you send** and always returns
+20 rows per page. The previous scraper computed the page count from the page
+size it had *requested*:
 
-```bash
-npx playwright install chromium
+```
+ceil(7383 / 50) = 148 pages fetched     ← but 370 pages exist
 ```
 
----
+It wrote 2,960 of 7,383 course rows — 40% of the catalogue — and reported
+success. Your own class was in the missing 60%.
 
-## Regenerating the dataset
+The rewrite derives the page count from the rows it actually receives,
+asserts `fetched == total`, detects duplicate rows, and **fails loudly**
+rather than writing a partial dataset. There is a regression test for
+exactly this.
 
-```bash
-npm run data:build
+```
+course rows fetched : 7383 (expected 7383)
+class meetings      : 21408
+rooms in inventory  : 65
+published rooms     : 0 (the UofT API publishes none for these sessions)
+divisions covered   : APSC, ARCLA, ARTSC, ERIN, FIS, FPEH, MUSIC, SCAR
 ```
 
-This fetches every course row for the two sessions, parses them, merges the Metis space
-database, and writes:
+The dataset is written one file per campus key, and `data:verify` checks
+that those files add up to the totals in `meta.json` exactly:
 
-| File | Contents |
-|---|---|
-| `data/classes.json` | 21,408 class meetings |
-| `data/rooms.json` | 65 UTM classrooms with occupancy |
-| `data/meta.json` | Provenance: rows fetched vs. expected, snapshot week, source URLs |
-| `data/utm_metis_data.json` | The input space database snapshot (committed) |
+| Campus key | Meetings | On disk | Over the wire (gzipped) | In the UI |
+|---|---:|---:|---:|---|
+| `UTM` | 5,178 | 2.1 MB | **87 KB** | yes (the default) |
+| `UTSG` | 12,175 | 4.8 MB | 231 KB | yes |
+| `UTSC` | 3,961 | 1.5 MB | 69 KB | yes |
+| `SHERIDAN` | 94 | 36 KB | 2 KB | no tab - as before |
+| **Total** | **21,408** | **8.4 MB** | **389 KB** | |
 
-`npm run data:verify` re-checks the invariants, and `npm run data:verify -- --live`
-re-fetches the catalogue and asserts the dataset still matches what the API publishes.
-
-### Why the previous scraper lost 60% of the catalogue
-
-`getPageableCourses` **ignores the `pageSize` you send** and always returns 20 rows per
-page. The old client computed the page count from the page size it had *requested*
-(`ceil(7383 / 50) = 148` pages) instead of from the rows it actually received
-(`ceil(7383 / 20) = 370` pages). It wrote 2,960 of 7,383 rows and reported success.
-
-The new client derives the page count from the rows returned, asserts
-`fetched == total`, detects duplicate rows, and **fails loudly** rather than writing a
-partial dataset. There is a regression test for exactly this.
-
----
-
-## Data sources
+### Where the numbers come from
 
 | Source | Endpoint |
 |---|---|
 | Course catalogue | `POST https://api.easi.utoronto.ca/ttb/getPageableCourses` |
 | Faculties | `GET https://api.easi.utoronto.ca/ttb/getMatchingDivisions` |
-| Reference data | `GET https://api.easi.utoronto.ca/ttb/reference-data` |
 | UTM classroom space | `https://metis.utm.utoronto.ca/` (snapshot committed in `data/`) |
+| Building names | [`cobalt-uoft/datasets`](https://github.com/cobalt-uoft/datasets) — U of T's own open-data project |
 
-Both public and non-commercial use of the timetable API are allowed by the University of
-Toronto; please keep the request rate reasonable and attribute the source.
-
----
+Building names from Cobalt were only accepted when the campus Cobalt records
+for a building **matches the campus of the timetable classes that meet
+there** — Cobalt's code space collides with the timetable's, and a blind
+import would have labelled `MN` as a St. George building. Every name in
+`data/building_names.json` carries its source.
 
 ## Architecture
 
 ```
 src/
   app/
-    layout.tsx              # shell, Font Awesome, metadata
+    layout.tsx              # shell, metadata, Font Awesome
     page.tsx                # server component -> <ClassFinder />
     globals.css             # Tailwind v4 + the dark theme
-    api/schedule/route.ts   # prerendered JSON endpoint
+    api/schedule/[campus]/  # one gzipped payload per campus
   components/
     ClassFinder.tsx         # client component: state, routing, list view
     WeeklySchedule.tsx      # the weekly grid
     lib/
-      schedule.ts           # pure logic (unit tested)
+      schedule.ts           # pure logic - no browser APIs, fully unit-tested
       types.ts              # shared types
 scraper/
   src/uoft_scraper/
     api.py                  # TTB client: pagination, retries, completeness checks
     parse.py                # raw rows -> class meetings
     metis.py                # space database -> rooms + occupancy
-    build.py                # assembly + provenance
-    cli.py                  # `build` and `verify` commands
-  tests/                    # pytest suite + committed API fixtures
+    build.py                # assembly + provenance, split per campus
+    cli.py                  # `build` and `verify`
+  tests/                    # 37 pytest tests + committed API fixtures
 tests/
-  unit/                     # Vitest: pure logic + component tests
-  e2e/                      # Playwright
-data/                       # generated dataset (committed)
-scripts/legacy/             # the previous diagnostic scripts, kept for reference
-reference/legacy/index.html # the original single-file UI this app was ported from
+  unit/                     # 45 Vitest tests
+  e2e/                      # 10 Playwright tests
+data/
+  campus/<KEY>.json         # the dataset, one file per campus key
+  rooms.json                # the UTM classroom inventory
+  meta.json                 # provenance and the invariants the split must match
 ```
 
-### Two decisions worth knowing about
+Three decisions worth calling out:
 
-**Term filtering uses the meeting's `sessionCode`,** not the course label. `20269` is
-Fall, `20271` is Winter. The old code appended the session letter to the course code and
-produced labels like `ISP100H5F`, which no student would ever search for. `course.code`
-already contains the course *and* section (`ISP100H5`) and is used verbatim.
+**The dataset is stored one file per campus.** The catalogue is 8.3 MB of
+JSON, and the app only ever shows one campus at a time. Serving the whole
+thing cost 8.3 MB before the first pixel; the default campus now costs
+**87 KB over the wire** - a hundredfold difference - and St. George, which
+is the biggest of the four, costs 231 KB. `npm run data:size` measures the
+gzipped size of each payload and fails the build if the default campus
+crosses 150 KB, so the win cannot quietly be given back.
 
-**Campus comes from `course.campus`,** not from the faculty list: `St. George`,
-`Scarborough`, `University of Toronto at Mississauga`, `Sheridan College`,
-`Centennial College`, `Off Campus`.
+**Everything that can be a pure function is one.** Time handling, term
+filtering, search, room-availability states and the timetable layout all live
+in `src/components/lib/schedule.ts`, which touches no browser API. That is
+why 45 of the 92 tests are fast and deterministic.
 
----
+**The data is verified, not trusted.** `npm run data:verify` re-checks the
+committed dataset's invariants - that the per-campus files add up to the
+totals in `meta.json`, that no meeting carries a room the source did not
+publish, that there are no duplicates. It runs in CI.
 
 ## Testing
 
 ```bash
-npm run scraper:test   # 34 pytest tests - saved API fixtures, no network
-npm test               # 43 Vitest tests  - pure logic + React components
-npm run test:e2e       # 7 Playwright tests against the production build
+npm run scraper:test   # 37 pytest  - saved API fixtures, no network
+npm test               # 45 Vitest  - pure logic + React components
+npm run test:e2e       # 10 Playwright - against the production build
+npm run data:verify    # the committed dataset's invariants
+npm run data:size      # the gzipped payload budget
 ```
 
-The three layers cover different things:
+| Layer | What it protects |
+|---|---|
+| **pytest** | The data contract: pagination completeness, the course-code and session rules, cancelled sections, the Metis weekday derivation, the missing 13:00 hour |
+| **Vitest** | The app: time handling, term filtering, search, room availability states, the timetable layout, and the components — including "no invented room numbers" |
+| **Playwright** | The shipped product: campus tabs, course search, the weekly timetable, the classroom view, the API payload |
 
-- **pytest** protects the data contract: pagination completeness, the code/label rules,
-  cancelled sections, the Metis weekday derivation and the missing 13:00 hour.
-- **Vitest** protects the app's logic: time handling, term filtering, search, room
-  availability states, and the React components (including "no invented room numbers").
-- **Playwright** protects the shipped product: the campus tabs, course search, the weekly
-  timetable, the classroom view, and the API payload.
+**No test touches the network.** Every fixture is committed.
 
-Every test runs against committed fixtures. **CI never touches the UofT API.**
+## Commands
 
----
+| Command | What it does |
+|---|---|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run lint` | ESLint |
+| `npm test` | Vitest |
+| `npm run test:e2e` | Playwright |
+| `npm run scraper:test` | pytest |
+| `npm run data:build` | Re-fetch the timetable and rewrite `data/` |
+| `npm run data:verify` | Check the committed dataset's invariants |
+| `npm run data:size` | Check the gzipped payload against the budget |
+| `npm run screenshots` | Re-capture the images in `docs/images/` |
 
-## CI
+## Data and attribution
 
-`.github/workflows/ci.yml` runs three jobs on every push and pull request:
+Class schedules come from the University of Toronto's public Timetable Builder
+API; classroom availability comes from U of T's Classroom Space Database;
+building names come from Cobalt, U of T's open-data project.
 
-1. `scraper` — `uv sync`, `pytest`, then `uoft-scraper verify` on the committed dataset.
-2. `web` — `npm ci`, ESLint, Vitest, `next build`.
-3. `e2e` — `npm ci`, install Chromium, `playwright test`.
+The University of Toronto publishes **no terms of use, rate-limit statement
+or versioning policy** for the timetable API. The API is read at a polite
+pace, by hand, and the result is committed as a dated snapshot so the app
+does not hit U of T's servers on every visit.
 
----
+This project is **not affiliated with or endorsed by the University of
+Toronto**.
 
-## Known limitations
+## License
 
-- **Room numbers are not available for any campus.** The timetable API does not publish
-  them. Only UTM has classroom-level availability, because Metis covers only UTM.
-- **Metis is a snapshot of one week** (the week of 2026-09-30). Occupancy is shown by
-  weekday; the app always labels which week the data is from.
-- **The 13:00 hour is not published by Metis** and is shown as unknown.
-- The dataset is ~8.7 MB of JSON (~420 KB gzipped). It is fetched once and cached; split
-  it per campus if you need a lighter first paint.
-- Cancelled sections are excluded. Sections that change after the scrape are picked up on
-  the next `npm run data:build`.
-
----
-
-## Credits
-
-Class schedules come from the University of Toronto's public timetable API; classroom
-availability comes from UTM's Classroom Space Database.
+MIT — see [LICENSE](LICENSE). The data in `data/` is a redistributed
+snapshot of public University information and is not covered by that licence.
