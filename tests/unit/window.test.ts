@@ -5,6 +5,8 @@ import {
   classesInWindow,
   meetingFitsWindow,
   roomStateForWindow,
+  roomStatusForWindow,
+  sortRoomsByWindow,
   windowIsEmpty,
 } from "@/components/lib/window";
 
@@ -181,6 +183,21 @@ describe("a room against a window", () => {
     ).toBe("busy");
   });
 
+  it("is free when it is free at some point and no hours were picked", () => {
+    // "I need a room on Wednesday" means any hour of Wednesday will do.
+    const mn2100 = room({ 2: { 10: false, 11: true, 12: true } });
+    expect(
+      roomStateForWindow(mn2100, { days: [2], startMins: null, endMins: null }),
+    ).toBe("free");
+  });
+
+  it("is busy when every published hour is booked and no hours were picked", () => {
+    const mn2100 = room({ 2: { 10: true, 11: true } });
+    expect(
+      roomStateForWindow(mn2100, { days: [2], startMins: null, endMins: null }),
+    ).toBe("busy");
+  });
+
   it("is busy rather than unknown when it is booked in part of the window", () => {
     // The snapshot has hour 10 but not hour 11, and the room is booked in
     // hour 10: it is definitely not free for the window.
@@ -188,5 +205,55 @@ describe("a room against a window", () => {
     expect(
       roomStateForWindow(mn2100, { days: [2], startMins: 600, endMins: 720 }),
     ).toBe("busy");
+  });
+});
+
+describe("a room's status over a window", () => {
+  it("says the room is free for the window", () => {
+    const mn2100 = room({ 2: { 10: false, 11: false } });
+    const status = roomStatusForWindow(mn2100, {
+      days: [2],
+      startMins: 600,
+      endMins: 720,
+    });
+    expect(status.state).toBe("free");
+    expect(status.nextFreeText).toBe("Free for your window");
+  });
+
+  it("says the room is busy in the window", () => {
+    const mn2100 = room({ 2: { 10: false, 11: true } });
+    const status = roomStatusForWindow(mn2100, {
+      days: [2],
+      startMins: 600,
+      endMins: 720,
+    });
+    expect(status.state).toBe("busy");
+    expect(status.nextFreeText).toMatch(/busy/i);
+  });
+
+  it("says the room is not published for the window", () => {
+    const mn2100 = room({ 2: { 10: false } });
+    const status = roomStatusForWindow(mn2100, {
+      days: [2],
+      startMins: 600,
+      endMins: 720,
+    });
+    expect(status.state).toBe("unknown");
+    expect(status.nextFreeText).toMatch(/not published/i);
+  });
+});
+
+describe("ordering the rooms over a window", () => {
+  it("puts the free rooms first", () => {
+    const busy = room({ 2: { 10: true, 11: false } });
+    const free = room({ 2: { 10: false, 11: false } });
+    const sorted = sortRoomsByWindow(
+      [
+        { ...busy, room: "MN 1000" },
+        { ...free, room: "MN 2000" },
+      ],
+      { days: [2], startMins: 600, endMins: 720 },
+    );
+    expect(sorted.map((r) => r.room)).toEqual(["MN 2000", "MN 1000"]);
   });
 });

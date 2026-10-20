@@ -3,7 +3,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import WeeklySchedule from "./WeeklySchedule";
 import SectionFinder from "./SectionFinder";
-import { EMPTY_WINDOW, type TimeWindow } from "./lib/window";
+import WindowControl from "./WindowControl";
+import {
+  EMPTY_WINDOW,
+  classesInWindow,
+  roomStateForWindow,
+  roomStatusForWindow,
+  sortRoomsByWindow,
+  windowIsEmpty,
+  type TimeWindow,
+} from "./lib/window";
 import {
   buildingSummaries,
   classesInProgress,
@@ -260,17 +269,21 @@ export default function ClassFinder() {
     [termClasses, query],
   );
 
+  const hasWindow = !windowIsEmpty(timeWindow);
+
   const stats = useMemo(() => {
     const totalRooms = campusRooms.length;
     let freeRooms = 0;
     let unknownRooms = 0;
     for (const room of campusRooms) {
-      const state = roomStatusAt(room, ctx).state;
+      const state = hasWindow
+        ? roomStateForWindow(room, timeWindow)
+        : roomStatusAt(room, ctx).state;
       if (state === "free") freeRooms += 1;
       else if (state === "unknown") unknownRooms += 1;
     }
     return { totalRooms, freeRooms, unknownRooms };
-  }, [campusRooms, ctx]);
+  }, [campusRooms, ctx, hasWindow, timeWindow]);
 
   // ------------------------------------------------------------- handlers
 
@@ -454,6 +467,8 @@ export default function ClassFinder() {
                     : campusHasRooms
                       ? stats.unknownRooms === stats.totalRooms
                         ? `${stats.totalRooms} classrooms on ${activeCampus}`
+                        : hasWindow
+                        ? `${stats.freeRooms} of ${stats.totalRooms} classrooms free for your window on ${activeCampus}`
                         : `${stats.freeRooms} of ${stats.totalRooms} classrooms available on ${activeCampus}`
                       : `${termClasses.length} class meetings scheduled on ${activeCampus}`}
                   {" · "}
@@ -503,7 +518,9 @@ export default function ClassFinder() {
               }`}
               title={
                 campusHasRooms
-                  ? "Only show rooms that are listed as available right now"
+                  ? hasWindow
+                    ? "Only show the rooms that are free for the window you named"
+                    : "Only show rooms that are listed as available right now"
                   : "Room-level availability is published for UTM only"
               }
             >
@@ -516,7 +533,9 @@ export default function ClassFinder() {
               />
               <span className="flex items-center gap-1.5">
                 <i className="fa-solid fa-door-open text-emerald-400 text-xs" />
-                Only show empty classes right now
+                {hasWindow
+                  ? "Only show rooms free for your window"
+                  : "Only show empty classes right now"}
               </span>
             </label>
           </div>
@@ -561,6 +580,8 @@ export default function ClassFinder() {
             classesForBuilding={classesForBuilding}
             courseMatches={courseMatches}
             onlyFree={onlyFree && campusHasRooms}
+            window={timeWindow}
+            onWindowChange={setTimeWindow}
             onFindSections={(code) =>
               navigate(`#/sections/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
@@ -633,6 +654,9 @@ interface ListViewProps {
   courseMatches: string[];
   /** Open the section finder for a course. */
   onFindSections: (code: string) => void;
+  /** The times the student says they can do something in. */
+  window: TimeWindow;
+  onWindowChange: (window: TimeWindow) => void;
   onlyFree: boolean;
   onOpenCourse: (code: string) => void;
   onOpenBuilding: (code: string) => void;
@@ -648,6 +672,8 @@ function ListView({
   classesForBuilding,
   courseMatches,
   onFindSections,
+  window,
+  onWindowChange,
   onlyFree,
   onOpenCourse,
   onOpenBuilding,
@@ -675,6 +701,18 @@ function ListView({
         campus={data.campus}
         campusRooms={campusRooms}
       />
+      <div className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 shadow-md">
+        <WindowControl
+          window={window}
+          onChange={onWindowChange}
+          label="When do you need a room?"
+        />
+        <p className="text-xs text-slate-400 mt-2">
+          Name the times you can use a room and the buildings answer for that
+          window instead of for right now.
+        </p>
+      </div>
+
       {courseMatches.length ? (
         <div className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 space-y-3 shadow-md">
           <div className="flex items-center gap-2.5">
@@ -720,24 +758,36 @@ function ListView({
 
       {buildings.map((b) => {
         const buildingClasses = classesForBuilding(b.code);
-        // The rooms a student would walk to first: the one that is free
-        // now, then the one that frees soonest.
-        const rooms = sortRoomsByNextFree(
-          campusRooms.filter((room) => room.building === b.code),
-          ctx,
+        const hasWindow = !windowIsEmpty(window);
+        const buildingRooms = campusRooms.filter(
+          (room) => room.building === b.code,
         );
+        // The rooms a student would walk to first: the one that is free
+        // now, then the one that frees soonest. With a window, the one that
+        // is free for the window comes first.
+        const rooms = hasWindow
+          ? sortRoomsByWindow(buildingRooms, window)
+          : sortRoomsByNextFree(buildingRooms, ctx);
         const classrooms = data.classrooms.filter(
           (classroom) => classroom.building === b.code,
         );
-        const roomStates = rooms.map((room) => roomStatusAt(room, ctx).state);
+        const roomStates = rooms.map((room) =>
+          hasWindow
+            ? roomStateForWindow(room, window)
+            : roomStatusAt(room, ctx).state,
+        );
         const freeCount = roomStates.filter((state) => state === "free").length;
         const unknownCount = roomStates.filter((state) => state === "unknown").length;
         const visibleRooms = onlyFree
-          ? rooms.filter((room) => roomStatusAt(room, ctx).state === "free")
+          ? rooms.filter((_, index) => roomStates[index] === "free")
           : rooms;
-        const todays = buildingClasses
-          .filter((meeting) => meeting.day === ctx.uoftDay)
-          .sort((a, b) => timeToMinutes(a.start) - timeToMinutes(b.start));
+        // The classes running in the window, or today's classes when there
+        // is no window.
+        const todays = (
+          hasWindow
+            ? classesInWindow(buildingClasses, window)
+            : buildingClasses.filter((meeting) => meeting.day === ctx.uoftDay)
+        ).sort((a, b) => timeToMinutes(a.start) - timeToMinutes(b.start));
         const next = nextClassInBuilding(buildingClasses, ctx.uoftDay, ctx.nowMins);
         const inProgress = classesInProgress(buildingClasses, ctx.uoftDay, ctx.nowMins);
         const shown = showAllClasses ? todays : todays.slice(0, 6);
@@ -772,7 +822,8 @@ function ListView({
                         : undefined
                     }
                   >
-                    {freeCount} of {rooms.length} free now
+                    {freeCount} of {rooms.length} free{" "}
+                    {hasWindow ? "for your window" : "now"}
                   </span>
                 ) : null}
                 {todays.length ? (
@@ -806,7 +857,9 @@ function ListView({
             {visibleRooms.length ? (
               <div className="space-y-2">
                 {visibleRooms.map((room) => {
-                  const status = roomStatusAt(room, ctx);
+                  const status = hasWindow
+                    ? roomStatusForWindow(room, window)
+                    : roomStatusAt(room, ctx);
                   return (
                     <RoomCard
                       key={room.room}
@@ -871,7 +924,7 @@ function ListView({
               <div className="border-t border-slate-800/80 pt-3 space-y-2">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wide">
-                    Today in {b.code}
+                    {hasWindow ? `Your window in ${b.code}` : `Today in ${b.code}`}
                   </h3>
                   <button
                     type="button"
@@ -900,7 +953,8 @@ function ListView({
                       <span className="text-[11px] text-emerald-300/90 ml-auto flex items-center gap-2">
                         {rooms.length ? (
                           <span>
-                            {freeCount} free in {b.code} now
+                            {freeCount} free in {b.code}{" "}
+                            {hasWindow ? "for your window" : "now"}
                           </span>
                         ) : null}
                       </span>

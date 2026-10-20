@@ -10,7 +10,7 @@
  * did before the window existed.
  */
 
-import type { ClassMeeting, Room, RoomState } from "./types";
+import type { ClassMeeting, Room, RoomState, RoomStatus } from "./types";
 import { timeToMinutes } from "./schedule";
 
 export interface TimeWindow {
@@ -154,7 +154,14 @@ export function roomStateForWindow(
   return "unknown";
 }
 
-/** The room's state on one day, across the hours the window touches. */
+/**
+ * The room's state on one day.
+ *
+ * When the window names hours, the room has to be free in every one of
+ * them - that is what "I need it between two and four" means. When it does
+ * not, any hour of the day will do: "I need a room on Wednesday" means the
+ * student will take whichever hour suits.
+ */
 function roomStateOnDay(
   room: Room,
   day: number,
@@ -166,17 +173,87 @@ function roomStateOnDay(
   const published = Object.keys(hours)
     .map(Number)
     .filter((value) => Number.isFinite(value));
-  const touched = bounds
-    ? published.filter((hour) => hour >= bounds.startHour && hour <= bounds.endHour)
-    : published;
+  if (!published.length) return "unknown";
 
+  if (!bounds) {
+    // Any hour will do.
+    if (published.some((hour) => !hours[String(hour)])) return "free";
+    return "busy";
+  }
+
+  const touched = published.filter(
+    (hour) => hour >= bounds.startHour && hour <= bounds.endHour,
+  );
   for (const hour of touched) {
     if (hours[String(hour)]) return "busy";
   }
 
   // The window needs every hour it covers; if the snapshot does not carry
   // one of them, the room cannot be called free.
-  const needed = bounds ? bounds.endHour - bounds.startHour + 1 : published.length;
+  const needed = bounds.endHour - bounds.startHour + 1;
   if (touched.length < needed) return "unknown";
   return "free";
+}
+
+/**
+ * The card a room shows when the student has named a window.
+ *
+ * The same shape the room card uses for the current hour, so the card does
+ * not change: only what it says does.
+ */
+export function roomStatusForWindow(
+  room: Room,
+  window: TimeWindow,
+): RoomStatus {
+  const state = roomStateForWindow(room, window);
+  const days = window.days.length;
+
+  const hoursAreNamed =
+    window.startMins !== null || window.endMins !== null;
+
+  if (state === "free") {
+    return {
+      state,
+      statusTitle: "Available",
+      nextFreeText:
+        days && hoursAreNamed
+          ? "Free for your window"
+          : "Free at some point in your window",
+      subText: "The room is listed as available for the window",
+      busyUntil: null,
+      nextFreeAt: null,
+    };
+  }
+
+  if (state === "busy") {
+    return {
+      state,
+      statusTitle: "Occupied",
+      nextFreeText: days
+        ? "Busy in your window"
+        : "Busy in your window on every day",
+      subText: "The room is booked in part of the window",
+      busyUntil: null,
+      nextFreeAt: null,
+    };
+  }
+
+  return {
+    state,
+    statusTitle: "Unknown",
+    nextFreeText: "Not published for your window",
+    subText: "The source does not publish every hour of the window",
+    busyUntil: null,
+    nextFreeAt: null,
+  };
+}
+
+/** The rooms that are free for the window first, then the rest. */
+export function sortRoomsByWindow(rooms: Room[], window: TimeWindow): Room[] {
+  const rank: Record<RoomState, number> = { free: 0, busy: 1, unknown: 2 };
+  return [...rooms].sort(
+    (a, b) =>
+      rank[roomStateForWindow(a, window)] - rank[roomStateForWindow(b, window)] ||
+      a.room.localeCompare(b.room),
+  );
 }

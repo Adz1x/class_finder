@@ -62,6 +62,29 @@ test.describe("class & room finder", () => {
     await expect(page.getByText(/Room: MN \d/)).toHaveCount(0);
   });
 
+  test("a building answers for the window you need", async ({ page }) => {
+    await page.clock.setFixedTime(new Date("2026-10-19T10:00:00"));
+    await page.goto("/");
+
+    // The building still reads "today" until a window is named.
+    await expect(page.getByText(/Today in IB/i)).toBeVisible();
+
+    await page
+      .getByRole("group", { name: "Days you need" })
+      .getByRole("button", { name: "Tue" })
+      .click();
+    await page.getByLabel("From").fill("17:00");
+    await page.getByLabel("To").fill("19:00");
+
+    // The class list is about the window, not about today.
+    await expect(page.getByText(/Your window in IB/i)).toBeVisible();
+
+    // And the rooms answer for the whole window: CC 3124 is free on
+    // Tuesday between five and seven.
+    await expect(page.getByText("Free for your window").first()).toBeVisible();
+    await expect(page.getByText("CC 3124").first()).toBeVisible();
+  });
+
   test("finds another section of a course that fits the window", async ({
     page,
   }) => {
