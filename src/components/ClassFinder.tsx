@@ -198,10 +198,13 @@ export default function ClassFinder() {
   const stats = useMemo(() => {
     const totalRooms = campusRooms.length;
     let freeRooms = 0;
+    let unknownRooms = 0;
     for (const room of campusRooms) {
-      if (roomStatusAt(room, ctx).state === "free") freeRooms += 1;
+      const state = roomStatusAt(room, ctx).state;
+      if (state === "free") freeRooms += 1;
+      else if (state === "unknown") unknownRooms += 1;
     }
-    return { totalRooms, freeRooms };
+    return { totalRooms, freeRooms, unknownRooms };
   }, [campusRooms, ctx]);
 
   // ------------------------------------------------------------- handlers
@@ -332,12 +335,43 @@ export default function ClassFinder() {
               </div>
             </div>
 
-            <div className="text-xs font-semibold text-slate-300 shrink-0 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>
-                {campusHasRooms
-                  ? `${stats.freeRooms} of ${stats.totalRooms} classrooms available on ${campus}`
-                  : `${termClasses.length} class meetings scheduled on ${campus}`}
+            <div className="text-xs font-semibold text-slate-300 shrink-0 flex items-center gap-3 flex-wrap justify-end">
+              <div
+                className="inline-flex rounded-lg bg-slate-950/80 p-0.5 border border-slate-800"
+                role="group"
+                aria-label="Term"
+              >
+                {(["F", "S"] as Term[]).map((term) => (
+                  <button
+                    key={term}
+                    type="button"
+                    onClick={() => setViewTerm(term)}
+                    aria-pressed={activeTerm === term}
+                    className={`px-2.5 py-1 rounded-md text-[11px] transition-all ${
+                      activeTerm === term
+                        ? "font-bold bg-blue-600 text-white shadow"
+                        : "font-medium text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    {term === "F" ? "Fall" : "Winter"}
+                  </button>
+                ))}
+              </div>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>
+                  {campusHasRooms
+                    ? stats.unknownRooms === stats.totalRooms
+                      ? `Availability not published for this hour on ${campus}`
+                      : `${stats.freeRooms} of ${stats.totalRooms} classrooms available on ${campus}${
+                          stats.unknownRooms
+                            ? ` (${stats.unknownRooms} not published)`
+                            : ""
+                        }`
+                    : `${termClasses.length} class meetings scheduled on ${campus}`}
+                  {" · "}
+                  {activeTerm === "F" ? "Fall 2026" : "Winter 2027"}
+                </span>
               </span>
             </div>
           </div>
@@ -355,7 +389,11 @@ export default function ClassFinder() {
                   type="text"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search building (e.g. BA, SS), room (e.g. BA 1160), or course code..."
+                  placeholder={
+                    campusHasRooms
+                      ? `Search building (e.g. ${campus === "UTM" ? "MN, IB" : "BA, SS"}), classroom (e.g. MN 2100), or course code...`
+                      : `Search building (e.g. BA, SS) or course code...`
+                  }
                   className="w-full bg-slate-800/90 border border-slate-700 rounded-xl pl-9 pr-16 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition shadow-inner"
                 />
                 {query ? (
@@ -403,6 +441,7 @@ export default function ClassFinder() {
           <ListView
             data={data}
             ctx={ctx}
+            activeTerm={activeTerm}
             buildings={visibleBuildings}
             campusRooms={campusRooms}
             classesForBuilding={classesForBuilding}
@@ -456,6 +495,7 @@ export default function ClassFinder() {
 interface ListViewProps {
   data: Dataset;
   ctx: ReturnType<typeof getLiveTimeContext>;
+  activeTerm: Term;
   buildings: ReturnType<typeof buildingSummaries>;
   campusRooms: Room[];
   classesForBuilding: (code: string) => ClassMeeting[];
@@ -469,6 +509,7 @@ interface ListViewProps {
 function ListView({
   data,
   ctx,
+  activeTerm,
   buildings,
   campusRooms,
   classesForBuilding,
@@ -564,7 +605,7 @@ function ListView({
                 <h2 className="font-bold text-white text-base">{b.name}</h2>
               </button>
               <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
-                {b.meetingCount} class meetings
+                {b.meetingCount} class meetings · {activeTerm === "F" ? "Fall" : "Winter"}
               </span>
             </div>
 

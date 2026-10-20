@@ -18,6 +18,8 @@ Parsing rules, all of them verified against the live API:
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from typing import Any, Iterable
 
 from .models import ClassMeeting, campus_key
@@ -42,56 +44,29 @@ NON_PHYSICAL_BUILDINGS = frozenset(
 
 #: Building names we are confident about. Anything else is reported as
 #: "Name not listed" by the UI rather than invented.
-BUILDING_NAMES: dict[str, str] = {
-    # UTM
-    "MN": "Maanjiwe Nendamowinan",
-    "IB": "Instructional Centre (UTM)",
-    "DH": "Deerfield Hall",
-    "CC": "Communication, Culture and Technology (CCIT)",
-    "DV": "William G. Davis Building",
-    "KN": "Kaneff Centre / Innovation Complex",
-    "NE": "North Building",
-    "HB": "Hazel McCallion Academic Learning Centre",
-    "SH": "Science Building (UTM)",
-    # UTSG
-    "BA": "Bahen Centre for Information Technology",
-    "SS": "Sidney Smith Hall",
-    "MP": "McLennan Physical Laboratories",
-    "MS": "Medical Sciences Building",
-    "MY": "Myhal Centre for Engineering Innovation",
-    "GB": "Galbraith Building",
-    "SF": "Sandford Fleming Building",
-    "WB": "Wallberg Building",
-    "UC": "University College",
-    "VC": "Victoria College (Old Vic)",
-    "NF": "Northrop Frye Hall",
-    "CR": "Carr Hall",
-    "BR": "Brennan Hall",
-    "RW": "Ramsay Wright Laboratories",
-    "ES": "Earth Sciences Centre",
-    "LM": "Lash Miller Chemical Laboratories",
-    "EX": "Exam Centre",
-    "OI": "OISE",
-    "WI": "Wilson Hall (New College)",
-    "WE": "Wetmore Hall (New College)",
-    "IN": "Innis College",
-    "WW": "Woodsworth College",
-    "BL": "Claude T. Bissell Building",
-    "PB": "Leslie Dan Pharmacy Building",
-    "AB": "Astronomy and Astrophysics Building",
-    # UTSC
-    "IC": "Instructional Centre (UTSC)",
-    "IA": "Sam Ibrahim Building",
-    "HL": "Highland Hall",
-    "KW": "Kina Wiiya Enadong Building",
-    "BV": "Bladen Wing",
-    "HW": "Humanities Wing",
-    "MW": "Social Sciences Building",
-    "SW": "Science Wing (UTSC)",
-    "SY": "Environmental Science & Chemistry Building",
-    "AA": "Arts & Administration Building",
-    "AC": "Academic Resource Centre",
-}
+#:
+#: The table lives in ``data/building_names.json`` so that every name carries
+#: a source and can be audited. Names from Cobalt (the University of Toronto's
+#: own open-data project) were only accepted where the campus Cobalt records
+#: for the building matches the campus of the timetable classes that meet
+#: there - see the generator that produced the file.
+_BUILDING_NAMES_PATH = Path(__file__).resolve().parents[3] / "data" / "building_names.json"
+
+
+def _load_building_names() -> dict[str, str]:
+    try:
+        payload = json.loads(_BUILDING_NAMES_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    buildings = payload.get("buildings") or {}
+    return {
+        code: str(entry["name"])
+        for code, entry in buildings.items()
+        if isinstance(entry, dict) and entry.get("name")
+    }
+
+
+BUILDING_NAMES: dict[str, str] = _load_building_names()
 
 #: Milliseconds per hour, used to turn ``millisofday`` into a clock time.
 MS_PER_HOUR = 3_600_000

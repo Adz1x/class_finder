@@ -142,6 +142,38 @@ describe("ClassFinder", () => {
     expect(screen.getByText("Bahen Centre for Information Technology")).toBeInTheDocument();
   });
 
+  it("lets you switch term in the list view, not just the timetable", async () => {
+    // Regression: the list view used to be silently scoped to the current term
+    // with no way to change it, so a building looked like it had half the
+    // classes it actually has.
+    const user = await renderApp();
+
+    const toggle = screen.getByRole("group", { name: "Term" });
+    expect(toggle).toBeInTheDocument();
+
+    // The sample dataset has 2 Fall meetings in MN and 1 Winter meeting.
+    await waitFor(() =>
+      expect(screen.getByText(/2 class meetings · Fall/)).toBeInTheDocument(),
+    );
+
+    await user.click(within(toggle).getByRole("button", { name: "Winter" }));
+
+    await waitFor(() =>
+      expect(screen.getByText(/1 class meetings · Winter/)).toBeInTheDocument(),
+    );
+    expect(screen.queryByText(/2 class meetings · Fall/)).not.toBeInTheDocument();
+  });
+
+  it("states which term the counts belong to", async () => {
+    await renderApp();
+
+    await waitFor(() =>
+      expect(
+        screen.getByText(/classrooms available on UTM · Fall 2026/),
+      ).toBeInTheDocument(),
+    );
+  });
+
   it("reports a failed data load instead of showing an empty page", async () => {
     vi.stubGlobal(
       "fetch",
