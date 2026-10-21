@@ -29,8 +29,22 @@ test.describe("class & room finder", () => {
 
     await page.getByPlaceholder(/Search building/i).fill("isp100h5");
 
-    await expect(page.getByText("Matching courses")).toBeVisible();
+    await expect(
+      page.getByRole("group", { name: /Courses matching your search/i }),
+    ).toBeVisible();
     await expect(page.getByText("ISP100H5").first()).toBeVisible();
+  });
+
+  test("choosing a building keeps the other buildings and does not search courses", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    await page.getByRole("button", { name: "CC", exact: true }).click();
+
+    await expect(page.getByPlaceholder(/Search building/i)).toHaveValue("");
+    await expect(page.getByRole("button", { name: "IB", exact: true })).toBeVisible();
+    await expect(page.getByText("Matching courses")).toHaveCount(0);
   });
 
   test("shows the weekly timetable of a course", async ({ page }) => {

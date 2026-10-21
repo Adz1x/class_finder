@@ -108,9 +108,24 @@ describe("ClassFinder", () => {
     await user.type(screen.getByPlaceholderText(/Search building/i), "isp100h5");
 
     await waitFor(() =>
-      expect(screen.getByText("Matching courses")).toBeInTheDocument(),
+      expect(
+        screen.getByRole("group", { name: /Courses matching your search/i }),
+      ).toBeInTheDocument(),
     );
     expect(screen.getAllByText("ISP100H5").length).toBeGreaterThan(0);
+  });
+
+  it("choosing a building does not turn its code into a course search", async () => {
+    const user = await renderApp();
+
+    await user.click(screen.getByRole("button", { name: "IB" }));
+
+    expect(screen.getByPlaceholderText(/Search building/i)).toHaveValue("");
+    expect(
+      screen.queryByRole("group", { name: /Courses matching your search/i }),
+    ).not.toBeInTheDocument();
+    // The other buildings stay one click away.
+    expect(screen.getByRole("button", { name: "MN" })).toBeInTheDocument();
   });
 
   it("never shows an invented room number", async () => {

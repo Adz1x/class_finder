@@ -17,7 +17,6 @@ import {
   buildingSummaries,
   classesInProgress,
   filterByTerm,
-  findCourseMeetings,
   format12Hour,
   formatHourRange,
   getLiveTimeContext,
@@ -222,23 +221,53 @@ export default function ClassFinder() {
 
   const buildings = useMemo(() => buildingSummaries(termClasses), [termClasses]);
 
+  // The chips and the dropdown name every building the search matches; the
+  // list below shows the selected building, if one is selected. Keeping the
+  // two apart means choosing a building does not hide the other buildings.
   const visibleBuildings = useMemo(() => {
     const wanted = normalizeCode(query);
-    if (building !== "ALL") {
-      return buildings.filter((b) => b.code === building);
-    }
     if (!wanted) return buildings;
     return buildings.filter(
       (b) =>
         normalizeCode(b.code).includes(wanted) ||
         normalizeCode(b.name).includes(wanted),
     );
-  }, [buildings, building, query]);
+  }, [buildings, query]);
+
+  const listBuildings = useMemo(
+    () =>
+      building === "ALL"
+        ? visibleBuildings
+        : buildings.filter((b) => b.code === building),
+    [building, buildings, visibleBuildings],
+  );
 
   const courseMatches = useMemo(
     () => (query ? searchCourseCodes(campusClasses, query, 12) : []),
     [campusClasses, query],
   );
+
+  // A course code is a different question from "which room is free", so the
+  // course results take the room controls' place rather than sitting under
+  // them. A building name that happens to contain a course-code substring
+  // ("CC" and the CCT courses) is not a course search: the digit in a real
+  // course code is what tells them apart.
+  const courseSearch =
+    courseMatches.length > 0 &&
+    (visibleBuildings.length === 0 || /\d/.test(query));
+
+  // Does the search name a building? If it does, the classes inside that
+  // building are what the student asked for, not classes whose course code
+  // happens to contain the same letters.
+  const queryNamesABuilding = useMemo(() => {
+    const wanted = normalizeCode(query);
+    if (!wanted) return false;
+    return buildings.some(
+      (b) =>
+        normalizeCode(b.code).includes(wanted) ||
+        normalizeCode(b.name).includes(wanted),
+    );
+  }, [buildings, query]);
 
   // St. George has 68 buildings and Scarborough 13. Showing every one as a
   // chip wrapped the header onto three rows, so the busiest few get a chip
@@ -250,6 +279,10 @@ export default function ClassFinder() {
     () => [...visibleBuildings].sort((a, b) => b.meetingCount - a.meetingCount),
     [visibleBuildings],
   );
+  const rankedListBuildings = useMemo(
+    () => [...listBuildings].sort((a, b) => b.meetingCount - a.meetingCount),
+    [listBuildings],
+  );
   const chipBuildings = rankedBuildings.slice(0, MAX_BUILDING_CHIPS);
   const overflowBuildings = rankedBuildings.slice(MAX_BUILDING_CHIPS);
 
@@ -257,7 +290,9 @@ export default function ClassFinder() {
     (code: string) => {
       const wanted = normalizeCode(query);
       const inBuilding = termClasses.filter((c) => c.buildingCode === code);
-      if (!wanted) return inBuilding;
+      // A building name chooses the building; it does not narrow the classes
+      // inside it. Only a search that is not naming a building filters them.
+      if (!wanted || queryNamesABuilding) return inBuilding;
       return inBuilding.filter(
         (c) =>
           normalizeCode(c.courseCode).includes(wanted) ||
@@ -266,7 +301,7 @@ export default function ClassFinder() {
           c.instructors.some((name) => normalizeCode(name).includes(wanted)),
       );
     },
-    [termClasses, query],
+    [termClasses, query, queryNamesABuilding],
   );
 
   const hasWindow = !windowIsEmpty(timeWindow);
@@ -298,7 +333,10 @@ export default function ClassFinder() {
 
   const selectBuilding = (code: string) => {
     setBuilding(code);
-    setQuery(code === "ALL" ? "" : code);
+    // The chip chooses a building; it is not a search term. Writing the code
+    // into the box used to turn "CC" into a search for every CCT course and
+    // filter the building's own classes.
+    setQuery("");
     setViewTerm(null);
     goHome();
   };
@@ -383,55 +421,57 @@ export default function ClassFinder() {
       <section className="bg-slate-900/95 border-b border-slate-800 sticky top-[65px] z-30 backdrop-blur shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-3 space-y-3">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <div className="pb-1 lg:pb-0 flex-1 min-w-0">
-              <div className="flex flex-wrap items-center rounded-xl bg-slate-950/80 p-1 border border-slate-800 gap-1">
-                <button
-                  type="button"
-                  onClick={() => selectBuilding("ALL")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                    building === "ALL"
-                      ? "font-bold bg-blue-600 text-white shadow shrink-0"
-                      : "text-slate-300 hover:text-white bg-slate-800/60 shrink-0"
-                  }`}
-                >
-                  All Buildings
-                </button>
-                {chipBuildings.map((b) => (
+            {!courseSearch ? (
+              <div className="pb-1 lg:pb-0 flex-1 min-w-0">
+                <div className="flex flex-wrap items-center rounded-xl bg-slate-950/80 p-1 border border-slate-800 gap-1">
                   <button
-                    key={b.code}
                     type="button"
-                    title={`${b.name} — ${b.meetingCount} class meetings`}
-                    onClick={() => selectBuilding(b.code)}
+                    onClick={() => selectBuilding("ALL")}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      building === b.code
+                      building === "ALL"
                         ? "font-bold bg-blue-600 text-white shadow shrink-0"
                         : "text-slate-300 hover:text-white bg-slate-800/60 shrink-0"
                     }`}
                   >
-                    {b.code}
+                    All Buildings
                   </button>
-                ))}
-                {overflowBuildings.length ? (
-                  <select
-                    value={overflowBuildings.some((b) => b.code === building) ? building : ""}
-                    onChange={(event) => {
-                      if (event.target.value) selectBuilding(event.target.value);
-                    }}
-                    aria-label="More buildings"
-                    className="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 focus:outline-none focus:border-blue-500 shrink-0 max-w-[13rem]"
-                  >
-                    <option value="">
-                      More buildings ({overflowBuildings.length})…
-                    </option>
-                    {overflowBuildings.map((b) => (
-                      <option key={b.code} value={b.code}>
-                        {b.code} — {b.name} ({b.meetingCount})
+                  {chipBuildings.map((b) => (
+                    <button
+                      key={b.code}
+                      type="button"
+                      title={`${b.name} — ${b.meetingCount} class meetings`}
+                      onClick={() => selectBuilding(b.code)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        building === b.code
+                          ? "font-bold bg-blue-600 text-white shadow shrink-0"
+                          : "text-slate-300 hover:text-white bg-slate-800/60 shrink-0"
+                      }`}
+                    >
+                      {b.code}
+                    </button>
+                  ))}
+                  {overflowBuildings.length ? (
+                    <select
+                      value={overflowBuildings.some((b) => b.code === building) ? building : ""}
+                      onChange={(event) => {
+                        if (event.target.value) selectBuilding(event.target.value);
+                      }}
+                      aria-label="More buildings"
+                      className="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 focus:outline-none focus:border-blue-500 shrink-0 max-w-[13rem]"
+                    >
+                      <option value="">
+                        More buildings ({overflowBuildings.length})…
                       </option>
-                    ))}
-                  </select>
-                ) : null}
+                      {overflowBuildings.map((b) => (
+                        <option key={b.code} value={b.code}>
+                          {b.code} — {b.name} ({b.meetingCount})
+                        </option>
+                      ))}
+                    </select>
+                  ) : null}
+                </div>
               </div>
-            </div>
+            ) : null}
 
             <div className="text-xs font-semibold text-slate-300 shrink-0 flex items-center gap-3 flex-wrap justify-end">
               <div
@@ -510,34 +550,36 @@ export default function ClassFinder() {
               </div>
             </form>
 
-            <label
-              className={`inline-flex items-center gap-2.5 text-xs font-semibold text-slate-200 px-3.5 py-2 rounded-xl border ${
-                campusHasRooms
-                  ? "bg-slate-800/70 border-slate-700/80 cursor-pointer select-none hover:bg-slate-800 transition shadow-sm"
-                  : "bg-slate-900/60 border-slate-800 text-slate-400 cursor-not-allowed"
-              }`}
-              title={
-                campusHasRooms
-                  ? hasWindow
-                    ? "Only show the rooms that are free for the window you named"
-                    : "Only show rooms that are listed as available right now"
-                  : "Room-level availability is published for UTM only"
-              }
-            >
-              <input
-                type="checkbox"
-                checked={onlyFree && campusHasRooms}
-                disabled={!campusHasRooms}
-                onChange={(event) => setOnlyFree(event.target.checked)}
-                className="w-4 h-4 rounded border-slate-600 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-900 bg-slate-900"
-              />
-              <span className="flex items-center gap-1.5">
-                <i className="fa-solid fa-door-open text-emerald-400 text-xs" />
-                {hasWindow
-                  ? "Only show rooms free for your window"
-                  : "Only show empty classes right now"}
-              </span>
-            </label>
+            {!courseSearch ? (
+              <label
+                className={`inline-flex items-center gap-2.5 text-xs font-semibold text-slate-200 px-3.5 py-2 rounded-xl border ${
+                  campusHasRooms
+                    ? "bg-slate-800/70 border-slate-700/80 cursor-pointer select-none hover:bg-slate-800 transition shadow-sm"
+                    : "bg-slate-900/60 border-slate-800 text-slate-400 cursor-not-allowed"
+                }`}
+                title={
+                  campusHasRooms
+                    ? hasWindow
+                      ? "Only show the rooms that are free for the window you named"
+                      : "Only show rooms that are listed as available right now"
+                    : "Room-level availability is published for UTM only"
+                }
+              >
+                <input
+                  type="checkbox"
+                  checked={onlyFree && campusHasRooms}
+                  disabled={!campusHasRooms}
+                  onChange={(event) => setOnlyFree(event.target.checked)}
+                  className="w-4 h-4 rounded border-slate-600 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-900 bg-slate-900"
+                />
+                <span className="flex items-center gap-1.5">
+                  <i className="fa-solid fa-door-open text-emerald-400 text-xs" />
+                  {hasWindow
+                    ? "Only show rooms free for your window"
+                    : "Only show empty classes right now"}
+                </span>
+              </label>
+            ) : null}
           </div>
         </div>
       </section>
@@ -575,10 +617,11 @@ export default function ClassFinder() {
             data={data}
             ctx={ctx}
             activeTerm={activeTerm}
-            buildings={rankedBuildings}
+            buildings={rankedListBuildings}
             campusRooms={campusRooms}
             classesForBuilding={classesForBuilding}
             courseMatches={courseMatches}
+            courseSearch={courseSearch}
             onlyFree={onlyFree && campusHasRooms}
             window={timeWindow}
             onWindowChange={setTimeWindow}
@@ -652,6 +695,8 @@ interface ListViewProps {
   campusRooms: Room[];
   classesForBuilding: (code: string) => ClassMeeting[];
   courseMatches: string[];
+  /** True when the search is a course code, not a room or a building. */
+  courseSearch: boolean;
   /** Open the section finder for a course. */
   onFindSections: (code: string) => void;
   /** The times the student says they can do something in. */
@@ -671,6 +716,7 @@ function ListView({
   campusRooms,
   classesForBuilding,
   courseMatches,
+  courseSearch,
   onFindSections,
   window,
   onWindowChange,
@@ -695,66 +741,55 @@ function ListView({
 
   return (
     <div className="space-y-6">
-      <AvailabilityNotice
-        data={data}
-        ctx={ctx}
-        campus={data.campus}
-        campusRooms={campusRooms}
-      />
-      <div className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 shadow-md">
-        <WindowControl
-          window={window}
-          onChange={onWindowChange}
-          label="When do you need a room?"
-        />
-        <p className="text-xs text-slate-400 mt-2">
-          Name the times you can use a room and the buildings answer for that
-          window instead of for right now.
-        </p>
-      </div>
-
-      {courseMatches.length ? (
-        <div className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 space-y-3 shadow-md">
-          <div className="flex items-center gap-2.5">
-            <i className="fa-solid fa-book-open text-blue-400 text-xs" />
-            <h2 className="font-bold text-white text-base">Matching courses</h2>
-            <span className="text-xs text-slate-400">
-              pick one to see every section of it
-            </span>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
-              {courseMatches.length}
-            </span>
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {courseMatches.map((code) => {
-              const meetings = findCourseMeetings(data.classes, code);
-              const first = meetings[0];
-              return (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => onFindSections(code)}
-                  className="group bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-blue-500/50 border-l-4 border-l-blue-500 rounded-xl px-4 py-3 text-left transition-all shadow-sm"
-                >
-                  <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="text-base font-bold text-white group-hover:text-blue-400 transition">
-                      {code}
-                    </span>
-                    <span className="text-xs text-slate-400">
-                      {meetings.length} meeting{meetings.length === 1 ? "" : "s"}
-                    </span>
-                  </div>
-                  {first ? (
-                    <p className="text-xs text-slate-400 mt-1 truncate">
-                      {first.courseTitle} • {first.buildingName}
-                    </p>
-                  ) : null}
-                </button>
-              );
-            })}
-          </div>
+      {courseSearch ? (
+        <div
+          role="group"
+          aria-label="Courses matching your search"
+          className="flex flex-wrap items-center gap-2"
+        >
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+            Courses
+          </span>
+          {courseMatches.map((code) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => onFindSections(code)}
+              aria-label={`${code}, open every section`}
+              className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-xs font-semibold text-slate-200 transition hover:border-blue-500 hover:text-white"
+            >
+              {code}
+              <i
+                className="fa-solid fa-arrow-right text-[10px] text-blue-400"
+                aria-hidden="true"
+              />
+            </button>
+          ))}
+          <span className="text-xs text-slate-500">
+            Pick one to see every section.
+          </span>
         </div>
-      ) : null}
+      ) : (
+        <>
+          <AvailabilityNotice
+            data={data}
+            ctx={ctx}
+            campus={data.campus}
+            campusRooms={campusRooms}
+          />
+          <div className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 shadow-md">
+            <WindowControl
+              window={window}
+              onChange={onWindowChange}
+              label="When do you need a room?"
+            />
+            <p className="text-xs text-slate-400 mt-2">
+              Name the times you can use a room and the buildings answer for
+              that window instead of for right now.
+            </p>
+          </div>
+        </>
+      )}
 
       {buildings.map((b) => {
         const buildingClasses = classesForBuilding(b.code);
