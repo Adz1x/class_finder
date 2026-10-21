@@ -128,6 +128,51 @@ describe("ClassFinder", () => {
     expect(screen.getByRole("button", { name: "MN" })).toBeInTheDocument();
   });
 
+  it("finds a classroom by the number a student types", async () => {
+    const user = await renderApp();
+
+    await user.type(screen.getByPlaceholderText(/Search building/i), "MN 2100");
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("group", { name: /Rooms matching your search/i }),
+      ).toBeInTheDocument(),
+    );
+    await user.click(screen.getByRole("button", { name: /MN 2100/ }));
+
+    await waitFor(() =>
+      expect(screen.getByRole("heading", { name: "MN 2100" })).toBeInTheDocument(),
+    );
+  });
+
+  it("does not offer a building-wide timetable from the class list", async () => {
+    await renderApp();
+
+    expect(screen.queryByText(/Full weekly schedule/i)).not.toBeInTheDocument();
+  });
+
+  it("names a St. George room whose building name is not published", async () => {
+    const user = await renderApp();
+
+    await user.click(screen.getByRole("button", { name: "UTSG" }));
+
+    await waitFor(() =>
+      expect(screen.getByText("BA 2179")).toBeInTheDocument(),
+    );
+    expect(screen.queryByText(/\bnull\b/)).not.toBeInTheDocument();
+    expect(screen.getAllByText(/Name not listed/).length).toBeGreaterThan(0);
+  });
+
+  it("keeps the facts the classroom inventory publishes", async () => {
+    const user = await renderApp();
+
+    await user.click(screen.getByRole("button", { name: "UTSG" }));
+
+    await waitFor(() =>
+      expect(screen.getAllByTitle(/Lecture Theatre/i).length).toBeGreaterThan(0),
+    );
+  });
+
   it("never shows an invented room number", async () => {
     await renderApp();
 

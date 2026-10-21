@@ -3,6 +3,7 @@ import {
   buildingLabel,
   buildingSummaries,
   classesInProgress,
+  classroomKey,
   filterByTerm,
   findCourseMeetings,
   format12Hour,
@@ -120,6 +121,13 @@ describe("buildings", () => {
     const summaries = buildingSummaries(sampleClasses);
     expect(summaries.map((b) => b.code)).toEqual(["AA", "BA", "IB", "MN"]);
     expect(summaries[3].meetingCount).toBe(3);
+  });
+
+  it("gives a room one key across the shapes its sources use", () => {
+    expect(classroomKey("AP", "124")).toBe("ap124");
+    expect(classroomKey("AP", "AP 124")).toBe("ap124");
+    expect(classroomKey("AA", "AA-112")).toBe("aa112");
+    expect(classroomKey("AA", "AA112")).toBe("aa112");
   });
 });
 

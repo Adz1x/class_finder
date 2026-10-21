@@ -74,6 +74,22 @@ export function normalizeCode(value: string | null | undefined): string {
   return (value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
+/**
+ * One key for a room, whichever shape its source uses.
+ *
+ * Scarborough writes "AA-112", St. George's booking portal "AP 124", and the
+ * classroom inventory often repeats the building inside the room number
+ * ("AA112"). Normalising both sides to one key lets the occupancy and the
+ * inventory describe the same room.
+ */
+export function classroomKey(building: string, room: string): string {
+  const roomKey = normalizeCode(room);
+  const buildingKey = normalizeCode(building);
+  return roomKey.startsWith(buildingKey)
+    ? roomKey
+    : `${buildingKey}${roomKey}`;
+}
+
 /** The current day/time, in the vocabulary the dataset uses. */
 export function getLiveTimeContext(now: Date = new Date()): TimeContext {
   const jsDay = now.getDay();

@@ -25,7 +25,8 @@ export interface ClassMeeting {
 export interface Room {
   room: string;
   building: string;
-  buildingName: string;
+  /** Some campuses publish the room without a building name. */
+  buildingName: string | null;
   capacity: string;
   /** The campus the classroom belongs to. */
   campusKey: string;
@@ -44,6 +45,18 @@ export interface Classroom {
   name: string | null;
   /** How many students it seats, when the University publishes it. */
   capacity: number | null;
+  /** The teaching space type: "Lecture Theatre", "Classroom", … */
+  type?: string | null;
+  /** The AV equipment the University lists for the room. */
+  features?: string | null;
+  /** Whether the room is listed as physically accessible. */
+  physicalAccessibility?: string | null;
+  /** Whether the room has an assistive listening system. */
+  assistiveListening?: string | null;
+  /** The remaining fields Scarborough publishes, kept as published. */
+  aura?: string | null;
+  emergencyPhone?: string | null;
+  entrances?: string | null;
 }
 
 export interface Meta {

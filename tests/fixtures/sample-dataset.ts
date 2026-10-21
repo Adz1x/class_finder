@@ -117,9 +117,26 @@ export const sampleDatasets: Record<string, Dataset> = {
     campus: "UTSG",
     meta,
     availability: null,
-    rooms: [],
+    rooms: [
+      makeRoom({
+        room: "BA 2179",
+        building: "BA",
+        buildingName: null,
+        capacity: "60",
+        occupancy: { 1: { 9: true } },
+      }),
+    ],
     classrooms: [
-      { building: "BA", room: "1130", name: "Auditorium", capacity: 159 },
+      {
+        building: "BA",
+        room: "1130",
+        name: "Auditorium",
+        capacity: 159,
+        type: "Lecture Theatre",
+        features: "Teaching Station",
+        physicalAccessibility: "Yes",
+        assistiveListening: "Yes",
+      },
       { building: "BA", room: "1160", name: "Adel Sedra Auditorium", capacity: 300 },
     ],
     classes: [

@@ -66,11 +66,13 @@ interface RoomFile {
 }
 
 /** The classroom inventory the University publishes for a campus, if any. */
+type ClassroomEntry = Omit<Classroom, "building">;
+
 interface ClassroomFile {
   campus: string;
   source: string;
   buildings: Record<string, string>;
-  classrooms: Record<string, { room: string; name: string | null; capacity?: number }[]>;
+  classrooms: Record<string, ClassroomEntry[]>;
 }
 
 function loadClassrooms(campus: CampusKey): Classroom[] {
@@ -78,18 +80,29 @@ function loadClassrooms(campus: CampusKey): Classroom[] {
   let file: ClassroomFile;
   try {
     file = JSON.parse(readFileSync(path, "utf-8")) as ClassroomFile;
-  } catch {
-    // A campus without a published inventory simply has none.
+  } catch (error) {
+    // A campus without a published inventory simply has none. Anything else
+    // (a malformed file, an unreadable directory) must fail loudly rather
+    // than silently drop every classroom the University published.
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw new Error(
+        `Could not read ${path}. (${
+          error instanceof Error ? error.message : String(error)
+        })`,
+      );
+    }
     return [];
   }
 
   const classrooms: Classroom[] = [];
   for (const [building, rooms] of Object.entries(file.classrooms ?? {})) {
     for (const room of rooms) {
+      // Keep every field the University publishes: capacity, type, AV
+      // features, accessibility, and the rest. The app used to drop them at
+      // this boundary.
       classrooms.push({
+        ...room,
         building,
-        room: room.room,
-        name: room.name,
         capacity: room.capacity ?? null,
       });
     }

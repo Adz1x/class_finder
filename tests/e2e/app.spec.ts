@@ -195,6 +195,56 @@ test.describe("class & room finder", () => {
     await expect(page.getByText("150 · 468")).toBeVisible();
   });
 
+  test("finds a classroom by the number a student types", async ({ page }) => {
+    await page.goto("/");
+
+    await page
+      .getByPlaceholder(/classroom \(e\.g\. MN 2100\)/i)
+      .fill("MN 2100");
+
+    const rooms = page.getByRole("group", {
+      name: "Rooms matching your search",
+    });
+    await expect(rooms).toBeVisible();
+    await rooms.getByRole("button", { name: /MN 2100/ }).click();
+
+    await expect(
+      page.getByRole("heading", { name: "MN 2100" }),
+    ).toBeVisible();
+  });
+
+  test("names an unpublished building instead of printing null", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "UTSG" }).click();
+
+    const room = page.getByRole("button", { name: /BA 2179/ }).first();
+    await expect(room).toBeVisible();
+    await expect(room).toContainText(/Name not listed/);
+    await expect(room).not.toHaveAttribute("aria-label", /null/);
+    await expect(page.locator('button[aria-label*="null"]')).toHaveCount(0);
+  });
+
+  test("does not offer a building-wide timetable from the class list", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    await expect(page.getByText(/Full weekly schedule/i)).toHaveCount(0);
+  });
+
+  test("shows the classroom facts the University publishes", async ({
+    page,
+  }) => {
+    await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
+    await page.goto("/");
+    await page.getByRole("button", { name: "UTSC" }).click();
+
+    // Scarborough publishes the room type, AV features and accessibility.
+    await expect(page.getByTitle(/Lecture Theatre/).first()).toBeVisible();
+  });
+
   test("Scarborough has classroom availability of its own", async ({ page }) => {
     await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
     await page.goto("/");

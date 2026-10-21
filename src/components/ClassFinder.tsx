@@ -14,8 +14,10 @@ import {
   type TimeWindow,
 } from "./lib/window";
 import {
+  buildingLabel,
   buildingSummaries,
   classesInProgress,
+  classroomKey,
   filterByTerm,
   format12Hour,
   formatHourRange,
@@ -32,6 +34,7 @@ import {
 import type {
   CampusPayload,
   ClassMeeting,
+  Classroom,
   Dataset,
   Room,
   ScheduleBlock,
@@ -306,6 +309,38 @@ export default function ClassFinder() {
 
   const hasWindow = !windowIsEmpty(timeWindow);
 
+  // A query with a digit can name a room ("MN 2100"); a query without one is
+  // a building or course name. An occupancy room gets the status the student
+  // would see in its building card. An inventory-only room shows what the
+  // University lists without pretending to know whether it is free.
+  const roomMatches = useMemo(() => {
+    const wanted = normalizeCode(query);
+    if (!wanted || !/\d/.test(wanted)) return [];
+    return campusRooms
+      .filter((room) => normalizeCode(room.room).includes(wanted))
+      .slice(0, 8)
+      .map((room) => ({
+        room,
+        status: hasWindow
+          ? roomStatusForWindow(room, timeWindow)
+          : roomStatusAt(room, ctx),
+      }));
+  }, [campusRooms, query, hasWindow, timeWindow, ctx]);
+
+  const classroomMatches = useMemo(() => {
+    const wanted = normalizeCode(query);
+    if (!wanted || !/\d/.test(wanted) || !data) return [];
+    const occupied = new Set(
+      campusRooms.map((room) => classroomKey(room.building, room.room)),
+    );
+    return data.classrooms
+      .filter((classroom) => {
+        const key = classroomKey(classroom.building, classroom.room);
+        return key.includes(wanted) && !occupied.has(key);
+      })
+      .slice(0, 6);
+  }, [campusRooms, data, query]);
+
   const stats = useMemo(() => {
     const totalRooms = campusRooms.length;
     let freeRooms = 0;
@@ -562,7 +597,7 @@ export default function ClassFinder() {
                     ? hasWindow
                       ? "Only show the rooms that are free for the window you named"
                       : "Only show rooms that are listed as available right now"
-                    : "Room-level availability is published for UTM only"
+                    : "Room-level availability is not published for this campus"
                 }
               >
                 <input
@@ -622,6 +657,8 @@ export default function ClassFinder() {
             classesForBuilding={classesForBuilding}
             courseMatches={courseMatches}
             courseSearch={courseSearch}
+            roomMatches={roomMatches}
+            classroomMatches={classroomMatches}
             onlyFree={onlyFree && campusHasRooms}
             window={timeWindow}
             onWindowChange={setTimeWindow}
@@ -630,9 +667,6 @@ export default function ClassFinder() {
             }
             onOpenCourse={(code) =>
               navigate(`#/course/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
-            }
-            onOpenBuilding={(code) =>
-              navigate(`#/building/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
             onOpenRoom={(room) =>
               navigate(`#/room/${encodeURIComponent(activeCampus)}/${encodeURIComponent(room)}`)
@@ -687,6 +721,11 @@ export default function ClassFinder() {
 
 // ---------------------------------------------------------------- list view
 
+interface RoomMatch {
+  room: Room;
+  status: ReturnType<typeof roomStatusAt>;
+}
+
 interface ListViewProps {
   data: Dataset;
   ctx: ReturnType<typeof getLiveTimeContext>;
@@ -697,6 +736,10 @@ interface ListViewProps {
   courseMatches: string[];
   /** True when the search is a course code, not a room or a building. */
   courseSearch: boolean;
+  /** Rooms whose number the search matches, with their current status. */
+  roomMatches: RoomMatch[];
+  /** Inventory rooms that have no occupancy feed, so cannot show a status. */
+  classroomMatches: Classroom[];
   /** Open the section finder for a course. */
   onFindSections: (code: string) => void;
   /** The times the student says they can do something in. */
@@ -704,7 +747,6 @@ interface ListViewProps {
   onWindowChange: (window: TimeWindow) => void;
   onlyFree: boolean;
   onOpenCourse: (code: string) => void;
-  onOpenBuilding: (code: string) => void;
   onOpenRoom: (room: string) => void;
 }
 
@@ -717,17 +759,23 @@ function ListView({
   classesForBuilding,
   courseMatches,
   courseSearch,
+  roomMatches,
+  classroomMatches,
   onFindSections,
   window,
   onWindowChange,
   onlyFree,
   onOpenCourse,
-  onOpenBuilding,
   onOpenRoom,
 }: ListViewProps) {
   const [showAllClasses, setShowAllClasses] = useState(false);
 
-  if (!buildings.length && !courseMatches.length) {
+  if (
+    !buildings.length &&
+    !courseMatches.length &&
+    !roomMatches.length &&
+    !classroomMatches.length
+  ) {
     return (
       <div className="text-center py-16 bg-slate-900/50 rounded-2xl border border-slate-800">
         <i className="fa-solid fa-door-closed text-slate-400 text-3xl mb-3" />
@@ -741,6 +789,86 @@ function ListView({
 
   return (
     <div className="space-y-6">
+      {roomMatches.length || classroomMatches.length ? (
+        <div
+          role="group"
+          aria-label="Rooms matching your search"
+          className="flex flex-wrap items-center gap-2"
+        >
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+            Rooms
+          </span>
+          {roomMatches.map(({ room, status }) => (
+            <button
+              key={room.room}
+              type="button"
+              onClick={() => onOpenRoom(room.room)}
+              aria-label={`${room.room}, ${status.statusTitle}. Open the weekly timetable.`}
+              className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-xs font-semibold text-slate-200 transition hover:border-blue-500 hover:text-white"
+            >
+              <span className="text-white">{room.room}</span>
+              <span
+                className={
+                  status.state === "free"
+                    ? "text-emerald-300"
+                    : status.state === "busy"
+                      ? "text-rose-300"
+                      : "text-slate-400"
+                }
+              >
+                {status.statusTitle}
+              </span>
+              <i
+                className="fa-solid fa-arrow-right text-[10px] text-blue-400"
+                aria-hidden="true"
+              />
+            </button>
+          ))}
+          {classroomMatches.map((classroom) => {
+            const label = normalizeCode(classroom.room).startsWith(
+              normalizeCode(classroom.building),
+            )
+              ? classroom.room
+              : `${classroom.building} ${classroom.room}`;
+            const details = [
+              classroom.name,
+              classroom.type,
+              classroom.capacity != null
+                ? `${classroom.capacity} seats`
+                : null,
+              classroom.features,
+              classroom.physicalAccessibility === "Yes"
+                ? "Physically accessible"
+                : null,
+              classroom.assistiveListening === "Yes"
+                ? "Assistive listening"
+                : null,
+            ]
+              .filter(Boolean)
+              .join(" • ");
+            return (
+              <span
+                key={`${classroom.building}-${classroom.room}`}
+                title={details || "The University lists this room, but publishes no occupancy for it."}
+                className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-300"
+              >
+                <span className="text-slate-200">{label}</span>
+                {classroom.capacity != null ? (
+                  <span className="font-normal text-slate-400">
+                    {classroom.capacity} seats
+                  </span>
+                ) : null}
+              </span>
+            );
+          })}
+          {roomMatches.length ? (
+            <span className="text-xs text-slate-500">
+              Pick a room to see its weekly timetable.
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+
       {courseSearch ? (
         <div
           role="group"
@@ -806,6 +934,23 @@ function ListView({
         const classrooms = data.classrooms.filter(
           (classroom) => classroom.building === b.code,
         );
+        // The inventory and the occupancy feed describe the same rooms in
+        // different shapes. Show the inventory rooms the occupancy feed does
+        // not cover, and merge the inventory's extra facts into the cards
+        // above.
+        const occupancyKeys = new Set(
+          rooms.map((room) => classroomKey(room.building, room.room)),
+        );
+        const extraClassrooms = classrooms.filter(
+          (classroom) =>
+            !occupancyKeys.has(classroomKey(classroom.building, classroom.room)),
+        );
+        const inventoryByKey = new Map(
+          classrooms.map((classroom) => [
+            classroomKey(classroom.building, classroom.room),
+            classroom,
+          ]),
+        );
         const roomStates = rooms.map((room) =>
           hasWindow
             ? roomStateForWindow(room, window)
@@ -833,16 +978,12 @@ function ListView({
             className="bg-slate-900/40 border border-slate-800/90 rounded-2xl p-4 space-y-3 shadow-md"
           >
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <button
-                type="button"
-                onClick={() => onOpenBuilding(b.code)}
-                className="flex items-center gap-2.5 text-left"
-              >
-                <span className="px-2.5 py-1 rounded-lg bg-blue-600/20 border border-blue-500/30 text-blue-300 font-bold text-xs hover:bg-blue-600 hover:text-white transition">
+              <div className="flex items-center gap-2.5 text-left">
+                <span className="px-2.5 py-1 rounded-lg bg-blue-600/20 border border-blue-500/30 text-blue-300 font-bold text-xs">
                   {b.code}
                 </span>
                 <h2 className="font-bold text-white text-base">{b.name}</h2>
-              </button>
+              </div>
               <div className="flex items-center gap-2 flex-wrap">
                 {rooms.length ? (
                   <span
@@ -875,12 +1016,12 @@ function ListView({
                     {inProgress.length} running now
                   </span>
                 ) : null}
-                {classrooms.length && !rooms.length ? (
+                {extraClassrooms.length ? (
                   <span
                     className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300"
                     title="Classrooms the University lists in this building"
                   >
-                    {classrooms.length} classrooms
+                    {extraClassrooms.length} more classrooms
                   </span>
                 ) : null}
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
@@ -902,6 +1043,11 @@ function ListView({
                       status={status}
                       next={next}
                       inProgress={inProgress}
+                      classroom={
+                        inventoryByKey.get(
+                          classroomKey(room.building, room.room),
+                        ) ?? null
+                      }
                       onOpen={() => onOpenRoom(room.room)}
                     />
                   );
@@ -916,41 +1062,67 @@ function ListView({
             ) : null}
 
             {/*
-              The classrooms the University lists for a building, for the
-              campuses where no occupancy is published. It is the one piece
-              of classroom data that is public for St. George, so it is
-              worth showing: these are the rooms to look for.
+              The classrooms the University lists that the occupancy feed
+              does not cover. St. George's inventory is the only classroom
+              data public for most of its buildings, and Scarborough's adds
+              the room type and accessibility the occupancy feed lacks.
             */}
-            {classrooms.length && !rooms.length ? (
+            {extraClassrooms.length ? (
               <div className="border-t border-slate-800/80 pt-3">
                 <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wide mb-2">
-                  Classrooms in {b.code}
+                  {rooms.length ? "Other classrooms" : `Classrooms in ${b.code}`}
                   <span className="ml-2 font-normal normal-case tracking-normal text-slate-400">
-                    room number and capacity
+                    room number, capacity and the facts the University publishes
                   </span>
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {classrooms.map((classroom) => (
-                    <span
-                      key={`${classroom.building}-${classroom.room}`}
-                      className="text-[11px] font-semibold px-2 py-1 rounded-md bg-slate-900/70 border border-slate-800 text-slate-300"
-                      title={
-                        classroom.name
-                          ? `${classroom.room} ${classroom.name}${
-                              classroom.capacity ? ` • seats ${classroom.capacity}` : ""
-                            }`
-                          : classroom.room
-                      }
-                    >
-                      {classroom.room}
-                      {classroom.capacity ? (
-                        <span className="text-slate-400 font-normal">
-                          {" · "}
-                          {classroom.capacity}
-                        </span>
-                      ) : null}
-                    </span>
-                  ))}
+                  {extraClassrooms.map((classroom) => {
+                    const label = normalizeCode(classroom.room).startsWith(
+                      normalizeCode(classroom.building),
+                    )
+                      ? classroom.room
+                      : `${classroom.building} ${classroom.room}`;
+                    const details = [
+                      classroom.name,
+                      classroom.type,
+                      classroom.capacity != null
+                        ? `seats ${classroom.capacity}`
+                        : null,
+                      classroom.features,
+                      classroom.physicalAccessibility === "Yes"
+                        ? "Physically accessible"
+                        : null,
+                      classroom.assistiveListening === "Yes"
+                        ? "Assistive listening"
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" • ");
+                    return (
+                      <span
+                        key={`${classroom.building}-${classroom.room}`}
+                        className="text-[11px] font-semibold px-2 py-1 rounded-md bg-slate-900/70 border border-slate-800 text-slate-300"
+                        title={
+                          details ||
+                          "The University lists this room, but publishes no further details."
+                        }
+                      >
+                        {label}
+                        {classroom.capacity != null ? (
+                          <span className="text-slate-400 font-normal">
+                            {" · "}
+                            {classroom.capacity}
+                          </span>
+                        ) : null}
+                        {classroom.type ? (
+                          <span className="text-slate-500 font-normal">
+                            {" · "}
+                            {classroom.type}
+                          </span>
+                        ) : null}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             ) : null}
@@ -961,13 +1133,6 @@ function ListView({
                   <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wide">
                     {hasWindow ? `Your window in ${b.code}` : `Today in ${b.code}`}
                   </h3>
-                  <button
-                    type="button"
-                    onClick={() => onOpenBuilding(b.code)}
-                    className="text-[11px] font-semibold text-blue-400 hover:text-blue-300"
-                  >
-                    Full weekly schedule →
-                  </button>
                 </div>
                 <div className="space-y-1.5">
                   {shown.map((meeting) => (
@@ -1032,6 +1197,8 @@ interface RoomCardProps {
   status: ReturnType<typeof roomStatusAt>;
   next: ClassMeeting | null;
   inProgress: ClassMeeting[];
+  /** The University's inventory entry for this room, when it publishes one. */
+  classroom: Classroom | null;
   onOpen: () => void;
 }
 
@@ -1069,10 +1236,10 @@ function AvailabilityNotice({
           <strong className="font-bold text-slate-200">
             {classroomCount} classrooms are listed for {campusName}.
           </strong>{" "}
-          The University publishes classroom occupancy for Mississauga only, so
-          here you can see every class with its time, building and instructor,
-          the rooms in each building, and how many classes are running in it
-          right now.
+          The University does not publish room-by-room occupancy for{" "}
+          {campusName}, so here you can see every class with its time, building
+          and instructor, the classrooms in each building, and how many classes
+          are running in it right now.
         </p>
       </div>
     );
@@ -1110,7 +1277,14 @@ function AvailabilityNotice({
   );
 }
 
-function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
+function RoomCard({
+  room,
+  status,
+  next,
+  inProgress,
+  classroom,
+  onOpen,
+}: RoomCardProps) {
   let leftBorder = "border-l-4 border-l-emerald-500";
   let badgeStyle = "bg-emerald-500/15 text-emerald-300 border-emerald-500/30";
   let dotColor = "bg-emerald-400";
@@ -1129,12 +1303,26 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
   // count the rest rather than listing them all.
   const named = inProgress.slice(0, 3).map((m) => `${m.courseCode} ${m.sectionName}`);
   const extra = inProgress.length - named.length;
+  const buildingName = buildingLabel(room.building, room.buildingName);
+  const capacity =
+    room.capacity || (classroom?.capacity != null ? String(classroom.capacity) : "");
+  // The inventory carries facts the occupancy feed does not: the room's type,
+  // its AV equipment, and its accessibility. Keep them available on the card.
+  const details = [
+    classroom?.name,
+    classroom?.type,
+    classroom?.features,
+    classroom?.physicalAccessibility === "Yes" ? "Physically accessible" : null,
+    classroom?.assistiveListening === "Yes" ? "Assistive listening" : null,
+  ]
+    .filter(Boolean)
+    .join(" • ");
 
   return (
     <button
       type="button"
       onClick={onOpen}
-      aria-label={`${room.room}, ${room.buildingName}: ${status.statusTitle}. Open the weekly timetable.`}
+      aria-label={`${room.room}, ${buildingName}: ${status.statusTitle}. Open the weekly timetable.`}
       className={`group bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-blue-500/50 ${leftBorder} rounded-xl px-4 py-3.5 cursor-pointer transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left w-full`}
     >
       <div className="flex items-start sm:items-center gap-3.5">
@@ -1149,11 +1337,15 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
               <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
               {status.statusTitle}
             </span>
-            <span className="text-xs text-slate-400 font-medium hidden md:inline">
-              {room.buildingName}
-              {room.capacity
-                ? ` • capacity ${room.capacity}`
+            <span
+              className="text-xs text-slate-400 font-medium hidden md:inline"
+              title={details || undefined}
+            >
+              {buildingName}
+              {capacity
+                ? ` • capacity ${capacity}`
                 : " • capacity not published"}
+              {classroom?.type ? ` • ${classroom.type}` : ""}
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">
@@ -1230,7 +1422,7 @@ function ScheduleView({
       start: meeting.start,
       end: meeting.end,
       title: `${meeting.courseCode} ${meeting.sectionName}`,
-      subtitle: meeting.buildingName,
+      subtitle: buildingLabel(meeting.buildingCode, meeting.buildingName),
       lane: 0,
       lanes: 1,
       courseCode: meeting.courseCode,
@@ -1284,7 +1476,7 @@ function ScheduleView({
           start: `${String(startHour).padStart(2, "0")}:00`,
           end: `${String(startHour + 1).padStart(2, "0")}:00`,
           title: "Booked",
-          subtitle: room.buildingName,
+          subtitle: buildingLabel(room.building, room.buildingName),
           lane: 0,
           lanes: 1,
         });
@@ -1295,7 +1487,7 @@ function ScheduleView({
     return (
       <WeeklySchedule
         title={room.room}
-        subtitle={`${room.buildingName} (${route.campus}) • Room Weekly Schedule`}
+        subtitle={`${buildingLabel(room.building, room.buildingName)} (${route.campus}) • Room Weekly Schedule`}
         blocks={laidOut}
         ctx={ctx}
         activeTerm={activeTerm}
@@ -1328,7 +1520,7 @@ function ScheduleView({
     start: meeting.start,
     end: meeting.end,
     title: `${meeting.courseCode} ${meeting.sectionName}`,
-    subtitle: `${meeting.buildingName}${
+    subtitle: `${buildingLabel(meeting.buildingCode, meeting.buildingName)}${
       meeting.room ? ` • ${meeting.room}` : ""
     }`,
     lane: 0,
