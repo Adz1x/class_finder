@@ -69,8 +69,8 @@ const html = `<!doctype html>
       <p>Find an empty classroom, or look up any class in the UofT timetable — without being told a room number the University never published.</p>
       <div class="row">
         <div class="pill"><b>21,408</b> class meetings</div>
-        <div class="pill"><b>65</b> real classrooms</div>
-        <div class="pill"><b>87 KB</b> first load</div>
+        <div class="pill"><b>209</b> real classrooms</div>
+        <div class="pill"><b>83 KB</b> first load</div>
         <div class="pill"><b>0</b> invented rooms</div>
       </div>
     </div>

@@ -35,7 +35,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **The rooms are stored one file per campus**, each with the provenance of
   the source it came from, because the source is not the same for every
   campus: Mississauga publishes a classroom space database, St. George
-  publishes the booking portal's room list, Scarborough publishes neither.
+  publishes the booking portal's room list, Scarborough publishes its rooms
+  through the Registrar's schedule service.
 - **`scripts/auth-lsm-cookies.mjs`**: the sign-on's session cookie is a
   browser *session* cookie, so it does not survive the browser closing and
   the profile cannot keep it. The capture needs it as a cookie jar, so the
@@ -80,7 +81,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **The snapshot date is dated once**, in the footer, instead of on every
   view.
 - **How busy every building is right now**, on every campus, with the
-  emptiest buildings first. It is the closest published thing to "is there
+  busiest buildings first. It is the closest published thing to "is there
   space here" on the campuses where the University publishes no occupancy.
 - **The St. George tab now shows real classrooms** - the building's
   classrooms and their capacities - instead of only a class schedule.
@@ -109,7 +110,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   command. The service publishes half hours and the app shows hours, so a
   booked half hour makes its hour booked - the app never claims a room is
   free for an hour it is not.
-- 174 tests across three layers: 47 pytest, 103 Vitest, 24 Playwright.
+- 185 tests across three layers: 47 pytest, 109 Vitest, 29 Playwright.
 
 ## [0.3.0] — 2026-10-20
 
@@ -129,8 +130,8 @@ covered by an automated test pyramid.
   meetings, all 8 faculties, 3 campuses.
 - **The dataset is stored one file per campus key** (`data/campus/<KEY>.json`).
   The app fetches one campus at a time, so serving the whole catalogue cost
-  8.3 MB before the first pixel. The default campus now costs **87 KB over
-  the wire**; St. George, the largest, costs 231 KB. `npm run data:size`
+  8.3 MB before the first pixel. The default campus now costs **83 KB over
+  the wire**; St. George, the largest, costs 229 KB. `npm run data:size`
   measures the gzipped size of each payload and fails the build if the
   default campus crosses 150 KB.
 - **Rooms are never invented.** The timetable API publishes an empty

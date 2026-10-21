@@ -25,7 +25,9 @@ SOFTWARE.
 A note on the data
 
 The class schedules in `data/` are derived from the University of Toronto's
-public Timetable Builder API and the UTM Classroom Space Database. They are
+public Timetable Builder API. Classroom availability and inventories are
+derived from the UTM Classroom Space Database, the St. George Space Management
+booking portal, and Scarborough Registrar and IITS classroom services. They are
 redistributed as a dated snapshot so the app works without hitting UofT's
 servers on every visit. They are not covered by this licence, and they are
 not affiliated with or endorsed by the University of Toronto.

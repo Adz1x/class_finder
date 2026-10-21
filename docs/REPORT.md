@@ -39,7 +39,7 @@ the one it replaced, and that makes a claim a reviewer can check.
 | Classrooms | 209 classrooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 94 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 174 across three layers, plus 4 automated accessibility checks |
+| Tests | 185 across three layers, plus 4 automated accessibility checks |
 
 ---
 
@@ -199,7 +199,7 @@ classrooms. The archived `ctlfeed` fragments are per-event-type widgets —
 schedule service does not already give, and it cannot be refreshed without a
 person. The public service stays the source.
 
-### 2.5 The 1 PM hole was ours
+### 2.6 The 1 PM hole was ours
 
 The first version of this report carried this sentence: *"The published hours
 are a band. 07:00–12:00 and 14:00–20:00, with 13:00 omitted."* It was
@@ -380,9 +380,9 @@ and every classroom card ended with **"Not published"** — the same sentence
 65 times on one screen, which reads as an error rather than as a fact about
 the source. The application now says it once, in the banner, and shows the
 room only when the source has one. The published band is described as it
-actually is — *"7:00 AM – 12:00 PM and 2:00 PM – 8:00 PM"* — because a
-single range from 7 AM to 9 PM would claim the 13:00 hour the database
-omits.
+actually is — *7:00 AM–8:00 PM at Mississauga, and 7:00 AM–9:00 PM where St.
+George and Scarborough publish the extra hour* — rather than as one global
+range.
 
 ---
 
@@ -400,7 +400,7 @@ specific.
 | **Playwright** | 24 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the St. George and Scarborough classroom inventories, the St. George availability, the order the rooms are in, the section finder, the window, the API payload, keyboard operation | none — a production build, served locally |
 | **axe-core** | 4 views | WCAG 2.1 AA violations in the classroom list, a course timetable, a classroom timetable and St. George | none |
 
-**174 tests, none of which touches the University of Toronto's servers.** CI
+**185 tests, none of which calls the University of Toronto's servers.** CI
 runs them in four jobs; the data-verification and payload-budget jobs need
 no network either.
 
@@ -425,9 +425,9 @@ exactly the campus on screen, gzipped:
 |---|---:|---:|---:|---:|
 | UTM | 5,178 | 2.1 MB | **83 KB** | 8.3 MB |
 | UTSG | 12,175 | 4.8 MB | 229 KB | |
-| UTSC | 3,961 | 1.5 MB | 69 KB | |
+| UTSC | 3,961 | 1.5 MB | 72 KB | |
 | SHERIDAN | 94 | 36 KB | 2 KB | |
-| **Total** | **21,408** | **8.4 MB** | **383 KB** | 8.3 MB |
+| **Total** | **21,408** | **8.4 MB** | **387 KB** | 8.3 MB |
 
 A hundredfold reduction for the first screen, and a quarter of a megabyte
 for the whole catalogue. `npm run data:size` measures the gzipped size of
@@ -463,7 +463,7 @@ Every figure in this report can be checked:
 npm run data:verify     # the dataset's invariants
 npm run data:size       # the payload budget
 npm run scraper:test    # 47 tests, offline
-npm test                # 53 tests, offline
+npm test                # 109 tests, offline
 npm run test:e2e        # 24 tests, against a local production build
 ```
 
@@ -501,36 +501,39 @@ application's job is to make them visible rather than to hide them.
    sessions. No feature can tell a student the room their class is in. Any
    tool that claims to is guessing.
 
-2. **Room-level availability covers two campuses, not three.** Section 2.4
-   records every source that was checked. The University publishes occupancy
-   for Mississauga, and for St. George through the booking portal.
-   Scarborough publishes its classrooms but not their occupancy: its
-   calendar needs a UTORid, and the timetable API lists no room for any of
-   its 4,059 meetings. The application therefore publishes, for
-   Scarborough, the class timetable, the real classrooms of each building
-   with their capacities, and how many classes are running in each building
-   right now. That last number is the closest published thing to "is there
-   space here" there, and it is a proxy, not occupancy.
+2. **Room-level availability covers three campuses, at different
+   granularities.** Section 2.4 records every source that was checked.
+   Mississauga publishes hourly occupancy through the Classroom Space
+   Database; St. George publishes it through the booking portal for the
+   fifty rooms a student group can book; Scarborough publishes it through
+   the Registrar's classroom schedule service, which stores bookings to the
+   half hour (the app groups them by hour). The timetable API lists no room
+   for any of Scarborough's 3,961 meetings, so the application publishes
+   there the class timetable, the real classrooms of each building with
+   their capacities, and how many classes are running in each building right
+   now. That last number is a proxy for "is there space here", not
+   occupancy.
 
-   The St. George availability has a narrower coverage than the
-   Mississauga one: the booking portal answers for the rooms a student
-   group can book — fifty of them in eleven buildings, not the 334
-   classrooms the specification lists — and it says whether a room is free
-   but never which class is in it.
+   The St. George availability still has narrower coverage than
+   Mississauga's: the booking portal answers for the rooms a student group
+   can book — fifty of them in eleven buildings, not the 334 classrooms in
+   the inventory — and it says whether a room is free but never which class
+   is in it.
 
 3. **Availability is a snapshot, not live.** One week of the 2026 Fall
-   term (30 September – 6 October 2026). It does not know about a room
+   term (19–23 October 2026). It does not know about a room
    booked yesterday, and it will not know about changes until the dataset is
    regenerated.
 
-4. **The published hours are a band.** 07:00–20:00, with no gap in it. At
+4. **The published hours are a band.** 07:00–20:00 at Mississauga;
+   07:00–21:00 where St. George and Scarborough publish the extra hour. At
    any other hour — 6 AM, 10 PM — the honest answer is "unknown". The
    snapshot covers one week; the space database serves only the current
    week, so a capture of last week cannot be refreshed.
 
 5. **Six building codes have no published name**: `AM` (1 meeting), `RO` (6),
    `ZO` (11), `BY` (24), `UY` (27), `TL` (101). Together, 170 of 21,408
-   meetings — 0.8% — show a code instead of a name.
+   meetings — 0.8% — show "Name not listed" instead of a name.
 
 6. **Sheridan College's 94 meetings have no tab.** The campus key is in the
    dataset and reconciled in the totals, exactly as before, but the

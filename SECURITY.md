@@ -19,9 +19,15 @@ days.
   public University of Toronto timetable and classroom data. It contains
   course codes, section names, times, building codes and instructor names —
   all of which are published in the UofT timetable for students to see.
-- **One outbound request path:** the scraper fetches the UofT timetable API
-  and the UTM space database. It runs manually, not on a schedule, and
-  `npm run data:build` makes a few hundred requests at a polite pace.
+- **Outbound request paths:** the scraper and capture scripts call the UofT
+  timetable API, the UTM space database, the St. George Space Management
+  portal (`lsm.utoronto.ca`, with a signed-in session cookie), the
+  Scarborough Registrar schedule service (`intranet.utsc.utoronto.ca`), and
+  the Scarborough IITS classroom pages (`utsc.utoronto.ca/iits`). They run
+  manually, not on a schedule, and `npm run data:build` makes a few hundred
+  requests at a polite pace. The app itself reads the committed snapshot,
+  but it loads Font Awesome from `cdnjs.cloudflare.com`; there is no
+  analytics or other third-party request.
 
 ## Known limitations
 

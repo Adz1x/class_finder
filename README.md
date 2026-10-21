@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-174%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-185%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -71,7 +71,7 @@ fit the times you named first.
 - **The real St. George and Scarborough classrooms** - 334 and 71 of them,
   from two University services, each with the number of students it seats.
 - **How busy every building is right now**, on every campus, with the
-  emptiest buildings first: the closest published thing to "is there space
+  busiest buildings first: the closest published thing to "is there space
   here" where the University publishes no room occupancy.
 - **Find another section** of a course. The University publishes every
   section of every course: MAT223H1 has seventy-six of them. Name the days
@@ -81,7 +81,7 @@ fit the times you named first.
   buildings answer for that window instead of for right now.
 - **Search** by course code, building or classroom.
 - **Weekly timetables** for a course, a building or a single classroom.
-- A **Fall / Winter** switch, so you can see one term or the whole year.
+- A **Fall / Winter** switch, so you can see one term at a time.
 - A payload of **83 KB** for the first screen - the dataset is split per
   campus and served compressed, so the browser only downloads the campus it
   is about to show.
@@ -90,9 +90,9 @@ fit the times you named first.
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
 | Classrooms | 209 rooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 94 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
-| Invented values | **0** |
+| Invented room numbers | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 174 across three layers, plus 4 automated accessibility checks |
+| Tests | 185 across three layers, plus 4 automated accessibility checks |
 
 ## The part that matters: it does not make things up
 
@@ -115,6 +115,10 @@ The same rule applies everywhere:
 | An hour the snapshot does not carry | Shows **unknown**, never "free" |
 | A building with no published name | Shows "Name not listed" |
 | A campus with no published room occupancy | Lists the classrooms that are published, and how busy each building is |
+
+Six building codes (`AM`, `RO`, `ZO`, `BY`, `UY`, `TL`) have no published
+name; those 170 meetings — 0.8% — show "Name not listed" rather than a
+generated label.
 
 Classroom availability is a **dated snapshot**, not a live feed, and the
 interface says that too — in the footer, once, rather than repeating it on
@@ -207,10 +211,10 @@ that those files add up to the totals in `meta.json` exactly:
 | Campus key | Meetings | On disk | Over the wire (gzipped) | In the UI |
 |---|---:|---:|---:|---|
 | `UTM` | 5,178 | 2.1 MB | **83 KB** | yes (the default) |
-| `UTSG` | 12,175 | 4.8 MB | 224 KB | yes |
-| `UTSC` | 3,961 | 1.5 MB | 68 KB | yes |
+| `UTSG` | 12,175 | 4.8 MB | 229 KB | yes |
+| `UTSC` | 3,961 | 1.5 MB | 72 KB | yes |
 | `SHERIDAN` | 94 | 36 KB | 2 KB | no tab - as before |
-| **Total** | **21,408** | **8.4 MB** | **377 KB** | |
+| **Total** | **21,408** | **8.4 MB** | **387 KB** | |
 
 ### Where the numbers come from
 
@@ -242,9 +246,13 @@ src/
     api/schedule/[campus]/  # one gzipped payload per campus
   components/
     ClassFinder.tsx         # client component: state, routing, list view
+    SectionFinder.tsx       # the sections of one course, marked against your window
+    WindowControl.tsx       # the day/hour window picker
     WeeklySchedule.tsx      # the weekly grid
     lib/
       schedule.ts           # pure logic - no browser APIs, fully unit-tested
+      sections.ts           # section matching and clash explanations
+      window.ts             # day/hour window parsing and formatting
       types.ts              # shared types
 scraper/
   src/uoft_scraper/
@@ -255,8 +263,8 @@ scraper/
     cli.py                  # `build` and `verify`
   tests/                    # 47 pytest tests + committed API fixtures
 tests/
-  unit/                     # 103 Vitest tests
-  e2e/                      # 24 Playwright tests
+  unit/                     # 109 Vitest tests
+  e2e/                      # 29 Playwright tests
 data/
   campus/<KEY>.json         # the dataset, one file per campus key
   rooms/<KEY>.json          # the classrooms with their occupancy, and where
@@ -277,14 +285,14 @@ Three decisions worth calling out:
 JSON, and the app only ever shows one campus at a time. Serving the whole
 thing cost 8.3 MB before the first pixel; the default campus now costs
 **83 KB over the wire** - a hundredfold difference - and St. George, which
-is the biggest of the four, costs 224 KB. `npm run data:size` measures the
+is the biggest of the four, costs 229 KB. `npm run data:size` measures the
 gzipped size of each payload and fails the build if the default campus
 crosses 150 KB, so the win cannot quietly be given back.
 
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 103 of the 174 tests are fast and deterministic.
+why 109 of the 185 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -295,8 +303,8 @@ publish, that there are no duplicates. It runs in CI.
 
 ```bash
 npm run scraper:test   # 47 pytest  - saved API fixtures, no network
-npm test               # 103 Vitest - pure logic + React components
-npm run test:e2e       # 24 Playwright - against the production build
+npm test               # 109 Vitest - pure logic + React components
+npm run test:e2e       # 29 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
 npm run data:size      # the gzipped payload budget
 ```
@@ -350,9 +358,12 @@ whether the wording makes sense.
 ## Data and attribution
 
 Class schedules come from the University of Toronto's public Timetable Builder
-API; classroom availability comes from U of T's Classroom Space Database; the
-St. George classroom inventory comes from U of T Space Management; building
-names come from Cobalt, U of T's open-data project.
+API. Classroom availability comes from U of T's Classroom Space Database at
+Mississauga, the Space Management booking portal at St. George, and
+Scarborough's Registrar classroom schedule service. The St. George classroom
+inventory comes from U of T Space Management and the Scarborough inventory
+from U of T Scarborough IITS. Building names come from Cobalt, U of T's
+open-data project.
 
 The University of Toronto publishes **no terms of use, rate-limit statement
 or versioning policy** for the timetable API. The API is read at a polite

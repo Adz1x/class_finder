@@ -45,11 +45,14 @@ How the project is put together, and why each piece is where it is.
    │    hours
    │  scripts/fetch-utsc-classrooms.mjs  - the Scarborough IITS
    │    classroom specifications: 71 classrooms in 10 buildings
+   │  scripts/fetch-utsc-availability.mjs - the Registrar's classroom
+   │    schedule service: 94 rooms, booked to the half hour
    ▼
         ┌───────────────────────────────────────────────────────────┐
         │   classrooms/UTSG.json   17 KB   334 classrooms          │
         │   classrooms/UTSC.json    8 KB    71 classrooms          │
         │   rooms/UTSG.json        57 KB    50 rooms, with hours   │
+        │   rooms/UTSC.json       249 KB    94 rooms, with hours   │
         └───────────────────────────┬───────────────────────────────┘
                                     │  read at request time
                                     ▼
@@ -80,11 +83,11 @@ sequenceDiagram
     B->>R: GET /api/schedule/UTM
     R->>D: read (once, cached in memory)
     D-->>R: 5,178 meetings
-    R-->>B: 87 KB, gzip
+    R-->>B: 83 KB, gzip
     B->>B: parse, filter by term, group by building
     U->>B: clicks the St. George tab
     B->>R: GET /api/schedule/UTSG
-    R-->>B: 231 KB, gzip
+    R-->>B: 229 KB, gzip
     B->>B: keep UTM in memory, swap in St. George
 ```
 
@@ -164,7 +167,7 @@ that loads, and the campus tab follows the link.
 | File | Holds | Written by |
 |---|---|---|
 | `data/campus/<KEY>.json` | The class meetings for one campus key | `uoft-scraper build` |
-| `data/rooms/<KEY>.json` | The classrooms of one campus, their capacity and their per-hour occupancy, and the provenance of the source it came from | `uoft-scraper build` (UTM), `scripts/fetch-utsg-availability.mjs` (St. George) |
+| `data/rooms/<KEY>.json` | The classrooms of one campus, their capacity and their per-hour occupancy, and the provenance of the source it came from | `uoft-scraper build` (UTM), `scripts/fetch-utsg-availability.mjs` (St. George), `scripts/fetch-utsc-availability.mjs` (Scarborough) |
 | `data/meta.json` | Provenance: rows fetched vs. expected, the snapshot week, the filter funnel, the per-campus counts | `uoft-scraper build` |
 | `data/building_names.json` | 87 building codes → names, each with its source | hand-curated, from Cobalt |
 | `data/utm_metis_data.json` | The raw Metis snapshot the rooms were parsed from | the space database |
@@ -187,11 +190,11 @@ shows the source it was given rather than a name it invented.
 
 ```
                  ┌───────────────────────────┐
-                 │  Playwright · 24 tests    │  the shipped product
+                 │  Playwright · 29 tests    │  the shipped product
                  │  + axe-core · 4 views     │
                  └───────────────────────────┘
                  ┌───────────────────────────┐
-                 │  Vitest · 103 tests       │  logic and components
+                 │  Vitest · 109 tests       │  logic and components
                  └───────────────────────────┘
                  ┌───────────────────────────┐
                  │  pytest · 47 tests        │  the data contract
@@ -216,7 +219,7 @@ Two layers have a job beyond catching mistakes:
 | Decision | Reason |
 |---|---|
 | Store the dataset per campus | The app shows one campus; serving 8.3 MB to show 2.1 MB of it was the single worst thing about the app |
-| Gzip at the route, cache in memory | The payload is 85 KB gzipped against 2.1 MB raw |
+| Gzip at the route, cache in memory | The payload is 83 KB gzipped against 2.1 MB raw |
 | Split the term filter from the campus filter | The term toggle must stay instant, so both terms of a campus are fetched together |
 | Hash routing | Static hosting, and links that work from anywhere |
 | No room numbers, ever | The API publishes none; a wrong room is worse than no room |

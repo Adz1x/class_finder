@@ -42,7 +42,18 @@
     "typescript": "^5",
     "vitest": "^2.1.8"
   },
-  "description": "Find UofT classes and classrooms: classroom availability from the UTM space database and complete course schedules from the UofT timetable API.",
+  "description": "Find UofT classes and classrooms across Mississauga, St. George and Scarborough: published classroom availability, complete course schedules, and room-level search.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "uoft",
+    "university-of-toronto",
+    "timetable",
+    "classroom-availability",
+    "course-schedule"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Adz1x/class_finder.git"

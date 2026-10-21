@@ -20,7 +20,8 @@ Concretely:
   were only accepted when the campus Cobalt records for the building matches
   the campus of the timetable classes that meet there.
 - An hour of classroom availability is shown as "unknown" unless the space
-  database published it. The snapshot omits 13:00 entirely.
+  database published it. The snapshot includes 13:00; the published band is
+  continuous. If a future capture drops an hour, show it as unknown.
 
 ## Getting set up
 

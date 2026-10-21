@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 const DESCRIPTION =
-  "Find UofT classes and classrooms: classroom availability from the UTM space database and complete course schedules from the UofT timetable API.";
+  "Find UofT classes and classrooms across Mississauga, St. George and Scarborough: published classroom availability, complete course schedules, and room-level search.";
 
 export const metadata: Metadata = {
   // Where the project lives, so the social preview image resolves to an
