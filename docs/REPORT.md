@@ -39,7 +39,7 @@ the one it replaced, and that makes a claim a reviewer can check.
 | Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 167 across three layers, plus 4 automated accessibility checks |
+| Tests | 174 across three layers, plus 4 automated accessibility checks |
 
 ---
 
@@ -123,7 +123,7 @@ because the answer is a fact about the University:
 | **"Calendar of Availability"**, `lsm.utoronto.ca/webapp/f?p=200` | The St. George availability calendar, linked from the classroom app | **Withdrawn.** "Could not determine workspace for application (200)". The button that pointed at it is commented out in the page source. |
 | **The Campus Events booking portal**, `lsm.utoronto.ca/ords/f?p=171:2` | The room list of a student group's booking form, which is repopulated from the date, the hours and the expected attendance | **Found and used.** It answers with the St. George rooms that are *free* in that slot - free/busy, without the class names. In effect the replacement for the withdrawn calendar: a booking form asks whether a room is free, and that answer is the occupancy. |
 | **Privacy-Synchronous Space Finder**, `lsm.utoronto.ca/syncstudy.html` | The St. George empty-classroom finder | The data exists and the app uses it, but it ships as an iOS/Android application with no public feed. |
-| **Scarborough classroom schedule**, `intranet.utsc.utoronto.ca` | The Scarborough classroom calendar, linked from the Registrar's room information page | **Behind a UTORid login.** |
+| **Scarborough classroom schedule**, `intranet.utsc.utoronto.ca` | The Scarborough classroom calendar, linked from the Registrar's room information page | **Found and used.** The calendar itself is behind a UTORid login, but the Registrar's classroom schedule *service* behind it answers without one: `intranet2/RegistrarService` takes a week and returns every room's bookings as a table, booked to the half hour, with the course code and instructor in each booked cell. 94 rooms across eleven buildings. |
 | **Scarborough classroom details**, `utsc.utoronto.ca/iits/classroom-support` | A Scarborough classroom inventory | **Found and used.** 71 classrooms in 10 buildings, with capacity, room type, AV features and accessibility. |
 | **Scarborough room finder**, `intranet2/s2/classes/roomfinder.action` | A room finder, and the calendar's sibling | The action exists but every path under `/intranet2/s2/` redirects to the login - including a path that does not exist at all, so probing cannot distinguish a real action from a miss. |
 | **Scarborough calendar feed**, `intranet2/s2/services/ctlfeed.action` | A server-rendered feed of room bookings | The URL is recoverable from the Internet Archive's index of real requests, and an archived 2021 copy of it renders bookings with their times. No archived copy of the *calendar* content exists, and the feed itself needs a session. |
@@ -345,6 +345,7 @@ Result: **21,238 of 21,408** meetings carry a real building name.
 | A block on the weekly grid | Starts on the hour line it names, and the now-line sits where the clock says it is |
 | A room is booked for several hours | Says **when it is free again**, not when the hour ends: "Free next at 4:00 PM", never "Booked until 11:00 AM" |
 | A room has no known free hour left in the day | Says so, instead of a time that never comes |
+| A Scarborough booking is for half an hour, and the app shows hours | The hour counts as booked: the app never claims a room is free for an hour it is not |
 | A section does not fit the window | Says which of its meetings does not fit, and why |
 | A class hangs over the end of the window | Does not fit: containment, not overlap |
 | A room has no free hour left in the day | Says so, instead of a time that never comes |
@@ -380,11 +381,11 @@ specific.
 | Layer | Tests | Protects | Network |
 |---|---:|---|---|
 | **pytest** | 47 | The data contract: pagination completeness, the code and session rules, cancelled sections, the Metis weekday, the missing hour, the rooms-only rebuild, the per-campus split, the filter funnel | none — fixtures are committed |
-| **Vitest** | 96 | The application: time handling, term filtering, search, room states, the timetable layout, the time window, the sections of a course, and the components — including "no invented room numbers" | none |
+| **Vitest** | 103 | The application: time handling, term filtering, search, room states, the timetable layout, the time window, the sections of a course, and the components — including "no invented room numbers" | none |
 | **Playwright** | 24 | The shipped product: campus tabs, search, the weekly timetable, the classroom view, the St. George and Scarborough classroom inventories, the St. George availability, the order the rooms are in, the section finder, the window, the API payload, keyboard operation | none — a production build, served locally |
 | **axe-core** | 4 views | WCAG 2.1 AA violations in the classroom list, a course timetable, a classroom timetable and St. George | none |
 
-**167 tests, none of which touches the University of Toronto's servers.** CI
+**174 tests, none of which touches the University of Toronto's servers.** CI
 runs them in four jobs; the data-verification and payload-budget jobs need
 no network either.
 

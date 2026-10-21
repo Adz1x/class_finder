@@ -9,7 +9,7 @@ room number that the University has not published.**
 [![React](https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=087ea4)](https://react.dev)
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-167%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-174%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -30,6 +30,11 @@ UofT Classroom Space Database, plus the classes running in each building.
 **Classroom timetable** — a single room's occupancy for the snapshot week.
 
 ![Classroom timetable](docs/images/classroom-timetable.png)
+
+**Scarborough** — the Registrar's own classroom schedule service: 94 rooms,
+booked and free to the half hour.
+
+![Scarborough](docs/images/scarborough.png)
 
 **St. George** — the real classrooms of every building, their capacities, and
 how many classes are running in each building right now.
@@ -61,6 +66,8 @@ fit the times you named first.
   Space Database: 65 actual rooms, per-hour occupancy, real capacity.
 - **Real classroom availability for St. George**, from the Space Management
   booking portal: 50 rooms with their free and busy hours.
+- **Real classroom availability for Scarborough**, from the Registrar's own
+  classroom schedule service: 94 rooms, booked and free to the half hour.
 - **The real St. George and Scarborough classrooms** - 334 and 71 of them,
   from two University services, each with the number of students it seats.
 - **How busy every building is right now**, on every campus, with the
@@ -82,10 +89,10 @@ fit the times you named first.
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
+| Classrooms | 209 rooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 94 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
-| Tests | 167 across three layers, plus 4 automated accessibility checks |
+| Tests | 174 across three layers, plus 4 automated accessibility checks |
 
 ## The part that matters: it does not make things up
 
@@ -119,11 +126,12 @@ every card.
 |---|---|---|---|
 | **Mississauga** | 65 rooms, with capacity | **Per hour**, for the snapshot week | UofT Classroom Space Database |
 | **St. George** | 50 rooms with occupancy, 334 classrooms with capacity | **Per hour**, for the snapshot week | UofT Space Management campus booking portal |
-| **Scarborough** | 71 classrooms in 10 buildings, with capacity, type and accessibility | Not published | UofT IITS classroom specifications |
+| **Scarborough** | 94 rooms with occupancy, 71 classrooms with capacity, type and accessibility | **Per hour**, for the snapshot week | UofT Scarborough Registrar classroom schedule service |
 
 Every open source was checked; [§2.4 of the report](docs/REPORT.md) records
 the search, including the St. George availability calendar that was
-withdrawn and the Scarborough calendar that needs a UTORid.
+withdrawn and the Scarborough calendar that turned out to be public
+after all.
 
 **St. George's occupancy came from the least obvious place.** The
 withdrawn "Calendar of Availability" application was replaced, in effect,
@@ -133,9 +141,16 @@ and an expected attendance, and it answers with the rooms that are free in
 that slot. Fifty St. George rooms across eleven buildings, per hour, for the
 week.
 
-Scarborough publishes its classrooms but not their occupancy, so the
-application publishes what is open there — the timetable, the real
-classrooms, and how many classes are running in each building right now.
+**Scarborough's occupancy was public all along.** Its calendar needs a
+UTORid, but the Registrar's classroom schedule service behind it does not:
+it answers with a JSONP request and a table of every room's week, booked
+to the half hour, with the course code and instructor in each booked cell.
+Ninety-four rooms across eleven buildings, and it can be refreshed with a
+single command.
+
+The service publishes half hours and the application shows hours, so a
+booked half hour makes its hour booked. The application never claims a
+room is free for an hour it is not.
 
 ## Quick start
 
@@ -207,6 +222,7 @@ that those files add up to the totals in `meta.json` exactly:
 | St. George room availability | `https://lsm.utoronto.ca/ords/f?p=171:2` (snapshot committed in `data/rooms/`) |
 | St. George classrooms | `https://lsm.utoronto.ca/webapp/f?p=210` (snapshot in `data/classrooms/`) |
 | Scarborough classrooms | `https://www.utsc.utoronto.ca/iits/classroom-support` (snapshot in `data/classrooms/`) |
+| Scarborough room availability | `https://intranet.utsc.utoronto.ca/intranet2/RegistrarService` (snapshot in `data/rooms/`) |
 | Building names | [`cobalt-uoft/datasets`](https://github.com/cobalt-uoft/datasets) — U of T's own open-data project |
 
 Building names from Cobalt were only accepted when the campus Cobalt records
@@ -239,7 +255,7 @@ scraper/
     cli.py                  # `build` and `verify`
   tests/                    # 47 pytest tests + committed API fixtures
 tests/
-  unit/                     # 96 Vitest tests
+  unit/                     # 103 Vitest tests
   e2e/                      # 24 Playwright tests
 data/
   campus/<KEY>.json         # the dataset, one file per campus key
@@ -251,6 +267,7 @@ scripts/
   fetch-utsg-classrooms.mjs # refreshes the St. George classroom inventory
   fetch-utsc-classrooms.mjs # refreshes the Scarborough classroom inventory
   fetch-utsg-availability.mjs # refreshes the St. George room availability
+  fetch-utsc-availability.mjs # refreshes the Scarborough room availability
   auth-lsm-cookies.mjs    # signs in to Space Management, saves the session
 ```
 
@@ -267,7 +284,7 @@ crosses 150 KB, so the win cannot quietly be given back.
 **Everything that can be a pure function is one.** Time handling, term
 filtering, search, room-availability states and the timetable layout all live
 in `src/components/lib/schedule.ts`, which touches no browser API. That is
-why 96 of the 167 tests are fast and deterministic.
+why 103 of the 174 tests are fast and deterministic.
 
 **The data is verified, not trusted.** `npm run data:verify` re-checks the
 committed dataset's invariants - that the per-campus files add up to the
@@ -278,7 +295,7 @@ publish, that there are no duplicates. It runs in CI.
 
 ```bash
 npm run scraper:test   # 47 pytest  - saved API fixtures, no network
-npm test               # 96 Vitest  - pure logic + React components
+npm test               # 103 Vitest - pure logic + React components
 npm run test:e2e       # 24 Playwright - against the production build
 npm run data:verify    # the committed dataset's invariants
 npm run data:size      # the gzipped payload budget
@@ -328,6 +345,7 @@ whether the wording makes sense.
 | `node scripts/fetch-utsc-classrooms.mjs` | Refresh the Scarborough classroom inventory |
 | `node scripts/auth-lsm-cookies.mjs` | Sign in to Space Management and save the session for the captures |
 | `node scripts/fetch-utsg-availability.mjs` | Refresh the St. George room availability (needs a signed-in session) |
+| `npm run data:rooms:utsc` | Refresh the Scarborough room availability (no login needed) |
 
 ## Data and attribution
 

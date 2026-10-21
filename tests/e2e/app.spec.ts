@@ -181,22 +181,21 @@ test.describe("class & room finder", () => {
     await expect(page.getByText("150 · 468")).toBeVisible();
   });
 
-  test("Scarborough lists the classrooms the University publishes", async ({
-    page,
-  }) => {
+  test("Scarborough has classroom availability of its own", async ({ page }) => {
     await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
     await page.goto("/");
     await page.getByRole("button", { name: "UTSC" }).click();
 
-    // 71 classrooms in 10 buildings, from the Registrar's room information
-    // page and the IITS classroom specifications.
+    // 94 rooms, from the Registrar's own classroom schedule service, and
+    // the capacity UofT Scarborough publishes for 69 of them.
+    await expect(page.getByText(/classrooms available on UTSC/i)).toBeVisible();
     await expect(
-      page.getByText(/71 classrooms are listed for Scarborough/i),
+      page.getByText(/Registrar classroom schedule service/i).first(),
     ).toBeVisible();
 
     // A real classroom of a real building, with the capacity it seats.
-    await expect(page.getByText(/Classrooms in IA/i)).toBeVisible();
-    await expect(page.getByText("IA-B1010 · 36")).toBeVisible();
+    await expect(page.getByText("IA-B1010").first()).toBeVisible();
+    await expect(page.getByText(/capacity 36/).first()).toBeVisible();
   });
 
   test("St. George has classroom availability of its own", async ({ page }) => {
@@ -234,7 +233,9 @@ test.describe("class & room finder", () => {
 
     await page.getByRole("button", { name: "UTSC" }).click();
     await expect(page.getByRole("button", { name: "IA", exact: true })).toBeVisible();
-    await expect(page.getByText(/class meetings scheduled on UTSC/i)).toBeVisible();
+    await expect(
+      page.getByText(/classrooms available on UTSC/i),
+    ).toBeVisible();
   });
 
   test("keeps 68 St. George buildings behind one dropdown", async ({ page }) => {
@@ -285,15 +286,15 @@ test.describe("class & room finder", () => {
     const utsg = await (await request.get("/api/schedule/UTSG")).json();
     const utsc = await (await request.get("/api/schedule/UTSC")).json();
 
-    // Two campuses publish occupancy, from two different sources.
+    // Three campuses publish occupancy, from three different sources.
     expect(utm.availability.source).toMatch(/Classroom Space Database/);
     expect(utsg.availability.source).toMatch(/booking portal/);
+    expect(utsc.availability.source).toMatch(/Registrar classroom schedule/);
     expect(utm.rooms.length).toBeGreaterThan(0);
     expect(utsg.rooms.length).toBeGreaterThan(0);
+    expect(utsc.rooms.length).toBe(94);
 
-    // Scarborough publishes rooms, but no occupancy for them.
-    expect(utsc.availability).toBeNull();
-    expect(utsc.rooms).toHaveLength(0);
+    // Scarborough publishes its classrooms as well.
     expect(utsc.classrooms.length).toBeGreaterThan(0);
   });
 

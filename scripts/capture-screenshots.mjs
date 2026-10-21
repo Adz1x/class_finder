@@ -44,6 +44,15 @@ const shots = [
     },
   },
   {
+    name: "scarborough",
+    url: "/",
+    wait: 1600,
+    after: async (p) => {
+      await p.getByRole("button", { name: "UTSC" }).click();
+      await p.waitForTimeout(1800);
+    },
+  },
+  {
     name: "st-george",
     url: "/",
     wait: 1600,

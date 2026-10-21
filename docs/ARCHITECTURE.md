@@ -190,7 +190,7 @@ the source it was given rather than a name it invented.
                  │  + axe-core · 4 views     │
                  └───────────────────────────┘
                  ┌───────────────────────────┐
-                 │  Vitest · 96 tests        │  logic and components
+                 │  Vitest · 103 tests       │  logic and components
                  └───────────────────────────┘
                  ┌───────────────────────────┐
                  │  pytest · 47 tests        │  the data contract

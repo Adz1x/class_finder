@@ -1115,7 +1115,10 @@ function RoomCard({ room, status, next, inProgress, onOpen }: RoomCardProps) {
               {status.statusTitle}
             </span>
             <span className="text-xs text-slate-400 font-medium hidden md:inline">
-              {room.buildingName} • capacity {room.capacity}
+              {room.buildingName}
+              {room.capacity
+                ? ` • capacity ${room.capacity}`
+                : " • capacity not published"}
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">

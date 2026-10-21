@@ -102,7 +102,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Name the days and the hours and the buildings answer for that window
   instead of for right now - the room cards, the counts and the class list
   all follow it. With no window, everything keeps its current meaning.
-- 167 tests across three layers: 47 pytest, 96 Vitest, 24 Playwright.
+- **Scarborough classroom occupancy.** The Registrar's classroom schedule
+  service answers without a login, and returns every Scarborough room's
+  week booked to the half hour, with the course code and instructor in each
+  booked cell: 94 rooms across eleven buildings, refreshable with one
+  command. The service publishes half hours and the app shows hours, so a
+  booked half hour makes its hour booked - the app never claims a room is
+  free for an hour it is not.
+- 174 tests across three layers: 47 pytest, 103 Vitest, 24 Playwright.
 
 ## [0.3.0] — 2026-10-20
 
