@@ -177,8 +177,9 @@ reads it to check that the campus files still add up.
 Each `data/rooms/<KEY>.json` carries its own provenance, because the source
 is not the same for every campus: Mississauga publishes a classroom space
 database, St. George publishes the room list its booking portal returns for a
-slot, and Scarborough publishes no occupancy at all. The application shows
-the source it was given rather than a name it invented.
+slot, and Scarborough publishes its bookings through the Registrar's
+classroom schedule service, which answers without a login. The application
+shows the source it was given rather than a name it invented.
 
 ---
 

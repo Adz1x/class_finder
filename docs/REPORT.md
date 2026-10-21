@@ -36,7 +36,7 @@ the one it replaced, and that makes a claim a reviewer can check.
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 65 UTM and 50 St. George classrooms with published per-hour occupancy, plus 334 St. George and 71 Scarborough classrooms with their capacities |
+| Classrooms | 209 classrooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 94 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
 | Tests | 174 across three layers, plus 4 automated accessibility checks |
@@ -136,17 +136,18 @@ because the answer is a fact about the University:
 The conclusion is therefore a fact about the University rather than about
 this project:
 
-> The University publishes room-level classroom availability for
-> Mississauga and for St. George, and a classroom *inventory* for
-> Scarborough. It publishes no room-level availability for Scarborough
-> through any open channel.
+> The University publishes room-level classroom availability for all three
+> campuses. For Mississauga and St. George it is a calendar and a booking
+> portal; for Scarborough it is the Registrar's classroom schedule service,
+> which answers without a login.
 
-So the application publishes, for every campus, the two things that *are*
-open: the complete class timetable, and the real classrooms of every
-St. George and Scarborough building with their capacities — 334 and 71 of
-them, from two different University services. What the application adds is
-the join a student would otherwise have to make by hand: how many classes
-are running in each building right now.
+So the application publishes, for every campus, the things that *are* open:
+the complete class timetable, the real classrooms of every St. George and
+Scarborough building with their capacities — 334 and 71 of them, from two
+different University services — and the published per-hour occupancy of 65
+UTM, 50 St. George and 94 Scarborough rooms. What the application adds is
+the join a student would otherwise have to make by hand: which rooms are
+free, and how many classes are running in each building right now.
 
 ### 2.5 The St. George rooms, from a booking form
 
@@ -183,6 +184,20 @@ it. What the archive does not hold is a single copy of the calendar's
 content, and the live application needs a UTORid that a separate Keycloak
 realm refuses. The timetable API was checked again for Scarborough rooms:
 4,059 meetings, every `buildingRoomNumber` empty.
+
+A real student session — volunteered for this investigation — settles what
+the login is worth. The calendar does render for a signed-in student, and the
+home page draws its events from a per-user feed (`/intranet2/bbfeed`), which
+answers `cb();` — nothing — without a live session. But the session is a
+half-life measured in minutes: the exported cookie worked, then expired
+within the hour and every request fell back to the SSO sign-in page. And the
+events on the calendar are not the rooms the app models: `HL-133` and
+`Amphitheatre/HW Patio` belong to neither the 94-room schedule service nor
+the 71-classroom inventory, while the schedule service already covers the
+classrooms. The archived `ctlfeed` fragments are per-event-type widgets —
+"ELD Consultation" times, no rooms. The login, in short, offers nothing the
+schedule service does not already give, and it cannot be refreshed without a
+person. The public service stays the source.
 
 ### 2.5 The 1 PM hole was ours
 
@@ -544,10 +559,6 @@ application's job is to make them visible rather than to hide them.
    preview card.
 5. **The six unnamed buildings.** Worth chasing: each one is a code with a
    name somewhere, and the names are findable.
-6. **Scarborough classrooms.** The Registrar publishes a Scarborough room
-   information page and IITS publishes classroom details; neither is a
-   schedule, but the same treatment as St. George would give that tab real
-   rooms and capacities.
 
 ---
 
