@@ -195,22 +195,20 @@ test.describe("class & room finder", () => {
     await expect(page.getByText("150 · 468")).toBeVisible();
   });
 
-  test("finds a classroom by the number a student types", async ({ page }) => {
+  test("opens a classroom's timetable when Enter is pressed", async ({
+    page,
+  }) => {
     await page.goto("/");
 
-    await page
-      .getByPlaceholder(/classroom \(e\.g\. MN 2100\)/i)
-      .fill("MN 2100");
-
-    const rooms = page.getByRole("group", {
-      name: "Rooms matching your search",
-    });
-    await expect(rooms).toBeVisible();
-    await rooms.getByRole("button", { name: /MN 2100/ }).click();
-
+    const search = page.getByPlaceholder(/classroom \(e\.g\. MN 2100\)/i);
+    await search.fill("IB 260");
     await expect(
-      page.getByRole("heading", { name: "MN 2100" }),
+      page.getByRole("group", { name: "Rooms matching your search" }),
     ).toBeVisible();
+    await search.press("Enter");
+
+    await expect(page.getByRole("heading", { name: "IB 260" })).toBeVisible();
+    await expect(page.getByText(/Room Weekly Schedule/)).toBeVisible();
   });
 
   test("names an unpublished building instead of printing null", async ({

@@ -145,6 +145,19 @@ describe("ClassFinder", () => {
     );
   });
 
+  it("opens the weekly timetable when Enter is pressed on a room number", async () => {
+    const user = await renderApp();
+
+    await user.type(
+      screen.getByPlaceholderText(/Search building/i),
+      "MN 2100{Enter}",
+    );
+
+    await waitFor(() =>
+      expect(screen.getByRole("heading", { name: "MN 2100" })).toBeInTheDocument(),
+    );
+  });
+
   it("does not offer a building-wide timetable from the class list", async () => {
     await renderApp();
 

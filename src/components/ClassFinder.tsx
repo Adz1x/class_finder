@@ -317,7 +317,10 @@ export default function ClassFinder() {
     const wanted = normalizeCode(query);
     if (!wanted || !/\d/.test(wanted)) return [];
     return campusRooms
-      .filter((room) => normalizeCode(room.room).includes(wanted))
+      .filter((room) => {
+        const key = classroomKey(room.building, room.room);
+        return key.includes(wanted) || normalizeCode(room.room).includes(wanted);
+      })
       .slice(0, 8)
       .map((room) => ({
         room,
@@ -380,6 +383,39 @@ export default function ClassFinder() {
     setQuery("");
     setBuilding("ALL");
     goHome();
+  };
+
+  // Enter takes the student to the thing the box is describing: the room's
+  // weekly timetable, the course's sections, or the building that was named.
+  // The room match is checked first because a room number also contains
+  // digits, and an exact "IB 260" should win over the first partial match.
+  const openSearchResult = () => {
+    const wanted = normalizeCode(query);
+    if (!wanted) return;
+
+    const exactRoom = roomMatches.find(
+      ({ room }) =>
+        normalizeCode(room.room) === wanted ||
+        classroomKey(room.building, room.room) === wanted,
+    );
+    const room = exactRoom ?? roomMatches[0];
+    if (room) {
+      navigate(
+        `#/room/${encodeURIComponent(activeCampus)}/${encodeURIComponent(room.room.room)}`,
+      );
+      return;
+    }
+
+    if (courseMatches.length) {
+      navigate(
+        `#/sections/${encodeURIComponent(activeCampus)}/${encodeURIComponent(courseMatches[0])}`,
+      );
+      return;
+    }
+
+    if (visibleBuildings.length === 1) {
+      selectBuilding(visibleBuildings[0].code);
+    }
   };
 
   // --------------------------------------------------------------- render
@@ -557,6 +593,7 @@ export default function ClassFinder() {
             <form
               onSubmit={(event) => {
                 event.preventDefault();
+                openSearchResult();
               }}
               className="flex gap-2 flex-1 max-w-xl"
             >
