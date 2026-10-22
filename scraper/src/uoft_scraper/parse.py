@@ -80,8 +80,12 @@ def millis_to_clock(millis: int) -> str:
 
 
 def building_name(code: str) -> str:
-    """Return a human name for a building code, without inventing one."""
-    return BUILDING_NAMES.get(code, f"{code} Building")
+    """Return a human name for a building code, without inventing one.
+
+    A code with no published name returns the empty string: the UI renders
+    it as "Name not listed" rather than presenting a guess as data.
+    """
+    return BUILDING_NAMES.get(code, "")
 
 
 def _clean(value: Any) -> str:

@@ -288,6 +288,7 @@ test.describe("class & room finder", () => {
   });
 
   test("switches between campuses", async ({ page }) => {
+    await page.clock.setFixedTime(new Date("2026-10-19T14:00:00"));
     await page.goto("/");
 
     await page.getByRole("button", { name: "UTSG" }).click();

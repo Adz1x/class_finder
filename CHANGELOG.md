@@ -8,6 +8,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Data
 
+*nothing yet*
+
+## [0.4.0] — 2026-10-21
+
+### Data
+
 - **The 1 PM hole was ours, not the University's.** The Classroom Space
   Database's own time selector omits 13:00, and the first capture iterated
   that selector - so the snapshot could never contain 1 PM, and the app

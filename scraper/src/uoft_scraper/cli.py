@@ -28,6 +28,18 @@ def _build(args: argparse.Namespace) -> int:
     )
     metis = load_snapshot(args.metis)
     result = build_dataset(client, metis)
+
+    # Refuse to overwrite the committed dataset with an empty catalogue. A
+    # failed fetch that returns zero rows must fail loudly instead of
+    # silently shipping an empty dataset on the next run.
+    if not result.meetings:
+        print(
+            "FAILED: the catalogue fetch returned zero class meetings; "
+            "refusing to write an empty dataset",
+            file=sys.stderr,
+        )
+        return 1
+
     paths = write_dataset(result, args.out)
 
     snapshot = result.snapshot
@@ -308,6 +320,21 @@ def _verify(args: argparse.Namespace) -> int:
         if meeting["end"] <= meeting["start"]:
             failures.append(f"invalid time range in {meeting['courseCode']}")
             break
+
+    # No building name may be a synthesized guess: a name equal to
+    # "<CODE> Building" means the parser had no published name for that
+    # code and should have left it empty instead.
+    synthesized = []
+    for m in classes:
+        name = m.get("buildingName")
+        code = m.get("buildingCode")
+        if name and code and name == code + " Building":
+            synthesized.append(m["courseCode"])
+    if synthesized:
+        failures.append(
+            "class meetings carry synthesized building names "
+            f'(a parser fallback, not a published name): {synthesized[:10]}'
+        )
 
     # The classroom inventories the University publishes per campus. They
     # carry no meeting, so the only things to check are that the file says

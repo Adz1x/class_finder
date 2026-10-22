@@ -203,8 +203,16 @@ async function freeRooms(date, hour) {
         return { room: value.r, capacity: capacity ? capacity[1] : null };
       })
       .filter(Boolean);
-  } catch {
-    return [];
+  } catch (error) {
+    // A failed parse is not "no rooms free": it means we got no usable
+    // answer from the portal. Failing loudly is safer than silently
+    // marking every hour of every room as booked.
+    console.error(
+      `failed to parse availability reply for ${date} ${String(hour).padStart(2, "0")}:00: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+    throw error;
   }
 }
 

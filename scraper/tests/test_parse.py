@@ -98,10 +98,11 @@ def test_published_rooms_are_kept_when_the_source_provides_them(edge_row):
 
 def test_building_names_are_not_invented():
     assert BUILDING_NAMES["MN"] == "Maanjiwe Nendamowinan"
-    # An unknown code keeps its code rather than claiming a name.
+    # An unknown code has no published name: it shows "Name not listed"
+    # rather than a guessed one.
     from uoft_scraper.parse import building_name
 
-    assert building_name("ZZZ") == "ZZZ Building"
+    assert building_name("ZZZ") == ""
 
 
 def test_millis_to_clock():
