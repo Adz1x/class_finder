@@ -1,544 +1,556 @@
 {
- "_comment": "Building code -> display name. Every entry records where the name came from so it can be audited. 'cobalt-uoft/datasets#buildings.json' is Cobalt, the University of Toronto's own open-data project (MIT, archived 2020); those names were accepted only when the campus Cobalt records for the building matches the campus of the timetable classes that meet there. 'maintainer' entries were verified by hand against the timetable.",
- "_rejected": {
-  "entries": [
-   {
-    "cobaltCampus": "UTSG",
-    "cobaltName": "Spadina Avenue-703",
-    "code": "IA",
-    "timetableCampus": "UTSC"
-   },
-   {
-    "cobaltCampus": "UTSG",
-    "cobaltName": "Maritain House",
-    "code": "MN",
-    "timetableCampus": "UTM"
-   }
-  ],
-  "reason": "campus conflict: the name belongs to a building on another campus"
- },
- "buildings": {
-  "AA": {
-   "campus": "UTSC",
-   "meetings": 212,
-   "name": "Arts & Administration Building",
-   "source": "maintainer"
-  },
-  "AB": {
-   "campus": "UTSG",
-   "meetings": 77,
-   "name": "Astronomy and Astrophysics Building",
-   "source": "maintainer"
-  },
-  "AC": {
-   "campus": "UTSC",
-   "meetings": 95,
-   "name": "Academic Resource Centre",
-   "source": "maintainer"
-  },
-  "AH": {
-   "campus": "UTSG",
-   "meetings": 200,
-   "name": "Muzzo Family Alumni Hall",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "AP": {
-   "campus": "UTSG",
-   "meetings": 79,
-   "name": "Anthropology Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "BA": {
-   "campus": "UTSG",
-   "meetings": 1391,
-   "name": "Bahen Centre for Information Technology",
-   "source": "maintainer"
-  },
-  "BF": {
-   "campus": "UTSG",
-   "meetings": 145,
-   "name": "Bancroft Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "BL": {
-   "campus": null,
-   "meetings": 0,
-   "name": "Claude T. Bissell Building",
-   "source": "maintainer"
-  },
-  "BN": {
-   "campus": "UTSG",
-   "meetings": 109,
-   "name": "Clara Benson Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "BR": {
-   "campus": "UTSG",
-   "meetings": 37,
-   "name": "Brennan Hall",
-   "source": "maintainer"
-  },
-  "BT": {
-   "campus": "UTSG",
-   "meetings": 25,
-   "name": "Isabel Bader Theatre",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "BV": {
-   "campus": "UTSC",
-   "meetings": 212,
-   "name": "Bladen Wing",
-   "source": "maintainer"
-  },
-  "CC": {
-   "campus": "UTM",
-   "meetings": 612,
-   "name": "Communication, Culture and Technology (CCIT)",
-   "source": "maintainer"
-  },
-  "CH": {
-   "campus": "UTSG",
-   "meetings": 52,
-   "name": "Convocation Hall",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "CR": {
-   "campus": "UTSG",
-   "meetings": 186,
-   "name": "Carr Hall",
-   "source": "maintainer"
-  },
-  "DA": {
-   "campus": "UTSG",
-   "meetings": 142,
-   "name": "Daniels Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "DH": {
-   "campus": "UTM",
-   "meetings": 496,
-   "name": "Deerfield Hall",
-   "source": "maintainer"
-  },
-  "DV": {
-   "campus": "UTM",
-   "meetings": 812,
-   "name": "William G. Davis Building",
-   "source": "maintainer"
-  },
-  "EJ": {
-   "campus": "UTSG",
-   "meetings": 206,
-   "name": "Edward Johnson Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "EM": {
-   "campus": "UTSG",
-   "meetings": 132,
-   "name": "Emmanuel College",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "EP": {
-   "campus": "UTSG",
-   "meetings": 49,
-   "name": "Stewart Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "ES": {
-   "campus": "UTSG",
-   "meetings": 339,
-   "name": "Earth Sciences Centre",
-   "source": "maintainer"
-  },
-  "EV": {
-   "campus": "UTSC",
-   "meetings": 181,
-   "name": "Environmental Science & Chemistry",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "EX": {
-   "campus": null,
-   "meetings": 0,
-   "name": "Exam Centre",
-   "source": "maintainer"
-  },
-  "FE": {
-   "campus": "UTSG",
-   "meetings": 239,
-   "name": "Bloor Street West-371",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "GB": {
-   "campus": "UTSG",
-   "meetings": 547,
-   "name": "Galbraith Building",
-   "source": "maintainer"
-  },
-  "GI": {
-   "campus": "UTSG",
-   "meetings": 16,
-   "name": "George Ignatieff Theatre",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "HA": {
-   "campus": "UTSG",
-   "meetings": 95,
-   "name": "Haultain Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "HB": {
-   "campus": null,
-   "meetings": 0,
-   "name": "Hazel McCallion Academic Learning Centre",
-   "source": "maintainer"
-  },
-  "HI": {
-   "campus": "UTSG",
-   "meetings": 22,
-   "name": "St. Hilda's College",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "HL": {
-   "campus": "UTSC",
-   "meetings": 244,
-   "name": "Highland Hall",
-   "source": "maintainer"
-  },
-  "HS": {
-   "campus": "UTSG",
-   "meetings": 91,
-   "name": "Health Sciences Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "HW": {
-   "campus": "UTSC",
-   "meetings": 251,
-   "name": "Humanities Wing",
-   "source": "maintainer"
-  },
-  "IA": {
-   "campus": "UTSC",
-   "meetings": 1045,
-   "name": "Sam Ibrahim Building",
-   "source": "maintainer"
-  },
-  "IB": {
-   "campus": "UTM",
-   "meetings": 1631,
-   "name": "Instructional Centre (UTM)",
-   "source": "maintainer"
-  },
-  "IC": {
-   "campus": "UTSC",
-   "meetings": 653,
-   "name": "Instructional Centre (UTSC)",
-   "source": "maintainer"
-  },
-  "IN": {
-   "campus": "UTSG",
-   "meetings": 48,
-   "name": "Innis College",
-   "source": "maintainer"
-  },
-  "JH": {
-   "campus": "UTSG",
-   "meetings": 14,
-   "name": "Jackman Humanities Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "JP": {
-   "campus": "UTSG",
-   "meetings": 9,
-   "name": "Wellesley Street West -90",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "KN": {
-   "campus": "UTM",
-   "meetings": 50,
-   "name": "Kaneff Centre / Innovation Complex",
-   "source": "maintainer"
-  },
-  "KP": {
-   "campus": "UTSG",
-   "meetings": 98,
-   "name": "Koffler House",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "KW": {
-   "campus": "UTSC",
-   "meetings": 285,
-   "name": "Kina Wiiya Enadong Building",
-   "source": "maintainer"
-  },
-  "LA": {
-   "campus": "UTSG",
-   "meetings": 62,
-   "name": "Gerald Larkin Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "LI": {
-   "campus": "UTSG",
-   "meetings": 67,
-   "name": "Lillian Massey Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "LM": {
-   "campus": "UTSG",
-   "meetings": 91,
-   "name": "Lash Miller Chemical Laboratories",
-   "source": "maintainer"
-  },
-  "MB": {
-   "campus": "UTSG",
-   "meetings": 162,
-   "name": "Lassonde Mining Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "MC": {
-   "campus": "UTSG",
-   "meetings": 228,
-   "name": "Mechanical Engineering Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "MK": {
-   "campus": "UTSG",
-   "meetings": 7,
-   "name": "Munk School of Global Affairs at the Observatory",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "MN": {
-   "campus": "UTM",
-   "meetings": 1577,
-   "name": "Maanjiwe Nendamowinan",
-   "source": "maintainer"
-  },
-  "MP": {
-   "campus": "UTSG",
-   "meetings": 600,
-   "name": "McLennan Physical Laboratories",
-   "source": "maintainer"
-  },
-  "MS": {
-   "campus": "UTSG",
-   "meetings": 261,
-   "name": "Medical Sciences Building",
-   "source": "maintainer"
-  },
-  "MW": {
-   "campus": null,
-   "meetings": 0,
-   "name": "Social Sciences Building",
-   "source": "maintainer"
-  },
-  "MY": {
-   "campus": "UTSG",
-   "meetings": 685,
-   "name": "Myhal Centre for Engineering Innovation",
-   "source": "maintainer"
-  },
-  "NB": {
-   "campus": "UTSG",
-   "meetings": 19,
-   "name": "Borden Building North",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "NE": {
-   "campus": null,
-   "meetings": 0,
-   "name": "North Building",
-   "source": "maintainer"
-  },
-  "NF": {
-   "campus": "UTSG",
-   "meetings": 302,
-   "name": "Northrop Frye Hall",
-   "source": "maintainer"
-  },
-  "NL": {
-   "campus": "UTSG",
-   "meetings": 25,
-   "name": "C. David Naylor Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "OH": {
-   "campus": "UTSG",
-   "meetings": 1,
-   "name": "Odette (Louis) Hall",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "OI": {
-   "campus": "UTSG",
-   "meetings": 566,
-   "name": "OISE",
-   "source": "maintainer"
-  },
-  "PB": {
-   "campus": "UTSG",
-   "meetings": 91,
-   "name": "Leslie Dan Pharmacy Building",
-   "source": "maintainer"
-  },
-  "PR": {
-   "campus": "UTSG",
-   "meetings": 1,
-   "name": "E.J. Pratt Library",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "PT": {
-   "campus": "UTSG",
-   "meetings": 2,
-   "name": "D.L. Pratt Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "RL": {
-   "campus": "UTSG",
-   "meetings": 80,
-   "name": "John P. Robarts Library Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "RS": {
-   "campus": "UTSG",
-   "meetings": 52,
-   "name": "Rosebrugh Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "RT": {
-   "campus": "UTSG",
-   "meetings": 65,
-   "name": "Rotman School of Management",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "RW": {
-   "campus": "UTSG",
-   "meetings": 273,
-   "name": "Ramsay Wright Laboratories",
-   "source": "maintainer"
-  },
-  "SB": {
-   "campus": "UTSG",
-   "meetings": 48,
-   "name": "Borden Building South",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "SD": {
-   "campus": "UTSG",
-   "meetings": 2,
-   "name": "Sir Daniel Wilson Residence",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "SF": {
-   "campus": "UTSG",
-   "meetings": 432,
-   "name": "Sandford Fleming Building",
-   "source": "maintainer"
-  },
-  "SH": {
-   "campus": "SHERIDAN",
-   "meetings": 94,
-   "name": "Science Building (UTM)",
-   "source": "maintainer"
-  },
-  "SK": {
-   "campus": "UTSG",
-   "meetings": 242,
-   "name": "Factor-Inwentash Faculty of Social Work",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "SM": {
-   "campus": "UTSG",
-   "meetings": 10,
-   "name": "Gerstein Science Information Centre in the Sigmund Samuel Library Bldg",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "SS": {
-   "campus": "UTSG",
-   "meetings": 1130,
-   "name": "Sidney Smith Hall",
-   "source": "maintainer"
-  },
-  "SU": {
-   "campus": "UTSG",
-   "meetings": 88,
-   "name": "Sussex Avenue-40",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "SW": {
-   "campus": "UTSC",
-   "meetings": 735,
-   "name": "Science Wing (UTSC)",
-   "source": "maintainer"
-  },
-  "SY": {
-   "campus": "UTSC",
-   "meetings": 36,
-   "name": "Environmental Science & Chemistry Building",
-   "source": "maintainer"
-  },
-  "TC": {
-   "campus": "UTSG",
-   "meetings": 31,
-   "name": "Trinity College",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "TF": {
-   "campus": "UTSG",
-   "meetings": 184,
-   "name": "Teefy Hall",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "UC": {
-   "campus": "UTSG",
-   "meetings": 757,
-   "name": "University College",
-   "source": "maintainer"
-  },
-  "UP": {
-   "campus": "UTSG",
-   "meetings": 11,
-   "name": "University College Union",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "VC": {
-   "campus": "UTSG",
-   "meetings": 229,
-   "name": "Victoria College (Old Vic)",
-   "source": "maintainer"
-  },
-  "WB": {
-   "campus": "UTSG",
-   "meetings": 284,
-   "name": "Wallberg Building",
-   "source": "maintainer"
-  },
-  "WE": {
-   "campus": "UTSG",
-   "meetings": 86,
-   "name": "Wetmore Hall (New College)",
-   "source": "maintainer"
-  },
-  "WI": {
-   "campus": "UTSG",
-   "meetings": 166,
-   "name": "Wilson Hall (New College)",
-   "source": "maintainer"
-  },
-  "WO": {
-   "campus": "UTSG",
-   "meetings": 182,
-   "name": "Woodsworth College Residence",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "WS": {
-   "campus": "UTSG",
-   "meetings": 24,
-   "name": "Warren Stevens Building",
-   "source": "cobalt-uoft/datasets#buildings.json"
-  },
-  "WW": {
-   "campus": "UTSG",
-   "meetings": 123,
-   "name": "Woodsworth College",
-   "source": "maintainer"
+  "_comment": "Building code -> display name. Every entry records where the name came from so it can be audited. 'cobalt-uoft/datasets#buildings.json' is Cobalt, the University of Toronto's own open-data project (MIT, archived 2020); those names were accepted only when the campus Cobalt records for the building matches the campus of the timetable classes that meet there. 'maintainer' entries were verified by hand against the timetable.",
+  "_rejected": {
+    "entries": [
+      {
+        "cobaltCampus": "UTSG",
+        "cobaltName": "Spadina Avenue-703",
+        "code": "IA",
+        "timetableCampus": "UTSC"
+      },
+      {
+        "cobaltCampus": "UTSG",
+        "cobaltName": "Maritain House",
+        "code": "MN",
+        "timetableCampus": "UTM"
+      }
+    ],
+    "reason": "campus conflict: the name belongs to a building on another campus"
+  },
+  "buildings": {
+    "AA": {
+      "campus": "UTSC",
+      "meetings": 212,
+      "name": "Arts & Administration Building",
+      "source": "maintainer"
+    },
+    "AB": {
+      "campus": "UTSG",
+      "meetings": 77,
+      "name": "Astronomy and Astrophysics Building",
+      "source": "maintainer"
+    },
+    "AC": {
+      "campus": "UTSC",
+      "meetings": 95,
+      "name": "Academic Resource Centre",
+      "source": "maintainer"
+    },
+    "AH": {
+      "campus": "UTSG",
+      "meetings": 200,
+      "name": "Muzzo Family Alumni Hall",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "AP": {
+      "campus": "UTSG",
+      "meetings": 79,
+      "name": "Anthropology Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "BA": {
+      "campus": "UTSG",
+      "meetings": 1391,
+      "name": "Bahen Centre for Information Technology",
+      "source": "maintainer"
+    },
+    "BF": {
+      "campus": "UTSG",
+      "meetings": 145,
+      "name": "Bancroft Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "BL": {
+      "campus": null,
+      "meetings": 0,
+      "name": "Claude T. Bissell Building",
+      "source": "maintainer"
+    },
+    "BN": {
+      "campus": "UTSG",
+      "meetings": 109,
+      "name": "Clara Benson Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "BR": {
+      "campus": "UTSG",
+      "meetings": 37,
+      "name": "Brennan Hall",
+      "source": "maintainer"
+    },
+    "BT": {
+      "campus": "UTSG",
+      "meetings": 25,
+      "name": "Isabel Bader Theatre",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "BV": {
+      "campus": "UTSC",
+      "meetings": 212,
+      "name": "Bladen Wing",
+      "source": "maintainer"
+    },
+    "CC": {
+      "campus": "UTM",
+      "meetings": 612,
+      "name": "Communication, Culture and Technology (CCIT)",
+      "source": "maintainer"
+    },
+    "CH": {
+      "campus": "UTSG",
+      "meetings": 52,
+      "name": "Convocation Hall",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "CR": {
+      "campus": "UTSG",
+      "meetings": 186,
+      "name": "Carr Hall",
+      "source": "maintainer"
+    },
+    "DA": {
+      "campus": "UTSG",
+      "meetings": 142,
+      "name": "Daniels Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "DH": {
+      "campus": "UTM",
+      "meetings": 496,
+      "name": "Deerfield Hall",
+      "source": "maintainer"
+    },
+    "DV": {
+      "campus": "UTM",
+      "meetings": 812,
+      "name": "William G. Davis Building",
+      "source": "maintainer"
+    },
+    "EJ": {
+      "campus": "UTSG",
+      "meetings": 206,
+      "name": "Edward Johnson Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "EM": {
+      "campus": "UTSG",
+      "meetings": 132,
+      "name": "Emmanuel College",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "EP": {
+      "campus": "UTSG",
+      "meetings": 49,
+      "name": "Stewart Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "ES": {
+      "campus": "UTSG",
+      "meetings": 339,
+      "name": "Earth Sciences Centre",
+      "source": "maintainer"
+    },
+    "EV": {
+      "campus": "UTSC",
+      "meetings": 181,
+      "name": "Environmental Science & Chemistry",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "EX": {
+      "campus": null,
+      "meetings": 0,
+      "name": "Exam Centre",
+      "source": "maintainer"
+    },
+    "FE": {
+      "campus": "UTSG",
+      "meetings": 239,
+      "name": "Bloor Street West-371",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "GB": {
+      "campus": "UTSG",
+      "meetings": 547,
+      "name": "Galbraith Building",
+      "source": "maintainer"
+    },
+    "GI": {
+      "campus": "UTSG",
+      "meetings": 16,
+      "name": "George Ignatieff Theatre",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "HA": {
+      "campus": "UTSG",
+      "meetings": 95,
+      "name": "Haultain Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "HB": {
+      "campus": null,
+      "meetings": 0,
+      "name": "Hazel McCallion Academic Learning Centre",
+      "source": "maintainer"
+    },
+    "HI": {
+      "campus": "UTSG",
+      "meetings": 22,
+      "name": "St. Hilda's College",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "HL": {
+      "campus": "UTSC",
+      "meetings": 244,
+      "name": "Highland Hall",
+      "source": "maintainer"
+    },
+    "HS": {
+      "campus": "UTSG",
+      "meetings": 91,
+      "name": "Health Sciences Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "HW": {
+      "campus": "UTSC",
+      "meetings": 251,
+      "name": "Humanities Wing",
+      "source": "maintainer"
+    },
+    "IA": {
+      "campus": "UTSC",
+      "meetings": 1045,
+      "name": "Sam Ibrahim Building",
+      "source": "maintainer"
+    },
+    "IB": {
+      "campus": "UTM",
+      "meetings": 1631,
+      "name": "Instructional Centre (UTM)",
+      "source": "maintainer"
+    },
+    "IC": {
+      "campus": "UTSC",
+      "meetings": 653,
+      "name": "Instructional Centre (UTSC)",
+      "source": "maintainer"
+    },
+    "IN": {
+      "campus": "UTSG",
+      "meetings": 48,
+      "name": "Innis College",
+      "source": "maintainer"
+    },
+    "JH": {
+      "campus": "UTSG",
+      "meetings": 14,
+      "name": "Jackman Humanities Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "JP": {
+      "campus": "UTSG",
+      "meetings": 9,
+      "name": "Wellesley Street West -90",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "KN": {
+      "campus": "UTM",
+      "meetings": 50,
+      "name": "Kaneff Centre / Innovation Complex",
+      "source": "maintainer"
+    },
+    "KP": {
+      "campus": "UTSG",
+      "meetings": 98,
+      "name": "Koffler House",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "KW": {
+      "campus": "UTSC",
+      "meetings": 285,
+      "name": "Kina Wiiya Enadong Building",
+      "source": "maintainer"
+    },
+    "LA": {
+      "campus": "UTSG",
+      "meetings": 62,
+      "name": "Gerald Larkin Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "LI": {
+      "campus": "UTSG",
+      "meetings": 67,
+      "name": "Lillian Massey Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "LM": {
+      "campus": "UTSG",
+      "meetings": 91,
+      "name": "Lash Miller Chemical Laboratories",
+      "source": "maintainer"
+    },
+    "MB": {
+      "campus": "UTSG",
+      "meetings": 162,
+      "name": "Lassonde Mining Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "MC": {
+      "campus": "UTSG",
+      "meetings": 228,
+      "name": "Mechanical Engineering Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "MK": {
+      "campus": "UTSG",
+      "meetings": 7,
+      "name": "Munk School of Global Affairs at the Observatory",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "MN": {
+      "campus": "UTM",
+      "meetings": 1577,
+      "name": "Maanjiwe Nendamowinan",
+      "source": "maintainer"
+    },
+    "MP": {
+      "campus": "UTSG",
+      "meetings": 600,
+      "name": "McLennan Physical Laboratories",
+      "source": "maintainer"
+    },
+    "MS": {
+      "campus": "UTSG",
+      "meetings": 261,
+      "name": "Medical Sciences Building",
+      "source": "maintainer"
+    },
+    "MW": {
+      "campus": null,
+      "meetings": 0,
+      "name": "Social Sciences Building",
+      "source": "maintainer"
+    },
+    "MY": {
+      "campus": "UTSG",
+      "meetings": 685,
+      "name": "Myhal Centre for Engineering Innovation",
+      "source": "maintainer"
+    },
+    "NB": {
+      "campus": "UTSG",
+      "meetings": 19,
+      "name": "Borden Building North",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "NE": {
+      "campus": null,
+      "meetings": 0,
+      "name": "North Building",
+      "source": "maintainer"
+    },
+    "NF": {
+      "campus": "UTSG",
+      "meetings": 302,
+      "name": "Northrop Frye Hall",
+      "source": "maintainer"
+    },
+    "NL": {
+      "campus": "UTSG",
+      "meetings": 25,
+      "name": "C. David Naylor Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "OH": {
+      "campus": "UTSG",
+      "meetings": 1,
+      "name": "Odette (Louis) Hall",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "OI": {
+      "campus": "UTSG",
+      "meetings": 566,
+      "name": "OISE",
+      "source": "maintainer"
+    },
+    "PB": {
+      "campus": "UTSG",
+      "meetings": 91,
+      "name": "Leslie Dan Pharmacy Building",
+      "source": "maintainer"
+    },
+    "PR": {
+      "campus": "UTSG",
+      "meetings": 1,
+      "name": "E.J. Pratt Library",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "PT": {
+      "campus": "UTSG",
+      "meetings": 2,
+      "name": "D.L. Pratt Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "RL": {
+      "campus": "UTSG",
+      "meetings": 80,
+      "name": "John P. Robarts Library Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "RS": {
+      "campus": "UTSG",
+      "meetings": 52,
+      "name": "Rosebrugh Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "RT": {
+      "campus": "UTSG",
+      "meetings": 65,
+      "name": "Rotman School of Management",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "RW": {
+      "campus": "UTSG",
+      "meetings": 273,
+      "name": "Ramsay Wright Laboratories",
+      "source": "maintainer"
+    },
+    "SB": {
+      "campus": "UTSG",
+      "meetings": 48,
+      "name": "Borden Building South",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "SD": {
+      "campus": "UTSG",
+      "meetings": 2,
+      "name": "Sir Daniel Wilson Residence",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "SF": {
+      "campus": "UTSG",
+      "meetings": 432,
+      "name": "Sandford Fleming Building",
+      "source": "maintainer"
+    },
+    "SH": {
+      "campus": "SHERIDAN",
+      "meetings": 94,
+      "name": "Science Building (UTM)",
+      "source": "maintainer"
+    },
+    "SK": {
+      "campus": "UTSG",
+      "meetings": 242,
+      "name": "Factor-Inwentash Faculty of Social Work",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "SM": {
+      "campus": "UTSG",
+      "meetings": 10,
+      "name": "Gerstein Science Information Centre in the Sigmund Samuel Library Bldg",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "SS": {
+      "campus": "UTSG",
+      "meetings": 1130,
+      "name": "Sidney Smith Hall",
+      "source": "maintainer"
+    },
+    "SU": {
+      "campus": "UTSG",
+      "meetings": 88,
+      "name": "Sussex Avenue-40",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "SW": {
+      "campus": "UTSC",
+      "meetings": 735,
+      "name": "Science Wing (UTSC)",
+      "source": "maintainer"
+    },
+    "SY": {
+      "campus": "UTSC",
+      "meetings": 36,
+      "name": "Environmental Science & Chemistry Building",
+      "source": "maintainer"
+    },
+    "TC": {
+      "campus": "UTSG",
+      "meetings": 31,
+      "name": "Trinity College",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "TF": {
+      "campus": "UTSG",
+      "meetings": 184,
+      "name": "Teefy Hall",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "UC": {
+      "campus": "UTSG",
+      "meetings": 757,
+      "name": "University College",
+      "source": "maintainer"
+    },
+    "UP": {
+      "campus": "UTSG",
+      "meetings": 11,
+      "name": "University College Union",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "VC": {
+      "campus": "UTSG",
+      "meetings": 229,
+      "name": "Victoria College (Old Vic)",
+      "source": "maintainer"
+    },
+    "WB": {
+      "campus": "UTSG",
+      "meetings": 284,
+      "name": "Wallberg Building",
+      "source": "maintainer"
+    },
+    "WE": {
+      "campus": "UTSG",
+      "meetings": 86,
+      "name": "Wetmore Hall (New College)",
+      "source": "maintainer"
+    },
+    "WI": {
+      "campus": "UTSG",
+      "meetings": 166,
+      "name": "Wilson Hall (New College)",
+      "source": "maintainer"
+    },
+    "WO": {
+      "campus": "UTSG",
+      "meetings": 182,
+      "name": "Woodsworth College Residence",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "WS": {
+      "campus": "UTSG",
+      "meetings": 24,
+      "name": "Warren Stevens Building",
+      "source": "cobalt-uoft/datasets#buildings.json"
+    },
+    "WW": {
+      "campus": "UTSG",
+      "meetings": 123,
+      "name": "Woodsworth College",
+      "source": "maintainer"
+    },
+    "TL": {
+      "campus": "UTSG",
+      "meetings": 101,
+      "name": "Lawson Centre",
+      "source": "UofT LSM Classroom Specification"
+    },
+    "UY": {
+      "campus": "UTSG",
+      "meetings": 27,
+      "name": "700 University Avenue",
+      "source": "Wikipedia: List of University of Toronto buildings"
+    }
   }
- }
 }
