@@ -11,6 +11,7 @@ room number that the University has not published.**
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776ab?logo=python)](https://python.org)
 [![Tests](https://img.shields.io/badge/tests-185%20passing-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Live](https://img.shields.io/badge/live-uoftclassfinder.app-blue?style=for-the-badge)](https://uoftclassfinder.app)
 
 </div>
 
