@@ -369,7 +369,7 @@ test.describe("class & room finder", () => {
       const data = await response.json();
       total += data.classes.length;
     }
-    expect(total).toBe(21_408);
+    expect(total).toBe(21_372);
   });
 
   test("refuses a campus that does not exist", async ({ request }) => {
