@@ -457,9 +457,14 @@ export default function ClassFinder() {
             onClick={() => selectCampus(activeCampus)}
             className="flex items-center gap-3 cursor-pointer text-left"
           >
-            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-lg font-bold shadow-inner">
-              <i className="fa-solid me-0.5 fa-graduation-cap" aria-hidden="true" />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/x-logo.png"
+              alt=""
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full border border-white/20 shadow-inner transition-transform duration-300 hover:rotate-12"
+            />
             <div>
               <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
                 UofT Class &amp; Room Finder
