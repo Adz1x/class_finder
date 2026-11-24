@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: ["/og.png"],
   },
-  metadataBase: new URL("https://uoftclassfinder.app"),
+  metadataBase: new URL("https://uoftclassfinder.tech"),
 };
 
 export default function RootLayout({
