@@ -1,4 +1,17 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { expect, test } from "@playwright/test";
+
+/**
+ * The Scarborough room count comes from the committed snapshot, not from a
+ * number typed into this file. A refresh (npm run data:refresh) changes that
+ * count, and a hard-coded assertion would then fail CI for the right reason.
+ */
+const scarboroughRoomCount = (
+  JSON.parse(readFileSync(join(process.cwd(), "data", "rooms", "UTSC.json"), "utf8")) as {
+    rooms: unknown[];
+  }
+).rooms.length;
 
 /**
  * End-to-end tests against the real dataset in `data/`.
@@ -248,8 +261,8 @@ test.describe("class & room finder", () => {
     await page.goto("/");
     await page.getByRole("button", { name: "UTSC" }).click();
 
-    // 94 rooms, from the Registrar's own classroom schedule service, and
-    // the capacity UofT Scarborough publishes for 69 of them.
+    // Every room in the Registrar's classroom schedule service, and the
+    // capacity UofT Scarborough publishes for 69 of them.
     await expect(page.getByText(/classrooms available on UTSC/i)).toBeVisible();
     await expect(
       page.getByText(/Registrar classroom schedule service/i).first(),
@@ -355,7 +368,7 @@ test.describe("class & room finder", () => {
     expect(utsc.availability.source).toMatch(/Registrar classroom schedule/);
     expect(utm.rooms.length).toBeGreaterThan(0);
     expect(utsg.rooms.length).toBeGreaterThan(0);
-    expect(utsc.rooms.length).toBe(94);
+    expect(utsc.rooms.length).toBe(scarboroughRoomCount);
 
     // Scarborough publishes its classrooms as well.
     expect(utsc.classrooms.length).toBeGreaterThan(0);
