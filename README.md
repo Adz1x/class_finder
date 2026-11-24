@@ -34,7 +34,7 @@ UofT Classroom Space Database, plus the classes running in each building.
 
 ![Classroom timetable](docs/images/classroom-timetable.png)
 
-**Scarborough** — the Registrar's own classroom schedule service: 94 rooms,
+**Scarborough** — the Registrar's own classroom schedule service: 96 rooms,
 booked and free to the half hour.
 
 ![Scarborough](docs/images/scarborough.png)
@@ -70,7 +70,7 @@ fit the times you named first.
 - **Real classroom availability for St. George**, from the Space Management
   booking portal: 50 rooms with their free and busy hours.
 - **Real classroom availability for Scarborough**, from the Registrar's own
-  classroom schedule service: 94 rooms, booked and free to the half hour.
+  classroom schedule service: 96 rooms, booked and free to the half hour.
 - **The real St. George and Scarborough classrooms** - 334 and 71 of them,
   from two University services, each with the number of students it seats.
 - **How busy every building is right now**, on every campus, with the
@@ -92,7 +92,7 @@ fit the times you named first.
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 209 rooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 94 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
+| Classrooms | 211 rooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 96 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented room numbers | **0** |
 | First load | **83 KB** (was 8.3 MB) |
 | Tests | 185 across three layers, plus 4 automated accessibility checks |
@@ -133,7 +133,7 @@ every card.
 |---|---|---|---|
 | **Mississauga** | 65 rooms, with capacity | **Per hour**, for the snapshot week | UofT Classroom Space Database |
 | **St. George** | 50 rooms with occupancy, 334 classrooms with capacity | **Per hour**, for the snapshot week | UofT Space Management campus booking portal |
-| **Scarborough** | 94 rooms with occupancy, 71 classrooms with capacity, type and accessibility | **Per hour**, for the snapshot week | UofT Scarborough Registrar classroom schedule service |
+| **Scarborough** | 96 rooms with occupancy, 71 classrooms with capacity, type and accessibility | **Per hour**, for the snapshot week | UofT Scarborough Registrar classroom schedule service |
 
 Every open source was checked; [§2.4 of the report](docs/REPORT.md) records
 the search, including the St. George availability calendar that was
@@ -152,7 +152,7 @@ week.
 UTORid, but the Registrar's classroom schedule service behind it does not:
 it answers with a JSONP request and a table of every room's week, booked
 to the half hour, with the course code and instructor in each booked cell.
-Ninety-four rooms across eleven buildings, and it can be refreshed with a
+Ninety-six rooms across eleven buildings, and it can be refreshed with a
 single command.
 
 The service publishes half hours and the application shows hours, so a

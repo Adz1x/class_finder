@@ -46,13 +46,13 @@ How the project is put together, and why each piece is where it is.
    │  scripts/fetch-utsc-classrooms.mjs  - the Scarborough IITS
    │    classroom specifications: 71 classrooms in 10 buildings
    │  scripts/fetch-utsc-availability.mjs - the Registrar's classroom
-   │    schedule service: 94 rooms, booked to the half hour
+   │    schedule service: 96 rooms, booked to the half hour
    ▼
         ┌───────────────────────────────────────────────────────────┐
         │   classrooms/UTSG.json   17 KB   334 classrooms          │
         │   classrooms/UTSC.json    8 KB    71 classrooms          │
         │   rooms/UTSG.json        57 KB    50 rooms, with hours   │
-        │   rooms/UTSC.json       249 KB    94 rooms, with hours   │
+        │   rooms/UTSC.json       249 KB    96 rooms, with hours   │
         └───────────────────────────┬───────────────────────────────┘
                                     │  read at request time
                                     ▼

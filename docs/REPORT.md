@@ -36,7 +36,7 @@ the one it replaced, and that makes a claim a reviewer can check.
 | | |
 |---|---|
 | Class meetings | 21,408 across 7,383 course rows, 8 faculties, 3 campuses |
-| Classrooms | 209 classrooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 94 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
+| Classrooms | 211 classrooms with published per-hour occupancy across three campuses (65 UTM, 50 St. George, 96 Scarborough), plus 334 St. George and 71 Scarborough classrooms with their capacities |
 | Invented values | **0** |
 | First load | **83 KB** (was 8.3 MB) |
 | Tests | 185 across three layers, plus 4 automated accessibility checks |
@@ -123,7 +123,7 @@ because the answer is a fact about the University:
 | **"Calendar of Availability"**, `lsm.utoronto.ca/webapp/f?p=200` | The St. George availability calendar, linked from the classroom app | **Withdrawn.** "Could not determine workspace for application (200)". The button that pointed at it is commented out in the page source. |
 | **The Campus Events booking portal**, `lsm.utoronto.ca/ords/f?p=171:2` | The room list of a student group's booking form, which is repopulated from the date, the hours and the expected attendance | **Found and used.** It answers with the St. George rooms that are *free* in that slot - free/busy, without the class names. In effect the replacement for the withdrawn calendar: a booking form asks whether a room is free, and that answer is the occupancy. |
 | **Privacy-Synchronous Space Finder**, `lsm.utoronto.ca/syncstudy.html` | The St. George empty-classroom finder | The data exists and the app uses it, but it ships as an iOS/Android application with no public feed. |
-| **Scarborough classroom schedule**, `intranet.utsc.utoronto.ca` | The Scarborough classroom calendar, linked from the Registrar's room information page | **Found and used.** The calendar itself is behind a UTORid login, but the Registrar's classroom schedule *service* behind it answers without one: `intranet2/RegistrarService` takes a week and returns every room's bookings as a table, booked to the half hour, with the course code and instructor in each booked cell. 94 rooms across eleven buildings. |
+| **Scarborough classroom schedule**, `intranet.utsc.utoronto.ca` | The Scarborough classroom calendar, linked from the Registrar's room information page | **Found and used.** The calendar itself is behind a UTORid login, but the Registrar's classroom schedule *service* behind it answers without one: `intranet2/RegistrarService` takes a week and returns every room's bookings as a table, booked to the half hour, with the course code and instructor in each booked cell. 96 rooms across eleven buildings. |
 | **Scarborough classroom details**, `utsc.utoronto.ca/iits/classroom-support` | A Scarborough classroom inventory | **Found and used.** 71 classrooms in 10 buildings, with capacity, room type, AV features and accessibility. |
 | **Scarborough room finder**, `intranet2/s2/classes/roomfinder.action` | A room finder, and the calendar's sibling | The action exists but every path under `/intranet2/s2/` redirects to the login - including a path that does not exist at all, so probing cannot distinguish a real action from a miss. |
 | **Scarborough calendar feed**, `intranet2/s2/services/ctlfeed.action` | A server-rendered feed of room bookings | The URL is recoverable from the Internet Archive's index of real requests, and an archived 2021 copy of it renders bookings with their times. No archived copy of the *calendar* content exists, and the feed itself needs a session. |
@@ -145,7 +145,7 @@ So the application publishes, for every campus, the things that *are* open:
 the complete class timetable, the real classrooms of every St. George and
 Scarborough building with their capacities — 334 and 71 of them, from two
 different University services — and the published per-hour occupancy of 65
-UTM, 50 St. George and 94 Scarborough rooms. What the application adds is
+UTM, 50 St. George and 96 Scarborough rooms. What the application adds is
 the join a student would otherwise have to make by hand: which rooms are
 free, and how many classes are running in each building right now.
 
@@ -192,7 +192,7 @@ answers `cb();` — nothing — without a live session. But the session is a
 half-life measured in minutes: the exported cookie worked, then expired
 within the hour and every request fell back to the SSO sign-in page. And the
 events on the calendar are not the rooms the app models: `HL-133` and
-`Amphitheatre/HW Patio` belong to neither the 94-room schedule service nor
+`Amphitheatre/HW Patio` belong to neither the 96-room schedule service nor
 the 71-classroom inventory, while the schedule service already covers the
 classrooms. The archived `ctlfeed` fragments are per-event-type widgets —
 "ELD Consultation" times, no rooms. The login, in short, offers nothing the
