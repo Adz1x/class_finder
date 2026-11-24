@@ -755,6 +755,16 @@ export default function ClassFinder() {
               "No classroom occupancy is published for this campus"
             )}
           </p>
+          <p>
+            Contact{" "}
+            <a
+              href="mailto:info@uoftclassfinder.tech"
+              className="underline underline-offset-2 hover:text-slate-200"
+            >
+              info@uoftclassfinder.tech
+            </a>{" "}
+            • Not affiliated with the University of Toronto
+          </p>
         </div>
       </footer>
     </div>
