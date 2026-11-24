@@ -1,6 +1,5 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { gzipSync } from "node:zlib";
 import type {
   CampusPayload,
   ClassMeeting,
@@ -17,7 +16,7 @@ import type {
  * The dataset is stored split per campus key, so the default campus costs
  * 2.1 MB raw - 83 KB over the wire - instead of 8.3 MB.
  *
- * The gzip buffer is built once per server process and kept in memory. The
+ * The JSON buffer is built once per server process and kept in memory. The
  * route never touches the UofT API: it reads the committed snapshot.
  */
 
@@ -34,7 +33,7 @@ type CampusKey = (typeof CAMPUS_KEYS)[number];
  */
 type Bytes = Uint8Array<ArrayBuffer>;
 
-const cache = new Map<CampusKey, { plain: Bytes; gzip: Bytes }>();
+const cache = new Map<CampusKey, Bytes>();
 
 function readJson<T>(path: string): T {
   try {
@@ -110,7 +109,7 @@ function loadClassrooms(campus: CampusKey): Classroom[] {
   return classrooms;
 }
 
-function load(campus: CampusKey): { plain: Bytes; gzip: Bytes } {
+function load(campus: CampusKey): Bytes {
   const cached = cache.get(campus);
   if (cached) return cached;
 
@@ -147,13 +146,8 @@ function load(campus: CampusKey): { plain: Bytes; gzip: Bytes } {
   };
 
   const plain = new TextEncoder().encode(JSON.stringify(payload));
-  const compressed = gzipSync(plain);
-  const gzip = new Uint8Array(compressed.length);
-  gzip.set(compressed);
-
-  const entry = { plain, gzip };
-  cache.set(campus, entry);
-  return entry;
+  cache.set(campus, plain);
+  return plain;
 }
 
 function isCampusKey(value: string): value is CampusKey {
@@ -161,7 +155,7 @@ function isCampusKey(value: string): value is CampusKey {
 }
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ campus: string }> },
 ) {
   const { campus: raw } = await params;
@@ -174,19 +168,16 @@ export async function GET(
     );
   }
 
-  const { plain, gzip } = load(campus);
-  const acceptsGzip = (request.headers.get("accept-encoding") ?? "").includes("gzip");
+  const plain = load(campus);
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate",
-    "X-Payload-Bytes": String(acceptsGzip ? gzip.byteLength : plain.byteLength),
-  };
-
-  if (acceptsGzip) {
-    return new Response(gzip, {
-      headers: { ...headers, "Content-Encoding": "gzip" },
-    });
-  }
-  return new Response(plain, { headers });
+  // Compression is left to the platform (Vercel's edge, or Next's own
+  // `compress` when self-hosted). Gzipping here as well made `next start`
+  // send the body gzipped twice, which the browser cannot parse.
+  return new Response(plain, {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate",
+      "X-Payload-Bytes": String(plain.byteLength),
+    },
+  });
 }
