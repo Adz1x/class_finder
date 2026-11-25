@@ -14,6 +14,19 @@ const scarboroughRoomCount = (
 ).rooms.length;
 
 /**
+ * The same rule for the other counts the tests check: they come from the
+ * committed dataset, so a refresh cannot break a hard-coded number.
+ */
+const committedMeta = JSON.parse(
+  readFileSync(join(process.cwd(), "data", "meta.json"), "utf8"),
+) as { classMeetings: number };
+const utmRoomCount = (
+  JSON.parse(readFileSync(join(process.cwd(), "data", "rooms", "UTM.json"), "utf8")) as {
+    rooms: unknown[];
+  }
+).rooms.length;
+
+/**
  * End-to-end tests against the real dataset in `data/`.
  *
  * They run against the production build, so they also prove the prerendered
@@ -345,7 +358,7 @@ test.describe("class & room finder", () => {
     const data = await response.json();
     expect(data.campus).toBe("UTM");
     expect(data.classes.length).toBeGreaterThan(5_000);
-    expect(data.rooms.length).toBe(65);
+    expect(data.rooms.length).toBe(utmRoomCount);
     expect(data.meta.courseRowsFetched).toBe(data.meta.courseRowsExpected);
     expect(data.meta.meetingsWithPublishedRoom).toBe(0);
     expect(
@@ -382,7 +395,7 @@ test.describe("class & room finder", () => {
       const data = await response.json();
       total += data.classes.length;
     }
-    expect(total).toBe(21_372);
+    expect(total).toBe(committedMeta.classMeetings);
   });
 
   test("refuses a campus that does not exist", async ({ request }) => {
