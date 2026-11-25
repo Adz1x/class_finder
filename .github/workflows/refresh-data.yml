@@ -1,0 +1,70 @@
+name: Refresh data
+
+# Refreshes the committed dataset from public sources, once a day.
+#
+# Only sources that need no login run here: the UofT timetable API (course
+# catalogue) and the Scarborough registrar schedule. St. George and
+# Mississauga room data sit behind UofT sign-on and are NOT refreshed by this
+# job, so no credentials are stored in CI.
+#
+# A fetch that cannot be read completely fails before it writes anything
+# (see scraper/src/uoft_scraper/api.py), and the verify steps stop the job
+# before any commit. Data is committed only when real content changed.
+
+on:
+  schedule:
+    - cron: "17 6 * * *" # daily, 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Refresh catalogue and Scarborough rooms
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Fetch the course catalogue
+        working-directory: scraper
+        run: |
+          uv sync --python 3.12
+          uv run uoft-scraper build --out ../data
+
+      - name: Fetch Scarborough room availability
+        run: node scripts/fetch-utsc-availability.mjs
+
+      - name: Verify the refreshed dataset
+        working-directory: scraper
+        run: uv run uoft-scraper verify --data ../data
+
+      - name: Commit only real changes
+        run: |
+          git add -A data
+          # build.py stamps meta.json with the current time on every run, so
+          # a run where nothing else changed still differs in that one file.
+          # Treat that as no change.
+          if git diff --cached --quiet -- ':(exclude)data/meta.json'; then
+            git restore --staged data
+            git restore data
+            echo "No data changes since the last refresh."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: automated refresh $(date -u +%F)"
+          git push origin HEAD:main
