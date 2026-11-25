@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const DESCRIPTION =
@@ -34,7 +35,10 @@ export default function RootLayout({
          * makes no third-party request at runtime. */}
         <link rel="stylesheet" href="/font-awesome/css/all.min.css" />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
