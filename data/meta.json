@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T17:22:51.021675+00:00",
+  "generatedAt": "2026-11-26T17:02:16.778117+00:00",
   "sessions": [
     "20269",
     "20271"
@@ -15,7 +15,7 @@
   ],
   "courseRowsFetched": 7382,
   "courseRowsExpected": 7382,
-  "classMeetings": 21368,
+  "classMeetings": 21367,
   "rooms": 65,
   "meetingsWithPublishedRoom": 0,
   "divisions": [
@@ -38,15 +38,15 @@
   "filterFunnel": {
     "rawMeetingTimesSeen": 22625,
     "droppedCancelledSections": 20,
-    "droppedNonPhysicalBuilding": 1011,
+    "droppedNonPhysicalBuilding": 1012,
     "droppedInvalidTime": 0,
     "droppedDuplicate": 226,
-    "classMeetings": 21368
+    "classMeetings": 21367
   },
   "campusBreakdown": {
     "SHERIDAN": 94,
-    "UTM": 5174,
+    "UTM": 5172,
     "UTSC": 3946,
-    "UTSG": 12154
+    "UTSG": 12155
   }
 }
