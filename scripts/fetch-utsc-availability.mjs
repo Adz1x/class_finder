@@ -8,8 +8,9 @@
  * and the instructor. The service answers without a login, so there is
  * nothing to sign into and no session to keep.
  *
- *   node scripts/fetch-utsc-availability.mjs            # this week's Monday
- *   node scripts/fetch-utsc-availability.mjs 2026-10-19 # a given Monday
+ *   node scripts/fetch-utsc-availability.mjs             # this week's Monday
+ *   node scripts/fetch-utsc-availability.mjs --next-week # next week's Monday
+ *   node scripts/fetch-utsc-availability.mjs 2026-10-19  # a given Monday
  *
  * The app stores occupancy by the hour, so a booked half hour makes its hour
  * booked: the app never claims a room is free for an hour it is not. The
@@ -20,6 +21,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseTable, parseWeek, toHourly } from "./lib/utsc-registrar.mjs";
+import { isoLocal, weekFromArgs } from "./lib/week.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SERVICE =
@@ -50,7 +52,12 @@ async function fetchWeek(monday) {
 }
 
 async function main() {
-  const monday = process.argv[2] || mondayOfThisWeek();
+  const args = process.argv.slice(2);
+  // `--next-week` is local (see lib/week.mjs); without it the default stays
+  // the UTC week, which is what the daily CI job has always asked for.
+  const monday = args.includes("--next-week")
+    ? isoLocal(weekFromArgs(args))
+    : args[0] || mondayOfThisWeek();
   const week = await fetchWeek(monday);
   const rooms = Object.keys(week).sort();
   console.log(`RegistrarService answered with ${rooms.length} rooms for ${monday}`);

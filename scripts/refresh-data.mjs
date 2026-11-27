@@ -25,7 +25,7 @@ import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dirname, "..");
-const SESSION_JAR = join(homedir(), ".uoft-session", "lsm-cookies.txt");
+const SESSIONS = join(homedir(), ".uoft-session");
 const MAX_SESSION_AGE_HOURS = 12;
 
 const STEPS = [
@@ -42,7 +42,8 @@ const STEPS = [
     script: "scripts/fetch-utsg-availability.mjs",
     output: "data/rooms/UTSG.json",
     needsSession: true,
-    signIn: "node scripts/auth-lsm-cookies.mjs",
+    jar: join(SESSIONS, "lsm-cookies.txt"),
+    signIn: "node scripts/auth-session.mjs",
   },
   {
     key: "utm",
@@ -50,7 +51,8 @@ const STEPS = [
     script: "scripts/fetch-utm-availability.mjs",
     output: "data/rooms/UTM.json",
     needsSession: true,
-    signIn: "node scripts/auth-lsm-cookies.mjs",
+    jar: join(SESSIONS, "metis-cookies.txt"),
+    signIn: "node scripts/auth-session.mjs",
   },
 ];
 
@@ -60,10 +62,10 @@ const only = process.argv.includes("--only")
 
 const nextWeek = process.argv.includes("--next-week");
 
-/** Returns "ok", "missing" or "stale" for the saved UofT session. */
-function sessionState() {
-  if (!existsSync(SESSION_JAR)) return "missing";
-  const ageHours = (Date.now() - statSync(SESSION_JAR).mtimeMs) / 3_600_000;
+/** Returns "ok", "missing" or "stale" for a saved UofT session jar. */
+function sessionState(jar) {
+  if (!existsSync(jar)) return "missing";
+  const ageHours = (Date.now() - statSync(jar).mtimeMs) / 3_600_000;
   return ageHours > MAX_SESSION_AGE_HOURS ? "stale" : "ok";
 }
 
@@ -77,12 +79,12 @@ function runNode(script, extraArgs = []) {
 }
 
 const results = [];
-const session = sessionState();
 
 for (const step of STEPS) {
   if (only && step.key !== only) continue;
 
-  if (step.needsSession && session !== "ok") {
+  const session = step.needsSession ? sessionState(step.jar) : "ok";
+  if (session !== "ok") {
     results.push({
       step,
       status: "skipped",

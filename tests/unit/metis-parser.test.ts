@@ -1,172 +1,130 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
-  parseMetisData,
-  parseMetisRow,
-  validateHeaders,
-  buildByDateAndHour,
+  METIS_HEADERS,
+  cellText,
+  decodeEntities,
+  metisDateText,
+  parseMetisPage,
+  tableRows,
 } from "../../scripts/lib/metis-parser.mjs";
 
-/** @typedef {{val: string, text: string}} MetisDate */
-/** @typedef {{dates: MetisDate[], headers: string[], byDateAndHour: object}} MetisData */
-/** @typedef {{date: string, availFrom: string, availTo: string, building: string, room: string, capacity: string, image: string}} ParsedMetisRow */
+const HEADER_ROW = `<tr>${METIS_HEADERS.map((h) => `<th>${h}</th>`).join("")}</tr>`;
 
-const SAMPLE_METIS_DATA = {
-  dates: [
-    { val: "2026-10-19", text: "Monday, Oct 19, 2026" },
-    { val: "2026-10-20", text: "Tuesday, Oct 20, 2026" },
-  ],
-  headers: [
-    "Date",
-    "Avail from",
-    "Avail to",
-    "Building",
-    "Room",
-    "Capacity",
-    "Image",
-  ],
-  byDateAndHour: {
-    "2026-10-19": {
-      "07": [
-        [
-          "Monday, Oct 19, 2026",
-          "07:00 AM",
-          "8:00 AM",
-          "CCIT",
-          "CC 1080",
-          "500",
-          "See image",
-        ],
-        [
-          "Monday, Oct 19, 2026",
-          "07:00 AM",
-          "8:00 AM",
-          "CCIT",
-          "CC 1140",
-          "150",
-          "See image",
-        ],
+/** A results page laid out the way old PHP pages are: a table inside a table. */
+const ROOMS_PAGE = `
+<html><body>
+<table class="layout"><tr><td>
+  <h2>Classroom Space Database</h2>
+  <table id="results">
+    ${HEADER_ROW}
+    <tr><td>Tuesday, Oct 20, 2026<td>01:00 PM<td>02:00 PM<td>Kaneff Centre<td>KN 137<td>350<td><a href="#">See image</a></tr>
+    <tr>
+      <td>Tuesday, Oct 20, 2026</td><td>01:00&nbsp;PM</td><td>02:00 PM</td>
+      <td>Communication, Culture &amp; Technology</td><td>CC 1080</td><td>500</td><td>See image</td>
+    </tr>
+  </table>
+</td></tr></table>
+</body></html>`;
+
+const NO_ROOMS_PAGE = `
+<table>
+  ${HEADER_ROW}
+  <tr><td colspan="7">No rooms available. Please see &#39;More resources&#39; at the top of this page</td></tr>
+</table>`;
+
+const SIGN_IN_PAGE = `
+<html><body><form action="/idp/profile/SAML2/Redirect/SSO">
+  <h1>UTORid sign in</h1><input name="j_username"><input type="password">
+</form></body></html>`;
+
+describe("parseMetisPage", () => {
+  it("reads the free rooms of an hour, kept as Metis prints them", () => {
+    const answer = parseMetisPage(ROOMS_PAGE);
+    expect(answer.kind).toBe("rooms");
+    if (answer.kind !== "rooms") return;
+    expect(answer.rows).toEqual([
+      ["Tuesday, Oct 20, 2026", "01:00 PM", "02:00 PM", "Kaneff Centre", "KN 137", "350", "See image"],
+      [
+        "Tuesday, Oct 20, 2026",
+        "01:00 PM",
+        "02:00 PM",
+        "Communication, Culture & Technology",
+        "CC 1080",
+        "500",
+        "See image",
       ],
-      "08": [
-        [
-          "Monday, Oct 19, 2026",
-          "08:00 AM",
-          "9:00 AM",
-          "DH",
-          "DH 2060",
-          "100",
-          "See image",
-        ],
-      ],
-    },
-  },
-};
-
-describe("Metis data parsing", () => {
-  it("accepts valid Metis data", () => {
-    const result = parseMetisData(SAMPLE_METIS_DATA);
-    expect(result.dates).toHaveLength(2);
-    expect(result.headers).toHaveLength(7);
-    expect(Object.keys(result.byDateAndHour)).toContain("2026-10-19");
+    ]);
   });
 
-  it("rejects non-object input", () => {
-    // @ts-expect-error testing invalid input
-    expect(() => parseMetisData(null)).toThrow();
-    // @ts-expect-error testing invalid input
-    expect(() => parseMetisData("not an object")).toThrow();
-    // @ts-expect-error testing invalid input
-    expect(() => parseMetisData(123)).toThrow();
+  it("keeps the 'No rooms available' row as one cell, as metis.py expects", () => {
+    expect(parseMetisPage(NO_ROOMS_PAGE)).toEqual({
+      kind: "none",
+      rows: [["No rooms available. Please see 'More resources' at the top of this page"]],
+    });
   });
 
-  it("rejects data missing required fields", () => {
-    // @ts-expect-error testing with empty object
-    expect(() => parseMetisData({})).not.toThrow(); // Empty object is valid, just has empty arrays
-    // @ts-expect-error testing invalid input
-    expect(() => parseMetisData({ dates: "not array" })).toThrow(); // dates must be array
-    // @ts-expect-error testing invalid input
-    expect(() => parseMetisData({ dates: [{ val: "2026-10-19" }] })).toThrow(); // date missing text
-    // @ts-expect-error testing invalid input
-    expect(() => parseMetisData({ dates: [{ text: "Monday, Oct 19, 2026" }] })).toThrow(); // date missing val
+  it("accepts the message outside a table too", () => {
+    expect(parseMetisPage("<p>No rooms available.</p>")).toEqual({
+      kind: "none",
+      rows: [["No rooms available"]],
+    });
   });
 
-  it("validates row structure", () => {
-    const validRow = SAMPLE_METIS_DATA.byDateAndHour["2026-10-19"]["07"][0];
-    const parsed = parseMetisRow(validRow);
-    expect(parsed.date).toBe("Monday, Oct 19, 2026");
-    expect(parsed.availFrom).toBe("07:00 AM");
-    expect(parsed.availTo).toBe("8:00 AM");
-    expect(parsed.building).toBe("CCIT");
-    expect(parsed.room).toBe("CC 1080");
-    expect(parsed.capacity).toBe("500");
-    expect(parsed.image).toBe("See image");
+  it("refuses a sign-in page instead of reading it as an empty hour", () => {
+    expect(parseMetisPage(SIGN_IN_PAGE).kind).toBe("unexpected");
   });
 
-  it("rejects rows with fewer than 7 cells", () => {
-    expect(() => parseMetisRow(["a", "b", "c", "d", "e", "f"])).toThrow();
-    expect(() => parseMetisRow(["a", "b", "c"])).toThrow();
-    // @ts-expect-error testing invalid input
-    expect(() => parseMetisRow(null)).toThrow();
+  it("refuses a results table with no rows and no message", () => {
+    expect(parseMetisPage(`<table>${HEADER_ROW}</table>`).kind).toBe("unexpected");
+  });
+});
+
+describe("page helpers", () => {
+  it("decodes the entities a PHP page uses", () => {
+    expect(decodeEntities("A &amp; B&nbsp;&#39;C&#x27; &lt;D&gt;")).toBe("A & B 'C' <D>");
   });
 
-  it("validates expected headers", () => {
-    expect(validateHeaders(SAMPLE_METIS_DATA.headers)).toBe(true);
-    expect(validateHeaders(["Date", "Avail from", "Avail to", "Building", "Room", "Capacity", "Image"])).toBe(true);
+  it("collapses a cell to its visible text", () => {
+    expect(cellText(" <b>KN</b>\n  137<br>")).toBe("KN 137");
   });
 
-  it("rejects mismatched headers", () => {
-    expect(validateHeaders(["Date", "Avail from", "Avail to", "Building", "Room", "Capacity"])).toBe(false);
-    expect(validateHeaders(["date", "avail from", "avail to", "building", "room", "capacity", "image"])).toBe(false);
-    expect(validateHeaders(["Date", "Avail from", "Avail to", "Building", "Room", "Capacity", "Photo"])).toBe(false);
-    expect(validateHeaders(null)).toBe(false);
+  it("only returns innermost rows", () => {
+    const rows = tableRows(ROOMS_PAGE);
+    expect(rows[0]).toEqual(METIS_HEADERS);
+    expect(rows).toHaveLength(3);
   });
 
-  it("builds byDateAndHour from flat rows", () => {
-    /** @type {Array<{dateISO: string, hour: number, dateText: string, availFrom: string, availTo: string, building: string, room: string, capacity: string, image?: string}>} */
-    const rows = [
-      {
-        dateISO: "2026-10-19",
-        hour: 7,
-        dateText: "Monday, Oct 19, 2026",
-        availFrom: "07:00 AM",
-        availTo: "8:00 AM",
-        building: "CCIT",
-        room: "CC 1080",
-        capacity: "500",
-        image: "See image",
-      },
-      {
-        dateISO: "2026-10-19",
-        hour: 7,
-        dateText: "Monday, Oct 19, 2026",
-        availFrom: "07:00 AM",
-        availTo: "8:00 AM",
-        building: "DH",
-        room: "DH 2060",
-        capacity: "100",
-        image: "See image",
-      },
-      {
-        dateISO: "2026-10-20",
-        hour: 8,
-        dateText: "Tuesday, Oct 20, 2026",
-        availFrom: "08:00 AM",
-        availTo: "9:00 AM",
-        building: "IB",
-        room: "IB 110",
-        capacity: "500",
-        image: "See image",
-      },
-    ];
+  it("prints dates the way Metis does", () => {
+    expect(metisDateText(new Date(2026, 9, 19))).toBe("Monday, Oct 19, 2026");
+    expect(metisDateText(new Date(2026, 11, 4))).toBe("Friday, Dec 4, 2026");
+  });
+});
 
-    const result = buildByDateAndHour(rows);
+describe("the committed snapshot", () => {
+  const snapshot = JSON.parse(
+    readFileSync(join(process.cwd(), "data", "utm_metis_data.json"), "utf-8"),
+  );
 
-    const date19 = /** @type {any} */ (result)["2026-10-19"];
-    const date20 = /** @type {any} */ (result)["2026-10-20"];
+  it("has the shape the capture writes", () => {
+    expect(snapshot.headers).toEqual(METIS_HEADERS);
+    for (const { val, text } of snapshot.dates) {
+      const [y, m, d] = val.split("-").map(Number);
+      expect(text).toBe(metisDateText(new Date(y, m - 1, d)));
+    }
+  });
 
-    expect(date19).toBeDefined();
-    expect(date19["07"]).toHaveLength(2);
-    expect(date20["08"]).toHaveLength(1);
-    expect(date19["07"][0][3]).toBe("CCIT");
-    expect(date19["07"][0][4]).toBe("CC 1080");
+  it("holds only room rows and 'No rooms available' rows", () => {
+    for (const hours of Object.values(snapshot.byDateAndHour) as Record<string, string[][]>[]) {
+      for (const rows of Object.values(hours)) {
+        for (const row of rows) {
+          const ok =
+            row.length === METIS_HEADERS.length ||
+            (row.length === 1 && /No rooms available/i.test(row[0]));
+          expect(ok, JSON.stringify(row)).toBe(true);
+        }
+      }
+    }
   });
 });

@@ -1,394 +1,149 @@
-#!/usr/bin/env node
 /**
- * Captures UTM classroom availability from the Metis Classroom Space Database.
- *
- * The Metis database (https://metis.utm.utoronto.ca/space/) lists available
- * rooms for a chosen date and hour. The table columns match the headers:
- * ["Date", "Avail from", "Avail to", "Building", "Room", "Capacity", "Image"]
+ * Captures UTM classroom availability from the Classroom Space Database (Metis).
  *
  *   node scripts/fetch-utm-availability.mjs               # this week
- *   node scripts/fetch-utm-availability.mjs --next-week   # coming Monday
- *   node scripts/fetch-utm-availability.mjs 2026-10-19    # a given Monday
+ *   node scripts/fetch-utm-availability.mjs --next-week   # next week
+ *   node scripts/fetch-utm-availability.mjs 2026-10-19    # the week of a date
  *
- * Writes `data/utm_metis_data.json` in the existing shape, then runs
- * `npm run data:rooms` to rebuild `data/rooms/UTM.json` and `data/meta.json`.
+ * Metis answers one question per weekday and hour:
+ *
+ *   POST https://metis.utm.utoronto.ca/space/index.php
+ *   date_par=2026-10-20&building_par=All&time_par=13&duration=1
+ *
+ * with the rooms free in that hour. The capture asks it directly for every
+ * hour from 07:00 to 20:00, Monday to Friday. It never reads the page's own
+ * hour menu: that menu leaves out 13:00, and a capture that copied it once
+ * left a hole at 1 PM in the data (docs/REPORT.md).
+ *
+ * Needs the Metis session that `node scripts/auth-session.mjs` saves to
+ * ~/.uoft-session/metis-cookies.txt. Writes data/utm_metis_data.json in the
+ * shape scraper/src/uoft_scraper/metis.py reads, then rebuilds
+ * data/rooms/UTM.json and data/meta.json with `uoft-scraper rebuild-rooms`.
+ *
+ * Nothing is written unless every answer is a results table or a "No rooms
+ * available" row. Any other page (the sign-in page, an error, a redesign) stops
+ * the capture and is saved to a temp file so it can be looked at.
  */
-import { chromium } from "@playwright/test";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { homedir } from "node:os";
-import { join } from "node:path";
-import { tmpdir } from "node:os";
+import { spawnSync } from "node:child_process";
+import { existsSync, writeFileSync } from "node:fs";
+import { homedir, tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { applySetCookies, cookieHeader, readJar } from "./lib/cookie-jar.mjs";
+import { METIS_HEADERS, metisDateText, parseMetisPage } from "./lib/metis-parser.mjs";
+import { isoLocal, weekFromArgs, weekdaysFrom } from "./lib/week.mjs";
 
-const PROFILE = join(homedir(), ".uoft-session");
-const METIS_URL = "https://metis.utm.utoronto.ca/space/";
+const ROOT = resolve(import.meta.dirname, "..");
+const JAR = process.env.METIS_COOKIES ?? join(homedir(), ".uoft-session", "metis-cookies.txt");
+const ENDPOINT = "https://metis.utm.utoronto.ca/space/index.php";
+const OUTPUT = join(ROOT, "data", "utm_metis_data.json");
 
-/** Hours to query: 07:00 through 21:00 (same as UTSG) */
+/** The band Metis publishes: 07:00 to 20:00, 13:00 included. */
 const FIRST_HOUR = 7;
-const LAST_HOUR = 21;
+const LAST_HOUR = 20;
 
-/**
- * Parse the week argument. Accepts:
- * - `--next-week` (the coming Monday)
- * - `YYYY-MM-DD` (a specific Monday)
- * - nothing (this week's Monday)
- */
-function parseWeekArg() {
-  const args = process.argv.slice(2);
+/** A pause between questions, so the capture is a polite 70 requests. */
+const PAUSE_MS = 250;
 
-  if (args.includes("--next-week")) {
-    return "next-week";
-  }
-
-  const dateArg = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
-  if (dateArg) {
-    return dateArg;
-  }
-
-  return "this-week";
-}
-
-/**
- * Get the Monday for the requested week.
- */
-function mondayForWeek(weekArg) {
-  const now = new Date();
-  const day = now.getDay(); // 0 is Sunday
-
-  if (weekArg === "next-week") {
-    // On Saturday (6) or Sunday (0), "next week" is the Monday right after today.
-    if (day === 0 || day === 6) {
-      const monday = new Date(now);
-      monday.setDate(now.getDate() + (day === 0 ? 1 : 2));
-      return monday;
-    }
-    // This week's Monday + 7 days
-    const thisMonday = new Date(now);
-    thisMonday.setDate(now.getDate() - ((day + 6) % 7) + 7);
-    return thisMonday;
-  }
-
-  if (weekArg === "this-week") {
-    const monday = new Date(now);
-    monday.setDate(now.getDate() - ((day + 6) % 7));
-    return monday;
-  }
-
-  // Specific date: parse as YYYY-MM-DD
-  const [year, month, dayOfMonth] = weekArg.split("-").map(Number);
-  const date = new Date(year, month - 1, dayOfMonth);
-  if (isNaN(date.getTime())) {
-    console.error(`Invalid date: ${weekArg}`);
-    process.exit(1);
-  }
-  return date;
-}
-
-function isoDate(date) {
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${date.getFullYear()}-${month}-${day}`;
-}
-
-/** Format date like "Monday, Oct 19, 2026" for matching select options. */
-function metisDateText(date) {
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const dayName = dayNames[date.getDay()];
-  const monthName = monthNames[date.getMonth()];
-  const dayNum = date.getDate();
-  const year = date.getFullYear();
-  return `${dayName}, ${monthName} ${dayNum}, ${year}`;
-}
-
-/** Format hour like "07:00 AM" for matching select options. */
-function metisHourText(hour) {
-  const h = hour % 12 || 12;
-  const ampm = hour < 12 ? "AM" : "PM";
-  return `${String(h).padStart(2, "0")}:00 ${ampm}`;
-}
-
-/**
- * Read the cookie jar for Metis (same session as LSM).
- */
-function readCookieJar(path) {
-  const cookies = [];
-  for (const line of readFileSync(path, "utf-8").split(/\r?\n/)) {
-    if (!line || line.startsWith("#")) continue;
-    const parts = line.split("\t");
-    if (parts.length < 7) continue;
-    const [domain, , path_, secure, expires, name, value] = parts;
-    cookies.push({
-      name,
-      value,
-      domain: domain.replace(/^\./, ""),
-      path: path_ || "/",
-      secure: secure === "TRUE",
-      httpOnly: false,
-      expires: Number(expires) > 0 ? Number(expires) : -1,
-    });
-  }
-  return cookies;
-}
-
-/**
- * Save the page HTML to a debug file under the OS temp dir.
- */
-function saveDebugPage(html, prefix = "metis-debug") {
-  const debugPath = join(tmpdir(), `${prefix}-${Date.now()}.html`);
-  writeFileSync(debugPath, html, "utf-8");
-  return debugPath;
-}
-
-/**
- * Extract available rooms from the Metis results table.
- * Returns an array of { date, hour, building, room, capacity, image } objects.
- */
-async function extractAvailableRooms(page, date, hour) {
-  const html = await page.content();
-
-  // Look for the results table - it should have 7 columns matching our headers
-  const tables = await page.$$("table");
-
-  for (const table of tables) {
-    // Check headers
-    const headerCells = await table.$$("th");
-    const headers = [];
-    for (const cell of headerCells) {
-      const text = await cell.innerText();
-      headers.push(text.trim());
-    }
-
-    // Check if this is the availability table
-    const expectedHeaders = ["Date", "Avail from", "Avail to", "Building", "Room", "Capacity", "Image"];
-    let isAvailTable = false;
-    if (headers.length >= 7) {
-      isAvailTable = headers.slice(0, 7).every((h, i) => h === expectedHeaders[i]);
-    }
-
-    if (isAvailTable) {
-      // Extract rows
-      const rows = await table.$$("tbody tr");
-      const results = [];
-
-      for (const row of rows) {
-        const cells = await row.$$("td");
-        if (cells.length < 7) continue;
-
-        const rowData = [];
-        for (const cell of cells) {
-          const text = await cell.innerText();
-          rowData.push(text.trim());
-        }
-
-        // Expect: Date, Avail from, Avail to, Building, Room, Capacity, Image
-        if (rowData.length >= 7) {
-          const [dateText, availFrom, availTo, building, room, capacity, image] = rowData;
-          if (building && room) {
-            results.push({
-              date: dateText,
-              availFrom,
-              availTo,
-              building,
-              room,
-              capacity,
-              image: image || "See image",
-            });
-          }
-        }
-      }
-
-      if (results.length > 0) {
-        return results;
-      }
-    }
-  }
-
-  // If we didn't find the table, save debug HTML
-  const debugPath = saveDebugPage(html, "metis-no-table-found");
-  console.error(`Could not find availability table for ${isoDate(date)} ${String(hour).padStart(2, "0")}:00`);
-  console.error(`Saved debug page to: ${debugPath}`);
-  return null;
-}
-
-/**
- * Query Metis for available rooms at a specific date and hour.
- */
-async function queryMetis(page, date, hour) {
-  // Find the date select
-  const dateSelect = await page.$("select");
-  if (!dateSelect) {
-    const html = await page.content();
-    const debugPath = saveDebugPage(html, "metis-no-date-select");
-    throw new Error(`No date select found on Metis page. Debug: ${debugPath}`);
-  }
-
-  // Select the date - match by the visible text like "Monday, Oct 19, 2026"
-  const dateText = metisDateText(date);
-  await page.selectOption("select", { label: dateText });
-
-  // Wait a moment for the page to update
-  await page.waitForTimeout(500);
-
-  // Find the hour select - there should be another select for the hour
-  const selects = await page.$$("select");
-  let hourSelect = null;
-
-  // The second select is usually the hour select
-  if (selects.length >= 2) {
-    hourSelect = selects[1];
+function stop(message, page) {
+  if (page) {
+    const path = join(tmpdir(), `metis-answer-${Date.now()}.html`);
+    writeFileSync(path, page, "utf-8");
+    console.error(`${message}\nThe page Metis returned is saved at ${path}`);
   } else {
-    const html = await page.content();
-    const debugPath = saveDebugPage(html, "metis-no-hour-select");
-    throw new Error(`No hour select found on Metis page. Debug: ${debugPath}`);
+    console.error(message);
   }
-
-  // Select the hour - match by the visible text like "07:00 AM"
-  const hourText = metisHourText(hour);
-  await hourSelect.selectOption({ label: hourText });
-
-  // Wait for results to load
-  await page.waitForTimeout(1000);
-
-  // Extract the available rooms
-  const rooms = await extractAvailableRooms(page, date, hour);
-  return rooms;
+  console.error("Nothing was written.");
+  process.exit(1);
 }
 
-/**
- * Main capture function.
- */
-async function main() {
-  const weekArg = parseWeekArg();
-  const monday = mondayForWeek(weekArg);
+if (!existsSync(JAR)) {
+  stop(`no Metis session at ${JAR}.\nSign in first: node scripts/auth-session.mjs`);
+}
+const cookies = readJar(JAR);
 
-  console.log(`Capturing UTM availability for week starting ${isoDate(monday)}`);
-
-  // Check for session cookies
-  const COOKIES = join(PROFILE, "lsm-cookies.txt");
-  if (!existsSync(COOKIES)) {
-    console.error(
-      `no session cookie jar at ${COOKIES}\n` +
-        "Sign in to lsm.utoronto.ca first: node scripts/auth-lsm-cookies.mjs",
+async function ask(date, hour) {
+  const body = new URLSearchParams({
+    date_par: isoLocal(date),
+    building_par: "All",
+    time_par: String(hour),
+    duration: "1",
+  });
+  const response = await fetch(ENDPOINT, {
+    method: "POST",
+    redirect: "manual",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Cookie: cookieHeader(cookies, ENDPOINT),
+      "User-Agent": "uoftclassfinder-data-refresh (+https://uoftclassfinder.tech)",
+    },
+    body,
+  });
+  applySetCookies(cookies, response.headers.getSetCookie?.() ?? [], ENDPOINT);
+  if (response.status >= 300 && response.status < 400) {
+    const to = response.headers.get("location") ?? "";
+    stop(
+      `Metis sent the request to ${to || "another page"} instead of answering: ` +
+        "the session has expired.\nSign in again: node scripts/auth-session.mjs",
     );
-    process.exit(1);
   }
+  const page = await response.text();
+  if (!response.ok) stop(`Metis answered ${response.status} for ${isoLocal(date)} ${hour}:00.`, page);
+  return page;
+}
 
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  await context.addCookies(readCookieJar(COOKIES));
-  const page = await context.newPage();
+const monday = weekFromArgs(process.argv.slice(2));
+const days = weekdaysFrom(monday);
+console.log(`Asking Metis about the week of ${isoLocal(monday)} (${days.length} days, ${FIRST_HOUR}:00-${LAST_HOUR}:00).`);
 
-  // Navigate to Metis
-  console.log("Loading Metis Classroom Space Database...");
-  await page.goto(METIS_URL, { waitUntil: "domcontentloaded" });
-
-  // Check if we're still on the SSO page (not signed in)
-  const url = page.url();
-  if (/idp|login|sso/i.test(url)) {
-    await browser.close();
-    console.error("Not signed in - session may be stale. Run: node scripts/auth-lsm-cookies.mjs");
-    process.exit(1);
-  }
-
-  // Wait for the page to fully load with the form
-  await page.waitForTimeout(2000);
-
-  // Verify we have the date select
-  const dateSelect = await page.$("select");
-  if (!dateSelect) {
-    const html = await page.content();
-    const debugPath = saveDebugPage(html, "metis-initial-load");
-    console.error(`Could not find date select on Metis page. Debug: ${debugPath}`);
-    await browser.close();
-    process.exit(1);
-  }
-
-  // Get available date options to verify the week is available (unused but kept for potential validation)
-  await page.$$eval("select option", (options) =>
-    options.map((o) => ({ value: o.value, text: o.text.trim() })),
-  );
-
-  const days = [];
-  for (let offset = 0; offset < 5; offset += 1) { // Mon-Fri only
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + offset);
-    days.push(date);
-  }
-
-  // Build the output structure
-  const datesArray = days.map((d) => ({
-    val: isoDate(d),
-    text: metisDateText(d),
-  }));
-
-  const headers = ["Date", "Avail from", "Avail to", "Building", "Room", "Capacity", "Image"];
-  const byDateAndHour = {};
-
-  // Loop through Mon-Fri × hours 07-21
-  for (const date of days) {
-    const dateKey = isoDate(date);
-    byDateAndHour[dateKey] = {};
-
-    for (let hour = FIRST_HOUR; hour <= LAST_HOUR; hour += 1) {
-      const hourKey = String(hour).padStart(2, "0");
-      process.stdout.write(`  Querying ${dateKey} ${hourKey}:00... `);
-
-      const rooms = await queryMetis(page, date, hour);
-
-      if (rooms === null) {
-        // Table not found - page structure changed
-        await browser.close();
-        process.exit(1);
-      }
-
-      byDateAndHour[dateKey][hourKey] = rooms.map((r) => [
-        r.date,
-        r.availFrom,
-        r.availTo,
-        r.building,
-        r.room,
-        r.capacity,
-        r.image,
-      ]);
-
-      process.stdout.write(`${rooms.length} rooms\n`);
+const byDateAndHour = {};
+let freeRoomHours = 0;
+for (const date of days) {
+  const key = isoLocal(date);
+  byDateAndHour[key] = {};
+  const counts = [];
+  for (let hour = FIRST_HOUR; hour <= LAST_HOUR; hour += 1) {
+    const page = await ask(date, hour);
+    const answer = parseMetisPage(page);
+    if (answer.kind === "unexpected") {
+      stop(`Metis gave an unexpected page for ${key} ${hour}:00 (${answer.reason}).`, page);
     }
+    byDateAndHour[key][String(hour).padStart(2, "0")] = answer.rows;
+    const free = answer.kind === "rooms" ? answer.rows.length : 0;
+    freeRoomHours += free;
+    counts.push(free);
+    await new Promise((r) => setTimeout(r, PAUSE_MS));
   }
+  console.log(`  ${key}: free rooms per hour ${counts.join(" ")}`);
+}
 
-  await browser.close();
+// A whole week with no free room anywhere is not a believable answer: it is
+// what a closed or unpublished week looks like. Keep the previous snapshot.
+if (freeRoomHours === 0) {
+  stop(`Metis lists no free room in any hour of the week of ${isoLocal(monday)}. It may not have published that week yet.`);
+}
 
-  // Write the metis data file
-  const metisData = {
-    dates: datesArray,
-    headers,
-    byDateAndHour,
-  };
+const snapshot = {
+  dates: days.map((date) => ({ val: isoLocal(date), text: metisDateText(date) })),
+  headers: METIS_HEADERS,
+  byDateAndHour,
+};
+writeFileSync(OUTPUT, `${JSON.stringify(snapshot, null, 2)}\n`, "utf-8");
+console.log(`wrote data/utm_metis_data.json: ${freeRoomHours} free room-hours`);
 
-  mkdirSync("data", { recursive: true });
-  writeFileSync("data/utm_metis_data.json", JSON.stringify(metisData, null, 2), "utf-8");
-  console.log(`\nWrote data/utm_metis_data.json`);
-
-  // Now run the rebuild-rooms command
-  console.log("\nRebuilding room data...");
-  const { spawnSync } = await import("node:child_process");
-  const { resolve } = await import("node:path");
-
-  const ROOT = resolve(import.meta.dirname, "..");
-  const rebuild = spawnSync("uv", ["run", "uoft-scraper", "rebuild-rooms", "--data", "data"], {
-    cwd: join(ROOT, "scraper"),
+// Rebuild the app's UTM rooms and the snapshot dates in meta.json. The
+// scraper's environment is kept outside the repo, as refresh-data.mjs does.
+const rebuild = spawnSync(
+  "uv",
+  ["run", "--project", "scraper", "uoft-scraper", "rebuild-rooms", "--data", "data"],
+  {
+    cwd: ROOT,
     stdio: "inherit",
     shell: process.platform === "win32",
-  });
-
-  if (rebuild.status !== 0) {
-    console.error("Rebuild failed");
-    process.exit(1);
-  }
-
-  console.log("\nUTM capture complete!");
-}
-
-main().catch((error) => {
-  console.error(error);
+    env: { ...process.env, UV_PROJECT_ENVIRONMENT: join(homedir(), ".uoft-scraper-venv") },
+  },
+);
+if (rebuild.status !== 0) {
+  console.error("uoft-scraper rebuild-rooms failed; data/rooms/UTM.json was not rebuilt.");
   process.exit(1);
-});
+}
+console.log("rebuilt data/rooms/UTM.json and data/meta.json");

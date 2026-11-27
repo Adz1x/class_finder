@@ -14,8 +14,11 @@
  * question from inside the page, where the session already is.
  *
  *   node scripts/fetch-utsg-availability.mjs               # this week
- *   node scripts/fetch-utsg-availability.mjs --next-week   # coming Monday
- *   node scripts/fetch-utsg-availability.mjs 2026-10-19    # a given Monday
+ *   node scripts/fetch-utsg-availability.mjs --next-week   # next week
+ *   node scripts/fetch-utsg-availability.mjs 2026-10-19    # the week of a date
+ *
+ * Needs the session `node scripts/auth-session.mjs` (or auth-lsm-cookies.mjs)
+ * saves to ~/.uoft-session/lsm-cookies.txt.
  *
  * Writes `data/rooms/UTSG.json`: the same shape the app already reads for
  * Mississauga, so the interface needs no special case for this campus.
@@ -24,6 +27,7 @@ import { chromium } from "@playwright/test";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { weekFromArgs } from "./lib/week.mjs";
 
 const PROFILE = join(homedir(), ".uoft-session");
 const COOKIES = process.env.LSM_COOKIES ?? join(PROFILE, "lsm-cookies.txt");
@@ -38,64 +42,6 @@ const LAST_HOUR = 21;
  * number you ask for, so the smallest number asks for every room there is.
  */
 const ATTENDANCE = 1;
-
-/**
- * Parse the week argument. Accepts:
- * - `--next-week` (the coming Monday)
- * - `YYYY-MM-DD` (a specific Monday)
- * - nothing (this week's Monday)
- */
-function parseWeekArg() {
-  const args = process.argv.slice(2);
-
-  if (args.includes("--next-week")) {
-    return "next-week";
-  }
-
-  const dateArg = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
-  if (dateArg) {
-    return dateArg;
-  }
-
-  return "this-week";
-}
-
-/**
- * Get the Monday for the requested week.
- */
-function mondayForWeek(weekArg) {
-  const now = new Date();
-  const day = now.getDay(); // 0 is Sunday
-
-  if (weekArg === "next-week") {
-    // On Saturday (6) or Sunday (0), "next week" is the Monday right after today.
-    // Otherwise, it's the Monday after this week's Monday.
-    if (day === 0 || day === 6) {
-      const monday = new Date(now);
-      monday.setDate(now.getDate() + (day === 0 ? 1 : 2));
-      return monday;
-    }
-    // This week's Monday + 7 days
-    const thisMonday = new Date(now);
-    thisMonday.setDate(now.getDate() - ((day + 6) % 7) + 7);
-    return thisMonday;
-  }
-
-  if (weekArg === "this-week") {
-    const monday = new Date(now);
-    monday.setDate(now.getDate() - ((day + 6) % 7));
-    return monday;
-  }
-
-  // Specific date: parse as YYYY-MM-DD
-  const [year, month, dayOfMonth] = weekArg.split("-").map(Number);
-  const date = new Date(year, month - 1, dayOfMonth);
-  if (isNaN(date.getTime())) {
-    console.error(`Invalid date: ${weekArg}`);
-    process.exit(1);
-  }
-  return date;
-}
 
 function isoDate(date) {
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -268,8 +214,7 @@ async function freeRooms(date, hour) {
   }
 }
 
-const weekArg = parseWeekArg();
-const monday = mondayForWeek(weekArg);
+const monday = weekFromArgs(process.argv.slice(2));
 const days = [];
 for (let offset = 0; offset < 7; offset += 1) {
   const date = new Date(monday);

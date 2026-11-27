@@ -1,178 +1,145 @@
 /**
- * Parse the UofT Mississauga Classroom Space Database (Metis) table output.
+ * Reads the answers of the UTM Classroom Space Database (Metis).
  *
- * The Metis space database lists, for every hour of a given week, the rooms
- * that are available in that hour. A room that is not listed for an hour is
- * therefore booked for that hour.
+ * The capture asks Metis one question per weekday and hour:
  *
- * The parsing lives here so it can be tested against a saved row: the
- * capture script uses it, and the parsing is the part that can silently
- * go wrong.
+ *   POST https://metis.utm.utoronto.ca/space/index.php
+ *   date_par=2026-10-20&building_par=All&time_par=13&duration=1
  *
- * The expected shape of the Metis data:
- * {
- *   dates: [{val: "2026-10-19", text: "Monday, Oct 19, 2026"}, ...],
- *   headers: ["Date", "Avail from", "Avail to", "Building", "Room", "Capacity", "Image"],
- *   byDateAndHour: {
- *     "2026-10-19": {
- *       "07": [["Monday, Oct 19, 2026", "07:00 AM", "8:00 AM", "CCIT", "CC 1080", "500", "See image"], ...]
- *     }
- *   }
- * }
+ * and the page answers with a table of the rooms that are free in that hour,
+ *
+ *   Date | Avail from | Avail to | Building | Room | Capacity | Image
+ *
+ * or with a single "No rooms available..." row when nothing is free. Both
+ * answers are facts about the hour. Anything else (a sign-in page, an error,
+ * a redesigned page) is not, and the capture must stop rather than record it.
+ * docs/REPORT.md tells why each hour is asked for directly instead of read
+ * from the page's own hour menu, which leaves out 13:00.
+ *
+ * The rows are kept exactly as Metis prints them, which is the shape
+ * data/utm_metis_data.json has always had and scraper/src/uoft_scraper/metis.py
+ * reads: seven cells per free room, or one cell carrying the message.
  */
 
-/**
- * @typedef {object} MetisDate
- * @property {string} val - ISO date string like "2026-10-19"
- * @property {string} text - Human readable date like "Monday, Oct 19, 2026"
- */
+export const METIS_HEADERS = [
+  "Date",
+  "Avail from",
+  "Avail to",
+  "Building",
+  "Room",
+  "Capacity",
+  "Image",
+];
+
+const NO_ROOMS = /No rooms available/i;
+
+const NAMED_ENTITIES = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+};
+
+/** Decodes the HTML entities a server-rendered PHP page uses. */
+export function decodeEntities(text) {
+  return text.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, entity) => {
+    if (entity[0] === "#") {
+      const code =
+        entity[1] === "x" || entity[1] === "X"
+          ? parseInt(entity.slice(2), 16)
+          : parseInt(entity.slice(1), 10);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : match;
+    }
+    return NAMED_ENTITIES[entity.toLowerCase()] ?? match;
+  });
+}
+
+/** The visible text of an HTML fragment, with whitespace collapsed. */
+export function cellText(html) {
+  return decodeEntities(
+    html
+      .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+      .replace(/<br\s*\/?>/gi, " ")
+      .replace(/<[^>]+>/g, " "),
+  )
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 /**
- * @typedef {object} MetisData
- * @property {MetisDate[]} dates - Array of date objects
- * @property {string[]} headers - Table headers (7 columns)
- * @property {object.<string, object.<string, string[][]>>} byDateAndHour - Nested structure: date -> hour -> rows
- */
-
-/**
- * @typedef {object} ParsedMetisRow
- * @property {string} date
- * @property {string} availFrom
- * @property {string} availTo
- * @property {string} building
- * @property {string} room
- * @property {string} capacity
- * @property {string} image
- */
-
-/**
- * Convert the Metis raw data to the format used by the app.
+ * The innermost table rows of a page, as lists of cell texts.
  *
- * @param {MetisData} raw - The raw Metis JSON data
- * @returns {MetisData} - The validated structured data
+ * Old PHP pages often lay themselves out with tables, so a row can contain a
+ * whole table. Only rows with no row inside them are returned, and a cell
+ * runs to the next cell or the end of its row, so an omitted `</td>` (legal
+ * HTML) does not swallow the rest of the row.
  */
-export function parseMetisData(raw) {
-  if (!raw || typeof raw !== "object") {
-    throw new Error("Metis data must be an object");
+export function tableRows(html) {
+  const rows = [];
+  const open = /<tr\b[^>]*>/gi;
+  let match;
+  while ((match = open.exec(html))) {
+    const start = match.index + match[0].length;
+    const close = html.toLowerCase().indexOf("</tr>", start);
+    const end = close === -1 ? html.length : close;
+    const body = html.slice(start, end);
+    if (/<tr\b/i.test(body)) continue; // an outer layout row
+    const cells = [
+      ...body.matchAll(/<t[hd]\b[^>]*>([\s\S]*?)(?=<t[hd]\b|<\/t[hd]>|$)/gi),
+    ].map((cell) => cellText(cell[1]));
+    if (cells.length) rows.push(cells);
+  }
+  return rows;
+}
+
+/**
+ * What one Metis answer says about its hour.
+ *
+ * @param {string} html the page Metis returned
+ * @returns {{kind: "rooms", rows: string[][]}
+ *   | {kind: "none", rows: string[][]}
+ *   | {kind: "unexpected", reason: string}}
+ */
+export function parseMetisPage(html) {
+  const rows = tableRows(html);
+  const isHeader = (cells) =>
+    cells.length === METIS_HEADERS.length &&
+    cells.every((cell, i) => cell.toLowerCase() === METIS_HEADERS[i].toLowerCase());
+  const headerAt = rows.findIndex(isHeader);
+
+  if (headerAt !== -1) {
+    const rooms = rows
+      .slice(headerAt + 1)
+      .filter((cells) => cells.length === METIS_HEADERS.length && !isHeader(cells));
+    if (rooms.length) return { kind: "rooms", rows: rooms };
   }
 
-  const dates = raw.dates || [];
-  const headers = raw.headers || [];
-  const byDateAndHour = raw.byDateAndHour || {};
-
-  // Validate dates
-  for (const date of dates) {
-    if (!date.val || !date.text) {
-      throw new Error("Each date must have val and text properties");
-    }
-  }
-
-  // Validate byDateAndHour structure
-  for (const [dateKey, hours] of Object.entries(byDateAndHour)) {
-    if (!hours || typeof hours !== "object") {
-      throw new Error(`byDateAndHour[${dateKey}] must be an object`);
-    }
-    for (const [hour, rows] of Object.entries(hours)) {
-      if (!Array.isArray(rows)) {
-        throw new Error(`byDateAndHour[${dateKey}][${hour}] must be an array`);
-      }
-      for (const row of rows) {
-        if (!Array.isArray(row) || row.length < 7) {
-          throw new Error(`Row in byDateAndHour[${dateKey}][${hour}] must have at least 7 cells`);
-        }
-      }
-    }
+  const message = rows.find(
+    (cells) => cells.length < METIS_HEADERS.length && NO_ROOMS.test(cells.join(" ")),
+  );
+  if (message) return { kind: "none", rows: [[message.filter(Boolean).join(" ")]] };
+  if (NO_ROOMS.test(cellText(html))) {
+    return { kind: "none", rows: [["No rooms available"]] };
   }
 
   return {
-    dates,
-    headers,
-    byDateAndHour,
+    kind: "unexpected",
+    reason:
+      headerAt === -1
+        ? "no results table and no 'No rooms available' message"
+        : "a results table with no rows and no 'No rooms available' message",
   };
 }
 
-/**
- * Convert a single Metis row to a structured object.
- *
- * @param {string[]} row - A row from byDateAndHour (7 cells)
- * @returns {ParsedMetisRow} - Structured row with named fields
- */
-export function parseMetisRow(row) {
-  if (!Array.isArray(row) || row.length < 7) {
-    throw new Error("Row must be an array with at least 7 cells");
-  }
-
-  return {
-    date: row[0],
-    availFrom: row[1],
-    availTo: row[2],
-    building: row[3],
-    room: row[4],
-    capacity: row[5],
-    image: row[6],
-  };
-}
-
-/**
- * Validate that the Metis data has the expected structure for our headers.
- *
- * @param {string[] | null | undefined} headers - The headers array from Metis
- * @returns {boolean} - True if headers match expected pattern
- */
-export function validateHeaders(headers) {
-  if (!Array.isArray(headers)) {
-    return false;
-  }
-
-  const expectedHeaders = ["Date", "Avail from", "Avail to", "Building", "Room", "Capacity", "Image"];
-
-  if (headers.length !== expectedHeaders.length) {
-    return false;
-  }
-
-  for (let i = 0; i < headers.length; i++) {
-    // Allow case-insensitive comparison with trimmed values
-    const headerVal = String(headers[i] || "").trim();
-    const expectedVal = expectedHeaders[i];
-    if (headerVal !== expectedVal) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-/**
- * Build the byDateAndHour structure from a flat list of rows.
- * Used when refreshing data from the capture script.
- *
- * @param {Array<{dateISO: string, hour: number, dateText: string, availFrom: string, availTo: string, building: string, room: string, capacity: string, image?: string}>} rows - Array of row objects with date, hour, and room info
- * @returns {object.<string, object.<string, string[][]>>} - The byDateAndHour structure
- */
-export function buildByDateAndHour(rows) {
-  const result = {};
-
-  for (const row of rows) {
-    const dateKey = row.dateISO; // ISO date like "2026-10-19"
-    const hourKey = String(row.hour).padStart(2, "0");
-
-    if (!result[dateKey]) {
-      result[dateKey] = {};
-    }
-    if (!result[dateKey][hourKey]) {
-      result[dateKey][hourKey] = [];
-    }
-
-    result[dateKey][hourKey].push([
-      row.dateText,
-      row.availFrom,
-      row.availTo,
-      row.building,
-      row.room,
-      row.capacity,
-      row.image || "See image",
-    ]);
-  }
-
-  return result;
+/** The date as Metis prints it: "Monday, Oct 19, 2026". */
+export function metisDateText(date) {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
 }
