@@ -352,7 +352,7 @@ whether the wording makes sense.
 | `npm run data:verify` | Check the committed dataset's invariants |
 | `npm run data:size` | Check the gzipped payload against the budget |
 | `npm run screenshots` | Re-capture the images in `docs/images/` |
-| `npm run data:weekly` | **Weekly**: one UofT sign-in, then next week's rooms for all three campuses, checked and committed (`-- --push` to push) |
+| `npm run data:weekly` | **Weekly**: one UofT sign-in, then the coming school week's rooms for all three campuses, checked and committed (`-- --push` to push) |
 | `npm run data:refresh` | Refresh every campus that can run now (`-- --next-week` for next week); a campus without a fresh session is skipped |
 | `node scripts/auth-session.mjs` | Sign in once (UTORid + Duo) and save the St. George and Metis sessions for the captures |
 | `node scripts/fetch-utsg-classrooms.mjs` | Refresh the St. George classroom inventory |
@@ -371,7 +371,8 @@ job refreshes them every morning and commits only real changes.
 Mississauga sit behind UofT sign-on, so no credentials are stored in CI. The
 command pulls the latest commits, opens one browser window with both systems
 (sign in and approve the Duo push; the second tab usually signs itself in),
-captures next week for all three campuses, runs the dataset checks, and
+captures the coming school week for all three campuses (next week on a
+weekend, the current week on a weekday), runs the dataset checks, and
 commits `data: weekly refresh for week of <Monday>` when room data changed.
 It pushes only with `npm run data:weekly -- --push`, and pushing `main` deploys
 the site. Each run is logged to `~/uoft-classfinder-weekly.log`.
