@@ -1,0 +1,8 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://uoftclassfinder.tech/sitemap.xml
+
+# Generated: 2026-11-27
+# Allow all crawlers to index the site; we want organic search for
+# "empty classroom", "study room", and related queries.
