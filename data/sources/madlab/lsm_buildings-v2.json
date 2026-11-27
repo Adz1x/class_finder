@@ -1,0 +1,4105 @@
+{
+  "items": [
+    {
+      "bd_code": "UC",
+      "bd_name": "University College",
+      "bd_address": "15 King's College Circle Toronto, Ontario M5S 3H7",
+      "bd_marker": "43.66319655917286,-79.3958199105549",
+      "rooms": [
+        {
+          "room_number": "44",
+          "capacity": 15,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,44",
+          "links": [
+            {
+              "photo1": "/UC/UC44/UC44_View1.JPG",
+              "photo2": "/UC/UC44/UC44_View2.JPG",
+              "photo3": "/UC/UC44/UC44_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "51",
+          "capacity": 11,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,51",
+          "links": [
+            {
+              "photo1": "/UC/UC51/UC51_View1.JPG",
+              "photo2": "/UC/UC51/UC51_View2.JPG",
+              "photo3": "/UC/UC51/UC51_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "52",
+          "capacity": 61,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,52",
+          "links": [
+            {
+              "photo1": "/UC/UC52/UC52_View1.JPG",
+              "photo2": "/UC/UC52/UC52_View2.JPG",
+              "photo3": "/UC/UC52/UC52_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "53",
+          "capacity": 12,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,53",
+          "links": [
+            {
+              "photo1": "/UC/UC53/UC53_View1.JPG",
+              "photo2": "/UC/UC53/UC53_View2.JPG",
+              "photo3": "/UC/UC53/UC53_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "55",
+          "capacity": 12,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,55",
+          "links": [
+            {
+              "photo1": "/UC/UC55/UC55_View1.JPG",
+              "photo2": "/UC/UC55/UC55_View2.JPG",
+              "photo3": "/UC/UC55/UC55_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "57",
+          "capacity": 14,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,57",
+          "links": [
+            {
+              "photo1": "/UC/UC57/UC57_View1.JPG",
+              "photo2": "/UC/UC57/UC57_View2.JPG",
+              "photo3": "/UC/UC57/UC57_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "63",
+          "capacity": 17,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,63",
+          "links": [
+            {
+              "photo1": "/UC/UC63/UC63_View1.JPG",
+              "photo2": "/UC/UC63/UC63_View2.JPG",
+              "photo3": "/UC/UC63/UC63_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "65",
+          "capacity": 25,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,65",
+          "links": [
+            {
+              "photo1": "/UC/UC65/UC65_View1.JPG",
+              "photo2": "/UC/UC65/UC65_View2.JPG",
+              "photo3": "/UC/UC65/UC65_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "67",
+          "capacity": 27,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,67",
+          "links": [
+            {
+              "photo1": "/UC/UC67/UC67_View1.JPG",
+              "photo2": "/UC/UC67/UC67_View2.JPG",
+              "photo3": "/UC/UC67/UC67_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "69",
+          "capacity": 17,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,69",
+          "links": [
+            {
+              "photo1": "/UC/UC69/UC69_View1.JPG",
+              "photo2": "/UC/UC69/UC69_View2.JPG",
+              "photo3": "/UC/UC69/UC69_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "85",
+          "capacity": 50,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,85",
+          "links": [
+            {
+              "photo1": "/UC/UC85/UC85_View1.JPG",
+              "photo2": "/UC/UC85/UC85_View2.JPG",
+              "photo3": "/UC/UC85/UC85_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "87",
+          "capacity": 50,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,87",
+          "links": [
+            {
+              "photo1": "/UC/UC87/UC87_View1.JPG",
+              "photo2": "/UC/UC87/UC87_View2.JPG",
+              "photo3": "/UC/UC87/UC87_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "140",
+          "capacity": 150,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,140",
+          "links": [
+            {
+              "photo1": "/UC/UC140/UC140_View1.JPG",
+              "photo2": "/UC/UC140/UC140_View2.JPG",
+              "photo3": "/UC/UC140/UC140_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "144",
+          "capacity": 55,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,144",
+          "links": [
+            {
+              "photo1": "/UC/UC144/UC144_View1.JPG",
+              "photo2": "/UC/UC144/UC144_View2.JPG",
+              "photo3": "/UC/UC144/UC144_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "148",
+          "capacity": 21,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,148",
+          "links": [
+            {
+              "photo1": "/UC/UC148/UC148_View1.JPG",
+              "photo2": "/UC/UC148/UC148_View2.JPG",
+              "photo3": "/UC/UC148/UC148_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "152",
+          "capacity": 45,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,152",
+          "links": [
+            {
+              "photo1": "/UC/UC152/UC152_View1.JPG",
+              "photo2": "/UC/UC152/UC152_View2.JPG",
+              "photo3": "/UC/UC152/UC152_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "161",
+          "capacity": 97,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,161",
+          "links": [
+            {
+              "photo1": "/UC/UC161/UC161_View1.JPG",
+              "photo2": "/UC/UC161/UC161_View2.JPG",
+              "photo3": "/UC/UC161/UC161_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "163",
+          "capacity": 56,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,163",
+          "links": [
+            {
+              "photo1": "/UC/UC163/UC163_View1.JPG",
+              "photo2": "/UC/UC163/UC163_View2.JPG",
+              "photo3": "/UC/UC163/UC163_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "175",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,175",
+          "links": [
+            {
+              "photo1": "/UC/UC175/UC175_View1.JPG",
+              "photo2": "/UC/UC175/UC175_View2.JPG",
+              "photo3": "/UC/UC175/UC175_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "177",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,177",
+          "links": [
+            {
+              "photo1": "/UC/UC177/UC177_View1.JPG",
+              "photo2": "/UC/UC177/UC177_View2.JPG",
+              "photo3": "/UC/UC177/UC177_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "179",
+          "capacity": 110,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,179",
+          "links": [
+            {
+              "photo1": "/UC/UC179/UC179_View1.JPG",
+              "photo2": "/UC/UC179/UC179_View2.JPG",
+              "photo3": "/UC/UC179/UC179_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "244",
+          "capacity": 59,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,244",
+          "links": [
+            {
+              "photo1": "/UC/UC244/UC244_View1.JPG",
+              "photo2": "/UC/UC244/UC244_View2.JPG",
+              "photo3": "/UC/UC244/UC244_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "248",
+          "capacity": 21,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,248",
+          "links": [
+            {
+              "photo1": "/UC/UC248/UC248_View1.JPG",
+              "photo2": "/UC/UC248/UC248_View2.JPG",
+              "photo3": "/UC/UC248/UC248_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "255",
+          "capacity": 18,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,255",
+          "links": [
+            {
+              "photo1": "/UC/UC255/UC255_View1.JPG",
+              "photo2": "/UC/UC255/UC255_View2.JPG",
+              "photo3": "/UC/UC255/UC255_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "256",
+          "capacity": 45,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,256",
+          "links": [
+            {
+              "photo1": "/UC/UC256/UC256_View1.JPG",
+              "photo2": "/UC/UC256/UC256_View2.JPG",
+              "photo3": "/UC/UC256/UC256_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "257",
+          "capacity": 17,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,257",
+          "links": [
+            {
+              "photo1": "/UC/UC257/UC257_View1.JPG",
+              "photo2": "/UC/UC257/UC257_View2.JPG",
+              "photo3": "/UC/UC257/UC257_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "261",
+          "capacity": 48,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,261",
+          "links": [
+            {
+              "photo1": "/UC/UC261/UC261_View1.JPG",
+              "photo2": "/UC/UC261/UC261_View2.JPG",
+              "photo3": "/UC/UC261/UC261_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "A101",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,A101",
+          "links": [
+            {
+              "photo1": "/UC/UCA101/UCA101_View1.JPG",
+              "photo2": "/UC/UCA101/UCA101_View2.JPG",
+              "photo3": "/UC/UCA101/UCA101_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B203",
+          "capacity": 19,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,B203",
+          "links": [
+            {
+              "photo1": "/UC/UCB203/UCB203_View1.JPG",
+              "photo2": "/UC/UCB203/UCB203_View2.JPG",
+              "photo3": "/UC/UCB203/UCB203_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "D301",
+          "capacity": 19,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:UC,D301",
+          "links": [
+            {
+              "photo1": "/UC/UCD301/UCD301_View1.JPG",
+              "photo2": "/UC/UCD301/UCD301_View2.JPG",
+              "photo3": "/UC/UCD301/UCD301_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "CH",
+      "bd_name": "Convocation Hall",
+      "bd_address": "31 King's College Circle. Toronto, Ontario M5S 1A1",
+      "bd_marker": "43.66077496731175,-79.39538807490351",
+      "rooms": [
+        {
+          "room_number": "---",
+          "capacity": 1500,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:CH,---",
+          "links": [
+            {
+              "photo1": "/CH/CH---/CH---_View1.JPG",
+              "photo2": "/CH/CH---/CH---_View2.JPG",
+              "photo3": "/CH/CH---/CH---_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "SK",
+      "bd_name": "Social Work, Faculty of",
+      "bd_address": "246 Bloor Street West Toronto, Ontario M5S 1V4",
+      "bd_marker": "43.66829361310306,-79.39773232558252",
+      "rooms": [
+        {
+          "room_number": "100",
+          "capacity": 26,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,100",
+          "links": [
+            {
+              "photo1": "/SK/SK100/SK100_View1.JPG",
+              "photo2": "/SK/SK100/SK100_View2.JPG",
+              "photo3": "/SK/SK100/SK100_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "114",
+          "capacity": 29,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,114",
+          "links": [
+            {
+              "photo1": "/SK/SK114/SK114_View1.JPG",
+              "photo2": "/SK/SK114/SK114_View2.JPG",
+              "photo3": "/SK/SK114/SK114_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "218",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,218",
+          "links": [
+            {
+              "photo1": "/SK/SK218/SK218_View1.JPG",
+              "photo2": "/SK/SK218/SK218_View2.JPG",
+              "photo3": "/SK/SK218/SK218_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "222",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,222",
+          "links": [
+            {
+              "photo1": "/SK/SK222/SK222_View1.JPG",
+              "photo2": "/SK/SK222/SK222_View2.JPG",
+              "photo3": "/SK/SK222/SK222_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "346",
+          "capacity": 29,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,346",
+          "links": [
+            {
+              "photo1": "/SK/SK346/SK346_View1.JPG",
+              "photo2": "/SK/SK346/SK346_View2.JPG",
+              "photo3": "/SK/SK346/SK346_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "348",
+          "capacity": 29,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,348",
+          "links": [
+            {
+              "photo1": "/SK/SK348/SK348_View1.JPG",
+              "photo2": "/SK/SK348/SK348_View2.JPG",
+              "photo3": "/SK/SK348/SK348_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "418",
+          "capacity": 29,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,418",
+          "links": [
+            {
+              "photo1": "/SK/SK418/SK418_View1.JPG",
+              "photo2": "/SK/SK418/SK418_View2.JPG",
+              "photo3": "/SK/SK418/SK418_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "548",
+          "capacity": 64,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,548",
+          "links": [
+            {
+              "photo1": "/SK/SK548/SK548_View1.JPG",
+              "photo2": "/SK/SK548/SK548_View2.JPG",
+              "photo3": "/SK/SK548/SK548_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "620",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,620",
+          "links": [
+            {
+              "photo1": "/SK/SK620/SK620_View1.JPG",
+              "photo2": "/SK/SK620/SK620_View2.JPG",
+              "photo3": "/SK/SK620/SK620_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "652",
+          "capacity": 10,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,652",
+          "links": [
+            {
+              "photo1": "/SK/SK652/SK652_View1.JPG",
+              "photo2": "/SK/SK652/SK652_View2.JPG",
+              "photo3": "/SK/SK652/SK652_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "702",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,702",
+          "links": [
+            {
+              "photo1": "/SK/SK702/SK702_View1.JPG",
+              "photo2": "/SK/SK702/SK702_View2.JPG",
+              "photo3": "/SK/SK702/SK702_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "720",
+          "capacity": 45,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SK,720",
+          "links": [
+            {
+              "photo1": "/SK/SK720/SK720_View1.JPG",
+              "photo2": "/SK/SK720/SK720_View2.JPG",
+              "photo3": "/SK/SK720/SK720_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "OI",
+      "bd_name": "O.I.S.E.",
+      "bd_address": "252 Bloor Street W. Toronto, Ontario M5S 1V6",
+      "bd_marker": "43.668277121589846,-79.39845652201655",
+      "rooms": [
+        {
+          "room_number": "2198",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2198",
+          "links": [
+            {
+              "photo1": "/OI/OI2198/OI2198_View1.JPG",
+              "photo2": "/OI/OI2198/OI2198_View2.JPG",
+              "photo3": "/OI/OI2198/OI2198_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2199",
+          "capacity": 20,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2199",
+          "links": [
+            {
+              "photo1": "/OI/OI2199/OI2199_View1.JPG",
+              "photo2": "/OI/OI2199/OI2199_View2.JPG",
+              "photo3": "/OI/OI2199/OI2199_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2205",
+          "capacity": 32,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2205",
+          "links": [
+            {
+              "photo1": "/OI/OI2205/OI2205_View1.JPG",
+              "photo2": "/OI/OI2205/OI2205_View2.JPG",
+              "photo3": "/OI/OI2205/OI2205_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2211",
+          "capacity": 32,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2211",
+          "links": [
+            {
+              "photo1": "/OI/OI2211/OI2211_View1.JPG",
+              "photo2": "/OI/OI2211/OI2211_View2.JPG",
+              "photo3": "/OI/OI2211/OI2211_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2212",
+          "capacity": 150,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2212",
+          "links": [
+            {
+              "photo1": "/OI/OI2212/OI2212_View1.JPG",
+              "photo2": "/OI/OI2212/OI2212_View2.JPG",
+              "photo3": "/OI/OI2212/OI2212_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2214",
+          "capacity": 80,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2214",
+          "links": [
+            {
+              "photo1": "/OI/OI2214/OI2214_View1.JPG",
+              "photo2": "/OI/OI2214/OI2214_View2.JPG",
+              "photo3": "/OI/OI2214/OI2214_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2227",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2227",
+          "links": [
+            {
+              "photo1": "/OI/OI2227/OI2227_View1.JPG",
+              "photo2": "/OI/OI2227/OI2227_View2.JPG",
+              "photo3": "/OI/OI2227/OI2227_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2279",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2279",
+          "links": [
+            {
+              "photo1": "/OI/OI2279/OI2279_View1.JPG",
+              "photo2": "/OI/OI2279/OI2279_View2.JPG",
+              "photo3": "/OI/OI2279/OI2279_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2281",
+          "capacity": 28,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2281",
+          "links": [
+            {
+              "photo1": "/OI/OI2281/OI2281_View1.JPG",
+              "photo2": "/OI/OI2281/OI2281_View2.JPG",
+              "photo3": "/OI/OI2281/OI2281_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2286",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2286",
+          "links": [
+            {
+              "photo1": "/OI/OI2286/OI2286_View1.JPG",
+              "photo2": "/OI/OI2286/OI2286_View2.JPG",
+              "photo3": "/OI/OI2286/OI2286_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2289",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2289",
+          "links": [
+            {
+              "photo1": "/OI/OI2289/OI2289_View1.JPG",
+              "photo2": "/OI/OI2289/OI2289_View2.JPG",
+              "photo3": "/OI/OI2289/OI2289_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2295",
+          "capacity": 40,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2295",
+          "links": [
+            {
+              "photo1": "/OI/OI2295/OI2295_View1.JPG",
+              "photo2": "/OI/OI2295/OI2295_View2.JPG",
+              "photo3": "/OI/OI2295/OI2295_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2296",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,2296",
+          "links": [
+            {
+              "photo1": "/OI/OI2296/OI2296_View1.JPG",
+              "photo2": "/OI/OI2296/OI2296_View2.JPG",
+              "photo3": "/OI/OI2296/OI2296_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "3310",
+          "capacity": 25,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,3310",
+          "links": [
+            {
+              "photo1": "/OI/OI3310/OI3310_View1.JPG",
+              "photo2": "/OI/OI3310/OI3310_View2.JPG",
+              "photo3": "/OI/OI3310/OI3310_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "3311",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,3311",
+          "links": [
+            {
+              "photo1": "/OI/OI3311/OI3311_View1.JPG",
+              "photo2": "/OI/OI3311/OI3311_View2.JPG",
+              "photo3": "/OI/OI3311/OI3311_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "3312",
+          "capacity": 25,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,3312",
+          "links": [
+            {
+              "photo1": "/OI/OI3312/OI3312_View1.JPG",
+              "photo2": "/OI/OI3312/OI3312_View2.JPG",
+              "photo3": "/OI/OI3312/OI3312_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4410",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,4410",
+          "links": [
+            {
+              "photo1": "/OI/OI4410/OI4410_View1.JPG",
+              "photo2": "/OI/OI4410/OI4410_View2.JPG",
+              "photo3": "/OI/OI4410/OI4410_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4414",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,4414",
+          "links": [
+            {
+              "photo1": "/OI/OI4414/OI4414_View1.JPG",
+              "photo2": "/OI/OI4414/OI4414_View2.JPG",
+              "photo3": "/OI/OI4414/OI4414_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4416",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,4416",
+          "links": [
+            {
+              "photo1": "/OI/OI4416/OI4416_View1.JPG",
+              "photo2": "/OI/OI4416/OI4416_View2.JPG",
+              "photo3": "/OI/OI4416/OI4416_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4418",
+          "capacity": 27,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,4418",
+          "links": [
+            {
+              "photo1": "/OI/OI4418/OI4418_View1.JPG",
+              "photo2": "/OI/OI4418/OI4418_View2.JPG",
+              "photo3": "/OI/OI4418/OI4418_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4420",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,4420",
+          "links": [
+            {
+              "photo1": "/OI/OI4420/OI4420_View1.JPG",
+              "photo2": "/OI/OI4420/OI4420_View2.JPG",
+              "photo3": "/OI/OI4420/OI4420_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4422",
+          "capacity": 42,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,4422",
+          "links": [
+            {
+              "photo1": "/OI/OI4422/OI4422_View1.JPG",
+              "photo2": "/OI/OI4422/OI4422_View2.JPG",
+              "photo3": "/OI/OI4422/OI4422_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4426",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,4426",
+          "links": [
+            {
+              "photo1": "/OI/OI4426/OI4426_View1.JPG",
+              "photo2": "/OI/OI4426/OI4426_View2.JPG",
+              "photo3": "/OI/OI4426/OI4426_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5150",
+          "capacity": 65,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5150",
+          "links": [
+            {
+              "photo1": "/OI/OI5150/OI5150_View1.JPG",
+              "photo2": "/OI/OI5150/OI5150_View2.JPG",
+              "photo3": "/OI/OI5150/OI5150_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5160",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5160",
+          "links": [
+            {
+              "photo1": "/OI/OI5160/OI5160_View1.JPG",
+              "photo2": "/OI/OI5160/OI5160_View2.JPG",
+              "photo3": "/OI/OI5160/OI5160_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5170",
+          "capacity": 80,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5170",
+          "links": [
+            {
+              "photo1": "/OI/OI5170/OI5170_View1.JPG",
+              "photo2": "/OI/OI5170/OI5170_View2.JPG",
+              "photo3": "/OI/OI5170/OI5170_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5230",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5230",
+          "links": [
+            {
+              "photo1": "/OI/OI5230/OI5230_View1.JPG",
+              "photo2": "/OI/OI5230/OI5230_View2.JPG",
+              "photo3": "/OI/OI5230/OI5230_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5240",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5240",
+          "links": [
+            {
+              "photo1": "/OI/OI5240/OI5240_View1.JPG",
+              "photo2": "/OI/OI5240/OI5240_View2.JPG",
+              "photo3": "/OI/OI5240/OI5240_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5250",
+          "capacity": 59,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5250",
+          "links": [
+            {
+              "photo1": "/OI/OI5250/OI5250_View1.JPG",
+              "photo2": "/OI/OI5250/OI5250_View2.JPG",
+              "photo3": "/OI/OI5250/OI5250_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5260",
+          "capacity": 33,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5260",
+          "links": [
+            {
+              "photo1": "/OI/OI5260/OI5260_View1.JPG",
+              "photo2": "/OI/OI5260/OI5260_View2.JPG",
+              "photo3": "/OI/OI5260/OI5260_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5270",
+          "capacity": 35,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5270",
+          "links": [
+            {
+              "photo1": "/OI/OI5270/OI5270_View1.JPG",
+              "photo2": "/OI/OI5270/OI5270_View2.JPG",
+              "photo3": "/OI/OI5270/OI5270_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5280",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5280",
+          "links": [
+            {
+              "photo1": "/OI/OI5280/OI5280_View1.JPG",
+              "photo2": "/OI/OI5280/OI5280_View2.JPG",
+              "photo3": "/OI/OI5280/OI5280_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "5290",
+          "capacity": 35,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,5290",
+          "links": [
+            {
+              "photo1": "/OI/OI5290/OI5290_View1.JPG",
+              "photo2": "/OI/OI5290/OI5290_View2.JPG",
+              "photo3": "/OI/OI5290/OI5290_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "7192",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,7192",
+          "links": [
+            {
+              "photo1": "/OI/OI7192/OI7192_View1.JPG",
+              "photo2": "/OI/OI7192/OI7192_View2.JPG",
+              "photo3": "/OI/OI7192/OI7192_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "8170",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,8170",
+          "links": [
+            {
+              "photo1": "/OI/OI8170/OI8170_View1.JPG",
+              "photo2": "/OI/OI8170/OI8170_View2.JPG",
+              "photo3": "/OI/OI8170/OI8170_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "8180",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,8180",
+          "links": [
+            {
+              "photo1": "/OI/OI8180/OI8180_View1.JPG",
+              "photo2": "/OI/OI8180/OI8180_View2.JPG",
+              "photo3": "/OI/OI8180/OI8180_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "8200",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,8200",
+          "links": [
+            {
+              "photo1": "/OI/OI8200/OI8200_View1.JPG",
+              "photo2": "/OI/OI8200/OI8200_View2.JPG",
+              "photo3": "/OI/OI8200/OI8200_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "8201",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,8201",
+          "links": [
+            {
+              "photo1": "/OI/OI8201/OI8201_View1.JPG",
+              "photo2": "/OI/OI8201/OI8201_View2.JPG",
+              "photo3": "/OI/OI8201/OI8201_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "8214",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,8214",
+          "links": [
+            {
+              "photo1": "/OI/OI8214/OI8214_View1.JPG",
+              "photo2": "/OI/OI8214/OI8214_View2.JPG",
+              "photo3": "/OI/OI8214/OI8214_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "8220",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,8220",
+          "links": [
+            {
+              "photo1": "/OI/OI8220/OI8220_View1.JPG",
+              "photo2": "/OI/OI8220/OI8220_View2.JPG",
+              "photo3": "/OI/OI8220/OI8220_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "8280",
+          "capacity": 24,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,8280",
+          "links": [
+            {
+              "photo1": "/OI/OI8280/OI8280_View1.JPG",
+              "photo2": "/OI/OI8280/OI8280_View2.JPG",
+              "photo3": "/OI/OI8280/OI8280_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "C154",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,C154",
+          "links": [
+            {
+              "photo1": "/OI/OIC154/OIC154_View1.JPG",
+              "photo2": "/OI/OIC154/OIC154_View2.JPG",
+              "photo3": "/OI/OIC154/OIC154_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "G162",
+          "capacity": 508,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,G162",
+          "links": [
+            {
+              "photo1": "/OI/OIG162/OIG162_View1.JPG",
+              "photo2": "/OI/OIG162/OIG162_View2.JPG",
+              "photo3": "/OI/OIG162/OIG162_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "10200",
+          "capacity": 21,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,10200",
+          "links": [
+            {
+              "photo1": "/OI/OI10200/OI10200_View1.JPG",
+              "photo2": "/OI/OI10200/OI10200_View2.JPG",
+              "photo3": "/OI/OI10200/OI10200_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "10204",
+          "capacity": 17,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,10204",
+          "links": [
+            {
+              "photo1": "/OI/OI10204/OI10204_View1.JPG",
+              "photo2": "/OI/OI10204/OI10204_View2.JPG",
+              "photo3": "/OI/OI10204/OI10204_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "11200",
+          "capacity": 15,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,11200",
+          "links": [
+            {
+              "photo1": "/OI/OI11200/OI11200_View1.JPG",
+              "photo2": "/OI/OI11200/OI11200_View2.JPG",
+              "photo3": "/OI/OI11200/OI11200_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "11204",
+          "capacity": 19,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:OI,11204",
+          "links": [
+            {
+              "photo1": "/OI/OI11204/OI11204_View1.JPG",
+              "photo2": "/OI/OI11204/OI11204_View2.JPG",
+              "photo3": "/OI/OI11204/OI11204_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "WO",
+      "bd_name": "Woodsworth College Residence",
+      "bd_address": "321 Bloor Street West Toronto, Ontario M5S 1S5",
+      "bd_marker": "43.6673312789927,-79.3993309221554",
+      "rooms": [
+        {
+          "room_number": "20",
+          "capacity": 59,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WO,20",
+          "links": [
+            {
+              "photo1": "/WO/WO20/WO20_View1.JPG",
+              "photo2": "/WO/WO20/WO20_View2.JPG",
+              "photo3": "/WO/WO20/WO20_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "25",
+          "capacity": 55,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WO,25",
+          "links": [
+            {
+              "photo1": "/WO/WO25/WO25_View1.JPG",
+              "photo2": "/WO/WO25/WO25_View2.JPG",
+              "photo3": "/WO/WO25/WO25_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "30",
+          "capacity": 58,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WO,30",
+          "links": [
+            {
+              "photo1": "/WO/WO30/WO30_View1.JPG",
+              "photo2": "/WO/WO30/WO30_View2.JPG",
+              "photo3": "/WO/WO30/WO30_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "35",
+          "capacity": 56,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WO,35",
+          "links": [
+            {
+              "photo1": "/WO/WO35/WO35_View1.JPG",
+              "photo2": "/WO/WO35/WO35_View2.JPG",
+              "photo3": "/WO/WO35/WO35_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "IN",
+      "bd_name": "Innis College",
+      "bd_address": "2 Sussex Avenue Toronto, Ontario M5S 1J5",
+      "bd_marker": "43.66557148699452,-79.39948380806925",
+      "rooms": [
+        {
+          "room_number": "223E",
+          "capacity": 19,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:IN,223E",
+          "links": [
+            {
+              "photo1": "/IN/IN223E/IN223E_View1.JPG",
+              "photo2": "/IN/IN223E/IN223E_View2.JPG",
+              "photo3": "/IN/IN223E/IN223E_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "312E",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:IN,312E",
+          "links": [
+            {
+              "photo1": "/IN/IN312E/IN312E_View1.JPG",
+              "photo2": "/IN/IN312E/IN312E_View2.JPG",
+              "photo3": "/IN/IN312E/IN312E_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "313E",
+          "capacity": 19,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:IN,313E",
+          "links": [
+            {
+              "photo1": "/IN/IN313E/IN313E_View1.JPG",
+              "photo2": "/IN/IN313E/IN313E_View2.JPG",
+              "photo3": "/IN/IN313E/IN313E_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "FE",
+      "bd_name": "Bloor Street West-371",
+      "bd_address": "371 Bloor Steet West Toronto, Ontario M5S 2R7",
+      "bd_marker": "43.66668130671138,-79.40222904899599",
+      "rooms": [
+        {
+          "room_number": "24",
+          "capacity": 45,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,24",
+          "links": [
+            {
+              "photo1": "/FE/FE24/FE24_View1.JPG",
+              "photo2": "/FE/FE24/FE24_View2.JPG",
+              "photo3": "/FE/FE24/FE24_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "33",
+          "capacity": 35,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,33",
+          "links": [
+            {
+              "photo1": "/FE/FE33/FE33_View1.JPG",
+              "photo2": "/FE/FE33/FE33_View2.JPG",
+              "photo3": "/FE/FE33/FE33_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "114",
+          "capacity": 301,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,114",
+          "links": [
+            {
+              "photo1": "/FE/FE114/FE114_View1.JPG",
+              "photo2": "/FE/FE114/FE114_View2.JPG",
+              "photo3": "/FE/FE114/FE114_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "139",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,139",
+          "links": [
+            {
+              "photo1": "/FE/FE139/FE139_View1.JPG",
+              "photo2": "/FE/FE139/FE139_View2.JPG",
+              "photo3": "/FE/FE139/FE139_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "213",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,213",
+          "links": [
+            {
+              "photo1": "/FE/FE213/FE213_View1.JPG",
+              "photo2": "/FE/FE213/FE213_View2.JPG",
+              "photo3": "/FE/FE213/FE213_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "222",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,222",
+          "links": [
+            {
+              "photo1": "/FE/FE222/FE222_View1.JPG",
+              "photo2": "/FE/FE222/FE222_View2.JPG",
+              "photo3": "/FE/FE222/FE222_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "230",
+          "capacity": 143,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,230",
+          "links": [
+            {
+              "photo1": "/FE/FE230/FE230_View1.JPG",
+              "photo2": "/FE/FE230/FE230_View2.JPG",
+              "photo3": "/FE/FE230/FE230_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "238",
+          "capacity": 21,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,238",
+          "links": [
+            {
+              "photo1": "/FE/FE238/FE238_View1.JPG",
+              "photo2": "/FE/FE238/FE238_View2.JPG",
+              "photo3": "/FE/FE238/FE238_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "240",
+          "capacity": 41,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,240",
+          "links": [
+            {
+              "photo1": "/FE/FE240/FE240_View1.JPG",
+              "photo2": "/FE/FE240/FE240_View2.JPG",
+              "photo3": "/FE/FE240/FE240_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "324",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,324",
+          "links": [
+            {
+              "photo1": "/FE/FE324/FE324_View1.JPG",
+              "photo2": "/FE/FE324/FE324_View2.JPG",
+              "photo3": "/FE/FE324/FE324_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "326",
+          "capacity": 36,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,326",
+          "links": [
+            {
+              "photo1": "/FE/FE326/FE326_View1.JPG",
+              "photo2": "/FE/FE326/FE326_View2.JPG",
+              "photo3": "/FE/FE326/FE326_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "328",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:FE,328",
+          "links": [
+            {
+              "photo1": "/FE/FE328/FE328_View1.JPG",
+              "photo2": "/FE/FE328/FE328_View2.JPG",
+              "photo3": "/FE/FE328/FE328_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "KP",
+      "bd_name": "Koffler House",
+      "bd_address": "569 Spadina Avenue Toronto, Ontario M5S 2J7",
+      "bd_marker": "43.660608576363494,-79.40058820763113",
+      "rooms": [
+        {
+          "room_number": "108",
+          "capacity": 187,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:KP,108",
+          "links": [
+            {
+              "photo1": "/KP/KP108/KP108_View1.JPG",
+              "photo2": "/KP/KP108/KP108_View2.JPG",
+              "photo3": "/KP/KP108/KP108_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "113",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:KP,113",
+          "links": [
+            {
+              "photo1": "/KP/KP113/KP113_View1.JPG",
+              "photo2": "/KP/KP113/KP113_View2.JPG",
+              "photo3": "/KP/KP113/KP113_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "SU",
+      "bd_name": "Student Commons",
+      "bd_address": "230 College Street Toronto, Ontario M5T 1R2",
+      "bd_marker": "43.665012688924,-79.40181196549418",
+      "rooms": [
+        {
+          "room_number": "255",
+          "capacity": 55,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SU,255",
+          "links": [
+            {
+              "photo1": "/SU/SU255/SU255_View1.JPG",
+              "photo2": "/SU/SU255/SU255_View2.JPG",
+              "photo3": "/SU/SU255/SU255_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "432",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SU,432",
+          "links": [
+            {
+              "photo1": "/SU/SU432/SU432_View1.JPG",
+              "photo2": "/SU/SU432/SU432_View2.JPG",
+              "photo3": "/SU/SU432/SU432_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "440",
+          "capacity": 28,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SU,440",
+          "links": [
+            {
+              "photo1": "/SU/SU440/SU440_View1.JPG",
+              "photo2": "/SU/SU440/SU440_View2.JPG",
+              "photo3": "/SU/SU440/SU440_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "444",
+          "capacity": 42,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SU,444",
+          "links": [
+            {
+              "photo1": "/SU/SU444/SU444_View1.JPG",
+              "photo2": "/SU/SU444/SU444_View2.JPG",
+              "photo3": "/SU/SU444/SU444_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B120",
+          "capacity": 108,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SU,B120",
+          "links": [
+            {
+              "photo1": "/SU/SUB120/SUB120_View1.JPG",
+              "photo2": "/SU/SUB120/SUB120_View2.JPG",
+              "photo3": "/SU/SUB120/SUB120_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "HS",
+      "bd_name": "Health Sciences Building",
+      "bd_address": "155 College Street Toronto, Ontario M5T 1P8",
+      "bd_marker": "43.659039724201534,-79.39288356223585",
+      "rooms": [
+        {
+          "room_number": "100",
+          "capacity": 34,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,100",
+          "links": [
+            {
+              "photo1": "/HS/HS100/HS100_View1.JPG",
+              "photo2": "/HS/HS100/HS100_View2.JPG",
+              "photo3": "/HS/HS100/HS100_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "106",
+          "capacity": 84,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,106",
+          "links": [
+            {
+              "photo1": "/HS/HS106/HS106_View1.JPG",
+              "photo2": "/HS/HS106/HS106_View2.JPG",
+              "photo3": "/HS/HS106/HS106_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "108",
+          "capacity": 54,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,108",
+          "links": [
+            {
+              "photo1": "/HS/HS108/HS108_View1.JPG",
+              "photo2": "/HS/HS108/HS108_View2.JPG",
+              "photo3": "/HS/HS108/HS108_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "610",
+          "capacity": 251,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,610",
+          "links": [
+            {
+              "photo1": "/HS/HS610/HS610_View1.JPG",
+              "photo2": "/HS/HS610/HS610_View2.JPG",
+              "photo3": "/HS/HS610/HS610_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "614",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,614",
+          "links": [
+            {
+              "photo1": "/HS/HS614/HS614_View1.JPG",
+              "photo2": "/HS/HS614/HS614_View2.JPG",
+              "photo3": "/HS/HS614/HS614_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "618",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,618",
+          "links": [
+            {
+              "photo1": "/HS/HS618/HS618_View1.JPG",
+              "photo2": "/HS/HS618/HS618_View2.JPG",
+              "photo3": "/HS/HS618/HS618_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "696",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,696",
+          "links": [
+            {
+              "photo1": "/HS/HS696/HS696_View1.JPG",
+              "photo2": "/HS/HS696/HS696_View2.JPG",
+              "photo3": "/HS/HS696/HS696_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "705",
+          "capacity": 15,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,705",
+          "links": [
+            {
+              "photo1": "/HS/HS705/HS705_View1.JPG",
+              "photo2": "/HS/HS705/HS705_View2.JPG",
+              "photo3": "/HS/HS705/HS705_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "715",
+          "capacity": 16,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HS,715",
+          "links": [
+            {
+              "photo1": "/HS/HS715/HS715_View1.JPG",
+              "photo2": "/HS/HS715/HS715_View2.JPG",
+              "photo3": "/HS/HS715/HS715_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "EX",
+      "bd_name": "Exam Centre",
+      "bd_address": "255 McCaul Street Toronto, Ontario M5T 1W7",
+      "bd_marker": "43.658476013981854,-79.39285808125021",
+      "rooms": [
+        {
+          "room_number": "100",
+          "capacity": 309,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EX,100",
+          "links": [
+            {
+              "photo1": "/EX/EX100/EX100_View1.JPG",
+              "photo2": "/EX/EX100/EX100_View2.JPG",
+              "photo3": "/EX/EX100/EX100_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "200",
+          "capacity": 336,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EX,200",
+          "links": [
+            {
+              "photo1": "/EX/EX200/EX200_View1.JPG",
+              "photo2": "/EX/EX200/EX200_View2.JPG",
+              "photo3": "/EX/EX200/EX200_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "300",
+          "capacity": 90,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EX,300",
+          "links": [
+            {
+              "photo1": "/EX/EX300/EX300_View1.JPG",
+              "photo2": "/EX/EX300/EX300_View2.JPG",
+              "photo3": "/EX/EX300/EX300_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "310",
+          "capacity": 108,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EX,310",
+          "links": [
+            {
+              "photo1": "/EX/EX310/EX310_View1.JPG",
+              "photo2": "/EX/EX310/EX310_View2.JPG",
+              "photo3": "/EX/EX310/EX310_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "320",
+          "capacity": 112,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EX,320",
+          "links": [
+            {
+              "photo1": "/EX/EX320/EX320_View1.JPG",
+              "photo2": "/EX/EX320/EX320_View2.JPG",
+              "photo3": "/EX/EX320/EX320_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "340",
+          "capacity": 67,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EX,340",
+          "links": [
+            {
+              "photo1": "/EX/EX340/EX340_View1.JPG",
+              "photo2": "/EX/EX340/EX340_View2.JPG",
+              "photo3": "/EX/EX340/EX340_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "PB",
+      "bd_name": "Leslie Dan Pharmacy Building",
+      "bd_address": "144 College Street Toronto, Ontario M5S 3M2",
+      "bd_marker": "43.65995853126025,-79.3917033902693",
+      "rooms": [
+        {
+          "room_number": "255",
+          "capacity": 48,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:PB,255",
+          "links": [
+            {
+              "photo1": "/PB/PB255/PB255_View1.JPG",
+              "photo2": "/PB/PB255/PB255_View2.JPG",
+              "photo3": "/PB/PB255/PB255_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B150",
+          "capacity": 304,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:PB,B150",
+          "links": [
+            {
+              "photo1": "/PB/PBB150/PBB150_View1.JPG",
+              "photo2": "/PB/PBB150/PBB150_View2.JPG",
+              "photo3": "/PB/PBB150/PBB150_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B250",
+          "capacity": 244,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:PB,B250",
+          "links": [
+            {
+              "photo1": "/PB/PBB250/PBB250_View1.JPG",
+              "photo2": "/PB/PBB250/PBB250_View2.JPG",
+              "photo3": "/PB/PBB250/PBB250_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "EP",
+      "bd_name": "Stewart Building",
+      "bd_address": "149 College Street Toronto, Ontario M5T 1P5",
+      "bd_marker": "43.65923474135822,-79.39206548848631",
+      "rooms": [
+        {
+          "room_number": "111",
+          "capacity": 48,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EP,111",
+          "links": [
+            {
+              "photo1": "/EP/EP111/EP111_View1.JPG",
+              "photo2": "/EP/EP111/EP111_View2.JPG",
+              "photo3": "/EP/EP111/EP111_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "MC",
+      "bd_name": "Mechanical Engineering Bldg",
+      "bd_address": "5 King's College Road Toronto, Ontario M5S 3G8",
+      "bd_marker": "43.65993427563183,-79.39402886548521",
+      "rooms": [
+        {
+          "room_number": "102",
+          "capacity": 354,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MC,102",
+          "links": [
+            {
+              "photo1": "/MC/MC102/MC102_View1.JPG",
+              "photo2": "/MC/MC102/MC102_View2.JPG",
+              "photo3": "/MC/MC102/MC102_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "252",
+          "capacity": 133,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MC,252",
+          "links": [
+            {
+              "photo1": "/MC/MC252/MC252_View1.JPG",
+              "photo2": "/MC/MC252/MC252_View2.JPG",
+              "photo3": "/MC/MC252/MC252_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "254",
+          "capacity": 134,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MC,254",
+          "links": [
+            {
+              "photo1": "/MC/MC254/MC254_View1.JPG",
+              "photo2": "/MC/MC254/MC254_View2.JPG",
+              "photo3": "/MC/MC254/MC254_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "HA",
+      "bd_name": "Haultain Building",
+      "bd_address": "170 College St., (Rear Of) Toronto, Ontario M5S 3E3",
+      "bd_marker": "43.65994252264234,-79.39363525131228",
+      "rooms": [
+        {
+          "room_number": "401",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HA,401",
+          "links": [
+            {
+              "photo1": "/HA/HA401/HA401_View1.JPG",
+              "photo2": "/HA/HA401/HA401_View2.JPG",
+              "photo3": "/HA/HA401/HA401_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "403",
+          "capacity": 72,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HA,403",
+          "links": [
+            {
+              "photo1": "/HA/HA403/HA403_View1.JPG",
+              "photo2": "/HA/HA403/HA403_View2.JPG",
+              "photo3": "/HA/HA403/HA403_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "410",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:HA,410",
+          "links": [
+            {
+              "photo1": "/HA/HA410/HA410_View1.JPG",
+              "photo2": "/HA/HA410/HA410_View2.JPG",
+              "photo3": "/HA/HA410/HA410_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "WE",
+      "bd_name": "Wetmore Hall-New College",
+      "bd_address": "300 Huron Street Toronto, Ontario M5S 2Z3",
+      "bd_marker": "43.66223753899295,-79.40059088984015",
+      "rooms": [
+        {
+          "room_number": "69",
+          "capacity": 20,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WE,69",
+          "links": [
+            {
+              "photo1": "/WE/WE69/WE69_View1.JPG",
+              "photo2": "/WE/WE69/WE69_View2.JPG",
+              "photo3": "/WE/WE69/WE69_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "74",
+          "capacity": 24,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WE,74",
+          "links": [
+            {
+              "photo1": "/WE/WE74/WE74_View1.JPG",
+              "photo2": "/WE/WE74/WE74_View2.JPG",
+              "photo3": "/WE/WE74/WE74_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "75",
+          "capacity": 26,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WE,75",
+          "links": [
+            {
+              "photo1": "/WE/WE75/WE75_View1.JPG",
+              "photo2": "/WE/WE75/WE75_View2.JPG",
+              "photo3": "/WE/WE75/WE75_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "76",
+          "capacity": 20,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WE,76",
+          "links": [
+            {
+              "photo1": "/WE/WE76/WE76_View1.JPG",
+              "photo2": "/WE/WE76/WE76_View2.JPG",
+              "photo3": "/WE/WE76/WE76_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "WI",
+      "bd_name": "Wilson Hall-New College",
+      "bd_address": "40 Willcocks Street Toronto, Ontario M5S 1C6",
+      "bd_marker": "43.66176311667377,-79.40035083213331",
+      "rooms": [
+        {
+          "room_number": "523",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WI,523",
+          "links": [
+            {
+              "photo1": "/WI/WI523/WI523_View1.JPG",
+              "photo2": "/WI/WI523/WI523_View2.JPG",
+              "photo3": "/WI/WI523/WI523_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "524",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WI,524",
+          "links": [
+            {
+              "photo1": "/WI/WI524/WI524_View1.JPG",
+              "photo2": "/WI/WI524/WI524_View2.JPG",
+              "photo3": "/WI/WI524/WI524_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1016",
+          "capacity": 156,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WI,1016",
+          "links": [
+            {
+              "photo1": "/WI/WI1016/WI1016_View1.JPG",
+              "photo2": "/WI/WI1016/WI1016_View2.JPG",
+              "photo3": "/WI/WI1016/WI1016_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1017",
+          "capacity": 117,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WI,1017",
+          "links": [
+            {
+              "photo1": "/WI/WI1017/WI1017_View1.JPG",
+              "photo2": "/WI/WI1017/WI1017_View2.JPG",
+              "photo3": "/WI/WI1017/WI1017_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2006",
+          "capacity": 22,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WI,2006",
+          "links": [
+            {
+              "photo1": "/WI/WI2006/WI2006_View1.JPG",
+              "photo2": "/WI/WI2006/WI2006_View2.JPG",
+              "photo3": "/WI/WI2006/WI2006_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "SS",
+      "bd_name": "Sidney Smith Hall",
+      "bd_address": "100 St. George Street Toronto, Ontario M5S 3G3",
+      "bd_marker": "43.66237579019846,-79.39866171100618",
+      "rooms": [
+        {
+          "room_number": "581",
+          "capacity": 48,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,581",
+          "links": [
+            {
+              "photo1": "/SS/SS581/SS581_View1.JPG",
+              "photo2": "/SS/SS581/SS581_View2.JPG",
+              "photo3": "/SS/SS581/SS581_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1069",
+          "capacity": 97,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1069",
+          "links": [
+            {
+              "photo1": "/SS/SS1069/SS1069_View1.JPG",
+              "photo2": "/SS/SS1069/SS1069_View2.JPG",
+              "photo3": "/SS/SS1069/SS1069_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1070",
+          "capacity": 71,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1070",
+          "links": [
+            {
+              "photo1": "/SS/SS1070/SS1070_View1.JPG",
+              "photo2": "/SS/SS1070/SS1070_View2.JPG",
+              "photo3": "/SS/SS1070/SS1070_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1071",
+          "capacity": 101,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1071",
+          "links": [
+            {
+              "photo1": "/SS/SS1071/SS1071_View1.JPG",
+              "photo2": "/SS/SS1071/SS1071_View2.JPG",
+              "photo3": "/SS/SS1071/SS1071_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1072",
+          "capacity": 69,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1072",
+          "links": [
+            {
+              "photo1": "/SS/SS1072/SS1072_View1.JPG",
+              "photo2": "/SS/SS1072/SS1072_View2.JPG",
+              "photo3": "/SS/SS1072/SS1072_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1073",
+          "capacity": 101,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1073",
+          "links": [
+            {
+              "photo1": "/SS/SS1073/SS1073_View1.JPG",
+              "photo2": "/SS/SS1073/SS1073_View2.JPG",
+              "photo3": "/SS/SS1073/SS1073_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1074",
+          "capacity": 69,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1074",
+          "links": [
+            {
+              "photo1": "/SS/SS1074/SS1074_View1.JPG",
+              "photo2": "/SS/SS1074/SS1074_View2.JPG",
+              "photo3": "/SS/SS1074/SS1074_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1078",
+          "capacity": 25,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1078",
+          "links": [
+            {
+              "photo1": "/SS/SS1078/SS1078_View1.JPG",
+              "photo2": "/SS/SS1078/SS1078_View2.JPG",
+              "photo3": "/SS/SS1078/SS1078_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1080",
+          "capacity": 24,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1080",
+          "links": [
+            {
+              "photo1": "/SS/SS1080/SS1080_View1.JPG",
+              "photo2": "/SS/SS1080/SS1080_View2.JPG",
+              "photo3": "/SS/SS1080/SS1080_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1083",
+          "capacity": 96,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1083",
+          "links": [
+            {
+              "photo1": "/SS/SS1083/SS1083_View1.JPG",
+              "photo2": "/SS/SS1083/SS1083_View2.JPG",
+              "photo3": "/SS/SS1083/SS1083_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1084",
+          "capacity": 55,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1084",
+          "links": [
+            {
+              "photo1": "/SS/SS1084/SS1084_View1.JPG",
+              "photo2": "/SS/SS1084/SS1084_View2.JPG",
+              "photo3": "/SS/SS1084/SS1084_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1085",
+          "capacity": 96,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1085",
+          "links": [
+            {
+              "photo1": "/SS/SS1085/SS1085_View1.JPG",
+              "photo2": "/SS/SS1085/SS1085_View2.JPG",
+              "photo3": "/SS/SS1085/SS1085_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1086",
+          "capacity": 55,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1086",
+          "links": [
+            {
+              "photo1": "/SS/SS1086/SS1086_View1.JPG",
+              "photo2": "/SS/SS1086/SS1086_View2.JPG",
+              "photo3": "/SS/SS1086/SS1086_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1087",
+          "capacity": 96,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1087",
+          "links": [
+            {
+              "photo1": "/SS/SS1087/SS1087_View1.JPG",
+              "photo2": "/SS/SS1087/SS1087_View2.JPG",
+              "photo3": "/SS/SS1087/SS1087_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1088",
+          "capacity": 55,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,1088",
+          "links": [
+            {
+              "photo1": "/SS/SS1088/SS1088_View1.JPG",
+              "photo2": "/SS/SS1088/SS1088_View2.JPG",
+              "photo3": "/SS/SS1088/SS1088_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2101",
+          "capacity": 21,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2101",
+          "links": [
+            {
+              "photo1": "/SS/SS2101/SS2101_View1.JPG",
+              "photo2": "/SS/SS2101/SS2101_View2.JPG",
+              "photo3": "/SS/SS2101/SS2101_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2102",
+          "capacity": 188,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2102",
+          "links": [
+            {
+              "photo1": "/SS/SS2102/SS2102_View1.JPG",
+              "photo2": "/SS/SS2102/SS2102_View2.JPG",
+              "photo3": "/SS/SS2102/SS2102_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2104",
+          "capacity": 15,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2104",
+          "links": [
+            {
+              "photo1": "/SS/SS2104/SS2104_View1.JPG",
+              "photo2": "/SS/SS2104/SS2104_View2.JPG",
+              "photo3": "/SS/SS2104/SS2104_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2105",
+          "capacity": 60,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2105",
+          "links": [
+            {
+              "photo1": "/SS/SS2105/SS2105_View1.JPG",
+              "photo2": "/SS/SS2105/SS2105_View2.JPG",
+              "photo3": "/SS/SS2105/SS2105_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2106",
+          "capacity": 95,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2106",
+          "links": [
+            {
+              "photo1": "/SS/SS2106/SS2106_View1.JPG",
+              "photo2": "/SS/SS2106/SS2106_View2.JPG",
+              "photo3": "/SS/SS2106/SS2106_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2108",
+          "capacity": 95,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2108",
+          "links": [
+            {
+              "photo1": "/SS/SS2108/SS2108_View1.JPG",
+              "photo2": "/SS/SS2108/SS2108_View2.JPG",
+              "photo3": "/SS/SS2108/SS2108_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2110",
+          "capacity": 93,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2110",
+          "links": [
+            {
+              "photo1": "/SS/SS2110/SS2110_View1.JPG",
+              "photo2": "/SS/SS2110/SS2110_View2.JPG",
+              "photo3": "/SS/SS2110/SS2110_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2111",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2111",
+          "links": [
+            {
+              "photo1": "/SS/SS2111/SS2111_View1.JPG",
+              "photo2": "/SS/SS2111/SS2111_View2.JPG",
+              "photo3": "/SS/SS2111/SS2111_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2112",
+          "capacity": 15,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2112",
+          "links": [
+            {
+              "photo1": "/SS/SS2112/SS2112_View1.JPG",
+              "photo2": "/SS/SS2112/SS2112_View2.JPG",
+              "photo3": "/SS/SS2112/SS2112_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2114",
+          "capacity": 25,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2114",
+          "links": [
+            {
+              "photo1": "/SS/SS2114/SS2114_View1.JPG",
+              "photo2": "/SS/SS2114/SS2114_View2.JPG",
+              "photo3": "/SS/SS2114/SS2114_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2116",
+          "capacity": 15,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2116",
+          "links": [
+            {
+              "photo1": "/SS/SS2116/SS2116_View1.JPG",
+              "photo2": "/SS/SS2116/SS2116_View2.JPG",
+              "photo3": "/SS/SS2116/SS2116_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2117",
+          "capacity": 188,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2117",
+          "links": [
+            {
+              "photo1": "/SS/SS2117/SS2117_View1.JPG",
+              "photo2": "/SS/SS2117/SS2117_View2.JPG",
+              "photo3": "/SS/SS2117/SS2117_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2118",
+          "capacity": 188,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2118",
+          "links": [
+            {
+              "photo1": "/SS/SS2118/SS2118_View1.JPG",
+              "photo2": "/SS/SS2118/SS2118_View2.JPG",
+              "photo3": "/SS/SS2118/SS2118_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2119",
+          "capacity": 15,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2119",
+          "links": [
+            {
+              "photo1": "/SS/SS2119/SS2119_View1.JPG",
+              "photo2": "/SS/SS2119/SS2119_View2.JPG",
+              "photo3": "/SS/SS2119/SS2119_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2120",
+          "capacity": 14,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2120",
+          "links": [
+            {
+              "photo1": "/SS/SS2120/SS2120_View1.JPG",
+              "photo2": "/SS/SS2120/SS2120_View2.JPG",
+              "photo3": "/SS/SS2120/SS2120_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2125",
+          "capacity": 60,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2125",
+          "links": [
+            {
+              "photo1": "/SS/SS2125/SS2125_View1.JPG",
+              "photo2": "/SS/SS2125/SS2125_View2.JPG",
+              "photo3": "/SS/SS2125/SS2125_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2127",
+          "capacity": 85,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2127",
+          "links": [
+            {
+              "photo1": "/SS/SS2127/SS2127_View1.JPG",
+              "photo2": "/SS/SS2127/SS2127_View2.JPG",
+              "photo3": "/SS/SS2127/SS2127_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2135",
+          "capacity": 188,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SS,2135",
+          "links": [
+            {
+              "photo1": "/SS/SS2135/SS2135_View1.JPG",
+              "photo2": "/SS/SS2135/SS2135_View2.JPG",
+              "photo3": "/SS/SS2135/SS2135_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "AB",
+      "bd_name": "Astronomy and Astrophysics",
+      "bd_address": "50 St. George Street Toronto, Ontario M5S 3H4",
+      "bd_marker": "43.660655631597905,-79.39734206417086",
+      "rooms": [
+        {
+          "room_number": "107",
+          "capacity": 70,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:AB,107",
+          "links": [
+            {
+              "photo1": "/AB/AB107/AB107_View1.JPG",
+              "photo2": "/AB/AB107/AB107_View2.JPG",
+              "photo3": "/AB/AB107/AB107_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "114",
+          "capacity": 37,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:AB,114",
+          "links": [
+            {
+              "photo1": "/AB/AB114/AB114_View1.JPG",
+              "photo2": "/AB/AB114/AB114_View2.JPG",
+              "photo3": "/AB/AB114/AB114_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "WW",
+      "bd_name": "Woodsworth College",
+      "bd_address": "117/119 St. George Street Toronto, Ontario M5S 1A9",
+      "bd_marker": "43.66639900309655,-79.39878777482988",
+      "rooms": [
+        {
+          "room_number": "119",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WW,119",
+          "links": [
+            {
+              "photo1": "/WW/WW119/WW119_View1.JPG",
+              "photo2": "/WW/WW119/WW119_View2.JPG",
+              "photo3": "/WW/WW119/WW119_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "120",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WW,120",
+          "links": [
+            {
+              "photo1": "/WW/WW120/WW120_View1.JPG",
+              "photo2": "/WW/WW120/WW120_View2.JPG",
+              "photo3": "/WW/WW120/WW120_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "121",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WW,121",
+          "links": [
+            {
+              "photo1": "/WW/WW121/WW121_View1.JPG",
+              "photo2": "/WW/WW121/WW121_View2.JPG",
+              "photo3": "/WW/WW121/WW121_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "126",
+          "capacity": 80,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WW,126",
+          "links": [
+            {
+              "photo1": "/WW/WW126/WW126_View1.JPG",
+              "photo2": "/WW/WW126/WW126_View2.JPG",
+              "photo3": "/WW/WW126/WW126_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "MR",
+      "bd_name": "McMurrich Bldg",
+      "bd_address": "12 Queen'S Park Crescent, West Toronto, Ontario M5S 1S8",
+      "bd_marker": "43.66110823306933,-79.3928741745043",
+      "rooms": [
+        {
+          "room_number": "06",
+          "capacity": 4,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MR,06",
+          "links": [
+            {
+              "photo1": "/MR/MR06/MR06_View1.JPG",
+              "photo2": "/MR/MR06/MR06_View2.JPG",
+              "photo3": "/MR/MR06/MR06_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "MS",
+      "bd_name": "Medical Sciences Building",
+      "bd_address": "1 King's College Circle Toronto, Ontario M5S 1A8",
+      "bd_marker": "43.660739554480855,-79.39373382249357",
+      "rooms": [
+        {
+          "room_number": "2135",
+          "capacity": 46,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,2135",
+          "links": [
+            {
+              "photo1": "/MS/MS2135/MS2135_View1.JPG",
+              "photo2": "/MS/MS2135/MS2135_View2.JPG",
+              "photo3": "/MS/MS2135/MS2135_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2158",
+          "capacity": 507,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,2158",
+          "links": [
+            {
+              "photo1": "/MS/MS2158/MS2158_View1.JPG",
+              "photo2": "/MS/MS2158/MS2158_View2.JPG",
+              "photo3": "/MS/MS2158/MS2158_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2170",
+          "capacity": 140,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,2170",
+          "links": [
+            {
+              "photo1": "/MS/MS2170/MS2170_View1.JPG",
+              "photo2": "/MS/MS2170/MS2170_View2.JPG",
+              "photo3": "/MS/MS2170/MS2170_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2171",
+          "capacity": 250,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,2171",
+          "links": [
+            {
+              "photo1": "/MS/MS2171/MS2171_View1.JPG",
+              "photo2": "/MS/MS2171/MS2171_View2.JPG",
+              "photo3": "/MS/MS2171/MS2171_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2172",
+          "capacity": 142,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,2172",
+          "links": [
+            {
+              "photo1": "/MS/MS2172/MS2172_View1.JPG",
+              "photo2": "/MS/MS2172/MS2172_View2.JPG",
+              "photo3": "/MS/MS2172/MS2172_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2173",
+          "capacity": 80,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,2173",
+          "links": [
+            {
+              "photo1": "/MS/MS2173/MS2173_View1.JPG",
+              "photo2": "/MS/MS2173/MS2173_View2.JPG",
+              "photo3": "/MS/MS2173/MS2173_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "3153",
+          "capacity": 274,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,3153",
+          "links": [
+            {
+              "photo1": "/MS/MS3153/MS3153_View1.JPG",
+              "photo2": "/MS/MS3153/MS3153_View2.JPG",
+              "photo3": "/MS/MS3153/MS3153_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "3154",
+          "capacity": 250,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,3154",
+          "links": [
+            {
+              "photo1": "/MS/MS3154/MS3154_View1.JPG",
+              "photo2": "/MS/MS3154/MS3154_View2.JPG",
+              "photo3": "/MS/MS3154/MS3154_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4171",
+          "capacity": 87,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,4171",
+          "links": [
+            {
+              "photo1": "/MS/MS4171/MS4171_View1.JPG",
+              "photo2": "/MS/MS4171/MS4171_View2.JPG",
+              "photo3": "/MS/MS4171/MS4171_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4279",
+          "capacity": 87,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MS,4279",
+          "links": [
+            {
+              "photo1": "/MS/MS4279/MS4279_View1.JPG",
+              "photo2": "/MS/MS4279/MS4279_View2.JPG",
+              "photo3": "/MS/MS4279/MS4279_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "EJ",
+      "bd_name": "Edward Johnson Building",
+      "bd_address": "80 Queen's Park Toronto, Ontario M5S 2C5",
+      "bd_marker": "43.6665508262648,-79.39457603612425",
+      "rooms": [
+        {
+          "room_number": "137A",
+          "capacity": 650,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:EJ,137A",
+          "links": [
+            {
+              "photo1": "/EJ/EJ137A/EJ137A_View1.JPG",
+              "photo2": "/EJ/EJ137A/EJ137A_View2.JPG",
+              "photo3": "/EJ/EJ137A/EJ137A_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "BF",
+      "bd_name": "Bancroft Building",
+      "bd_address": "4 Bancroft Avenue Toronto, Ontario M5S 1C1",
+      "bd_marker": "43.66093068564293,-79.39972453632834",
+      "rooms": [
+        {
+          "room_number": "214",
+          "capacity": 21,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BF,214",
+          "links": [
+            {
+              "photo1": "/BF/BF214/BF214_View1.JPG",
+              "photo2": "/BF/BF214/BF214_View2.JPG",
+              "photo3": "/BF/BF214/BF214_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "215",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BF,215",
+          "links": [
+            {
+              "photo1": "/BF/BF215/BF215_View1.JPG",
+              "photo2": "/BF/BF215/BF215_View2.JPG",
+              "photo3": "/BF/BF215/BF215_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "315",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BF,315",
+          "links": [
+            {
+              "photo1": "/BF/BF315/BF315_View1.JPG",
+              "photo2": "/BF/BF315/BF315_View2.JPG",
+              "photo3": "/BF/BF315/BF315_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "316",
+          "capacity": 17,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BF,316",
+          "links": [
+            {
+              "photo1": "/BF/BF316/BF316_View1.JPG",
+              "photo2": "/BF/BF316/BF316_View2.JPG",
+              "photo3": "/BF/BF316/BF316_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "323",
+          "capacity": 42,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BF,323",
+          "links": [
+            {
+              "photo1": "/BF/BF323/BF323_View1.JPG",
+              "photo2": "/BF/BF323/BF323_View2.JPG",
+              "photo3": "/BF/BF323/BF323_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "RL",
+      "bd_name": "Robarts Library Building",
+      "bd_address": "130 St. George Street Toronto, Ontario M5S 1A5",
+      "bd_marker": "43.664451945321126,-79.39945028045656",
+      "rooms": [
+        {
+          "room_number": "14190",
+          "capacity": 25,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:RL,14190",
+          "links": [
+            {
+              "photo1": "/RL/RL14190/RL14190_View1.JPG",
+              "photo2": "/RL/RL14190/RL14190_View2.JPG",
+              "photo3": "/RL/RL14190/RL14190_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "ES",
+      "bd_name": "Earth Sciences Centre",
+      "bd_address": "5 Bancroft Avenue Toronto, Ontario M5S 3B3",
+      "bd_marker": "43.661099501245644,-79.399303429513",
+      "rooms": [
+        {
+          "room_number": "1047",
+          "capacity": 25,
+          "wheelchair_accessible": "N",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:ES,1047",
+          "links": [
+            {
+              "photo1": "/ES/ES1047/ES1047_View1.JPG",
+              "photo2": "/ES/ES1047/ES1047_View2.JPG",
+              "photo3": "/ES/ES1047/ES1047_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1050",
+          "capacity": 400,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:ES,1050",
+          "links": [
+            {
+              "photo1": "/ES/ES1050/ES1050_View1.JPG",
+              "photo2": "/ES/ES1050/ES1050_View2.JPG",
+              "photo3": "/ES/ES1050/ES1050_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4000",
+          "capacity": 40,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:ES,4000",
+          "links": [
+            {
+              "photo1": "/ES/ES4000/ES4000_View1.JPG",
+              "photo2": "/ES/ES4000/ES4000_View2.JPG",
+              "photo3": "/ES/ES4000/ES4000_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "4001",
+          "capacity": 48,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:ES,4001",
+          "links": [
+            {
+              "photo1": "/ES/ES4001/ES4001_View1.JPG",
+              "photo2": "/ES/ES4001/ES4001_View2.JPG",
+              "photo3": "/ES/ES4001/ES4001_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B142",
+          "capacity": 94,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:ES,B142",
+          "links": [
+            {
+              "photo1": "/ES/ESB142/ESB142_View1.JPG",
+              "photo2": "/ES/ESB142/ESB142_View2.JPG",
+              "photo3": "/ES/ESB142/ESB142_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B149",
+          "capacity": 90,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:ES,B149",
+          "links": [
+            {
+              "photo1": "/ES/ESB149/ESB149_View1.JPG",
+              "photo2": "/ES/ESB149/ESB149_View2.JPG",
+              "photo3": "/ES/ESB149/ESB149_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "MB",
+      "bd_name": "Lassonde Mining Building",
+      "bd_address": "170 College Street Toronto, Ontario M5S 3E3",
+      "bd_marker": "43.659502525205575,-79.39338915863516",
+      "rooms": [
+        {
+          "room_number": "128",
+          "capacity": 225,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MB,128",
+          "links": [
+            {
+              "photo1": "/MB/MB128/MB128_View1.JPG",
+              "photo2": "/MB/MB128/MB128_View2.JPG",
+              "photo3": "/MB/MB128/MB128_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "GB",
+      "bd_name": "Galbraith Building",
+      "bd_address": "35 St. George Street Toronto, Ontario M5S 1A4",
+      "bd_marker": "43.65988139854955,-79.39618603208544",
+      "rooms": [
+        {
+          "room_number": "119",
+          "capacity": 104,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,119",
+          "links": [
+            {
+              "photo1": "/GB/GB119/GB119_View1.JPG",
+              "photo2": "/GB/GB119/GB119_View2.JPG",
+              "photo3": "/GB/GB119/GB119_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "120",
+          "capacity": 104,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,120",
+          "links": [
+            {
+              "photo1": "/GB/GB120/GB120_View1.JPG",
+              "photo2": "/GB/GB120/GB120_View2.JPG",
+              "photo3": "/GB/GB120/GB120_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "220",
+          "capacity": 104,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,220",
+          "links": [
+            {
+              "photo1": "/GB/GB220/GB220_View1.JPG",
+              "photo2": "/GB/GB220/GB220_View2.JPG",
+              "photo3": "/GB/GB220/GB220_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "221",
+          "capacity": 104,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,221",
+          "links": [
+            {
+              "photo1": "/GB/GB221/GB221_View1.JPG",
+              "photo2": "/GB/GB221/GB221_View2.JPG",
+              "photo3": "/GB/GB221/GB221_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "244",
+          "capacity": 104,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,244",
+          "links": [
+            {
+              "photo1": "/GB/GB244/GB244_View1.JPG",
+              "photo2": "/GB/GB244/GB244_View2.JPG",
+              "photo3": "/GB/GB244/GB244_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "248",
+          "capacity": 104,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,248",
+          "links": [
+            {
+              "photo1": "/GB/GB248/GB248_View1.JPG",
+              "photo2": "/GB/GB248/GB248_View2.JPG",
+              "photo3": "/GB/GB248/GB248_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "303",
+          "capacity": 89,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,303",
+          "links": [
+            {
+              "photo1": "/GB/GB303/GB303_View1.JPG",
+              "photo2": "/GB/GB303/GB303_View2.JPG",
+              "photo3": "/GB/GB303/GB303_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "304",
+          "capacity": 74,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:GB,304",
+          "links": [
+            {
+              "photo1": "/GB/GB304/GB304_View1.JPG",
+              "photo2": "/GB/GB304/GB304_View2.JPG",
+              "photo3": "/GB/GB304/GB304_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "RW",
+      "bd_name": "Ramsay Wright Laboratories",
+      "bd_address": "25 Harbord Street Toronto, Ontario M5S 3G5",
+      "bd_marker": "43.66311506487241,-79.39898491719248",
+      "rooms": [
+        {
+          "room_number": "110",
+          "capacity": 156,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:RW,110",
+          "links": [
+            {
+              "photo1": "/RW/RW110/RW110_View1.JPG",
+              "photo2": "/RW/RW110/RW110_View2.JPG",
+              "photo3": "/RW/RW110/RW110_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "117",
+          "capacity": 156,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:RW,117",
+          "links": [
+            {
+              "photo1": "/RW/RW117/RW117_View1.JPG",
+              "photo2": "/RW/RW117/RW117_View2.JPG",
+              "photo3": "/RW/RW117/RW117_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "140",
+          "capacity": 80,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:RW,140",
+          "links": [
+            {
+              "photo1": "/RW/RW140/RW140_View1.JPG",
+              "photo2": "/RW/RW140/RW140_View2.JPG",
+              "photo3": "/RW/RW140/RW140_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "142",
+          "capacity": 49,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:RW,142",
+          "links": [
+            {
+              "photo1": "/RW/RW142/RW142_View1.JPG",
+              "photo2": "/RW/RW142/RW142_View2.JPG",
+              "photo3": "/RW/RW142/RW142_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "143",
+          "capacity": 59,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:RW,143",
+          "links": [
+            {
+              "photo1": "/RW/RW143/RW143_View1.JPG",
+              "photo2": "/RW/RW143/RW143_View2.JPG",
+              "photo3": "/RW/RW143/RW143_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "LM",
+      "bd_name": "Lash Miller Chemical Labs",
+      "bd_address": "80 St. George Street Toronto, Ontario M5S 3H6",
+      "bd_marker": "43.661397838050824,-79.39781279185297",
+      "rooms": [
+        {
+          "room_number": "70",
+          "capacity": 116,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:LM,70",
+          "links": [
+            {
+              "photo1": "/LM/LM70/LM70_View1.JPG",
+              "photo2": "/LM/LM70/LM70_View2.JPG",
+              "photo3": "/LM/LM70/LM70_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "75",
+          "capacity": 156,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:LM,75",
+          "links": [
+            {
+              "photo1": "/LM/LM75/LM75_View1.JPG",
+              "photo2": "/LM/LM75/LM75_View2.JPG",
+              "photo3": "/LM/LM75/LM75_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "170",
+          "capacity": 203,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:LM,170",
+          "links": [
+            {
+              "photo1": "/LM/LM170/LM170_View1.JPG",
+              "photo2": "/LM/LM170/LM170_View2.JPG",
+              "photo3": "/LM/LM170/LM170_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "MP",
+      "bd_name": "McLennan Physical Laboratories",
+      "bd_address": "255 Huron Street Toronto, Ontario M5S 1A7",
+      "bd_marker": "43.660710933566016,-79.39827144959452",
+      "rooms": [
+        {
+          "room_number": "102",
+          "capacity": 196,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MP,102",
+          "links": [
+            {
+              "photo1": "/MP/MP102/MP102_View1.JPG",
+              "photo2": "/MP/MP102/MP102_View2.JPG",
+              "photo3": "/MP/MP102/MP102_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "103",
+          "capacity": 196,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MP,103",
+          "links": [
+            {
+              "photo1": "/MP/MP103/MP103_View1.JPG",
+              "photo2": "/MP/MP103/MP103_View2.JPG",
+              "photo3": "/MP/MP103/MP103_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "118",
+          "capacity": 30,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MP,118",
+          "links": [
+            {
+              "photo1": "/MP/MP118/MP118_View1.JPG",
+              "photo2": "/MP/MP118/MP118_View2.JPG",
+              "photo3": "/MP/MP118/MP118_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "134",
+          "capacity": 92,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MP,134",
+          "links": [
+            {
+              "photo1": "/MP/MP134/MP134_View1.JPG",
+              "photo2": "/MP/MP134/MP134_View2.JPG",
+              "photo3": "/MP/MP134/MP134_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "137",
+          "capacity": 92,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MP,137",
+          "links": [
+            {
+              "photo1": "/MP/MP137/MP137_View1.JPG",
+              "photo2": "/MP/MP137/MP137_View2.JPG",
+              "photo3": "/MP/MP137/MP137_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "202",
+          "capacity": 196,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MP,202",
+          "links": [
+            {
+              "photo1": "/MP/MP202/MP202_View1.JPG",
+              "photo2": "/MP/MP202/MP202_View2.JPG",
+              "photo3": "/MP/MP202/MP202_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "203",
+          "capacity": 196,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MP,203",
+          "links": [
+            {
+              "photo1": "/MP/MP203/MP203_View1.JPG",
+              "photo2": "/MP/MP203/MP203_View2.JPG",
+              "photo3": "/MP/MP203/MP203_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "AP",
+      "bd_name": "Anthropology Building",
+      "bd_address": "19 Ursula Franklin Street Toronto, Ontario M5S 2S2",
+      "bd_marker": "43.65987169638199,-79.39844981649401",
+      "rooms": [
+        {
+          "room_number": "120",
+          "capacity": 35,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:AP,120",
+          "links": [
+            {
+              "photo1": "/AP/AP120/AP120_View1.JPG",
+              "photo2": "/AP/AP120/AP120_View2.JPG",
+              "photo3": "/AP/AP120/AP120_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "124",
+          "capacity": 23,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:AP,124",
+          "links": [
+            {
+              "photo1": "/AP/AP124/AP124_View1.JPG",
+              "photo2": "/AP/AP124/AP124_View2.JPG",
+              "photo3": "/AP/AP124/AP124_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "WB",
+      "bd_name": "Wallberg Building",
+      "bd_address": "184-200 College Street Toronto, Ontario M56 3E5",
+      "bd_marker": "43.65912364957695,-79.39519093254091",
+      "rooms": [
+        {
+          "room_number": "116",
+          "capacity": 240,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WB,116",
+          "links": [
+            {
+              "photo1": "/WB/WB116/WB116_View1.JPG",
+              "photo2": "/WB/WB116/WB116_View2.JPG",
+              "photo3": "/WB/WB116/WB116_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "119",
+          "capacity": 62,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WB,119",
+          "links": [
+            {
+              "photo1": "/WB/WB119/WB119_View1.JPG",
+              "photo2": "/WB/WB119/WB119_View2.JPG",
+              "photo3": "/WB/WB119/WB119_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "130",
+          "capacity": 80,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WB,130",
+          "links": [
+            {
+              "photo1": "/WB/WB130/WB130_View1.JPG",
+              "photo2": "/WB/WB130/WB130_View2.JPG",
+              "photo3": "/WB/WB130/WB130_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "219",
+          "capacity": 62,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:WB,219",
+          "links": [
+            {
+              "photo1": "/WB/WB219/WB219_View1.JPG",
+              "photo2": "/WB/WB219/WB219_View2.JPG",
+              "photo3": "/WB/WB219/WB219_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "BA",
+      "bd_name": "Bahen Centre Information Tech",
+      "bd_address": "40 St. George Street Toronto, Ontario M5S 2E4",
+      "bd_marker": "43.65966794914353,-79.39737425067904",
+      "rooms": [
+        {
+          "room_number": "1130",
+          "capacity": 159,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1130",
+          "links": [
+            {
+              "photo1": "/BA/BA1130/BA1130_View1.JPG",
+              "photo2": "/BA/BA1130/BA1130_View2.JPG",
+              "photo3": "/BA/BA1130/BA1130_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1160",
+          "capacity": 277,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1160",
+          "links": [
+            {
+              "photo1": "/BA/BA1160/BA1160_View1.JPG",
+              "photo2": "/BA/BA1160/BA1160_View2.JPG",
+              "photo3": "/BA/BA1160/BA1160_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1170",
+          "capacity": 130,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1170",
+          "links": [
+            {
+              "photo1": "/BA/BA1170/BA1170_View1.JPG",
+              "photo2": "/BA/BA1170/BA1170_View2.JPG",
+              "photo3": "/BA/BA1170/BA1170_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1180",
+          "capacity": 130,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1180",
+          "links": [
+            {
+              "photo1": "/BA/BA1180/BA1180_View1.JPG",
+              "photo2": "/BA/BA1180/BA1180_View2.JPG",
+              "photo3": "/BA/BA1180/BA1180_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1190",
+          "capacity": 124,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1190",
+          "links": [
+            {
+              "photo1": "/BA/BA1190/BA1190_View1.JPG",
+              "photo2": "/BA/BA1190/BA1190_View2.JPG",
+              "photo3": "/BA/BA1190/BA1190_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1200",
+          "capacity": 83,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1200",
+          "links": [
+            {
+              "photo1": "/BA/BA1200/BA1200_View1.JPG",
+              "photo2": "/BA/BA1200/BA1200_View2.JPG",
+              "photo3": "/BA/BA1200/BA1200_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1210",
+          "capacity": 83,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1210",
+          "links": [
+            {
+              "photo1": "/BA/BA1210/BA1210_View1.JPG",
+              "photo2": "/BA/BA1210/BA1210_View2.JPG",
+              "photo3": "/BA/BA1210/BA1210_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1220",
+          "capacity": 83,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1220",
+          "links": [
+            {
+              "photo1": "/BA/BA1220/BA1220_View1.JPG",
+              "photo2": "/BA/BA1220/BA1220_View2.JPG",
+              "photo3": "/BA/BA1220/BA1220_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1230",
+          "capacity": 59,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1230",
+          "links": [
+            {
+              "photo1": "/BA/BA1230/BA1230_View1.JPG",
+              "photo2": "/BA/BA1230/BA1230_View2.JPG",
+              "photo3": "/BA/BA1230/BA1230_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1240",
+          "capacity": 59,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,1240",
+          "links": [
+            {
+              "photo1": "/BA/BA1240/BA1240_View1.JPG",
+              "photo2": "/BA/BA1240/BA1240_View2.JPG",
+              "photo3": "/BA/BA1240/BA1240_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2135",
+          "capacity": 46,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2135",
+          "links": [
+            {
+              "photo1": "/BA/BA2135/BA2135_View1.JPG",
+              "photo2": "/BA/BA2135/BA2135_View2.JPG",
+              "photo3": "/BA/BA2135/BA2135_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2139",
+          "capacity": 42,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2139",
+          "links": [
+            {
+              "photo1": "/BA/BA2139/BA2139_View1.JPG",
+              "photo2": "/BA/BA2139/BA2139_View2.JPG",
+              "photo3": "/BA/BA2139/BA2139_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2145",
+          "capacity": 48,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2145",
+          "links": [
+            {
+              "photo1": "/BA/BA2145/BA2145_View1.JPG",
+              "photo2": "/BA/BA2145/BA2145_View2.JPG",
+              "photo3": "/BA/BA2145/BA2145_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2155",
+          "capacity": 48,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2155",
+          "links": [
+            {
+              "photo1": "/BA/BA2155/BA2155_View1.JPG",
+              "photo2": "/BA/BA2155/BA2155_View2.JPG",
+              "photo3": "/BA/BA2155/BA2155_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2159",
+          "capacity": 42,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2159",
+          "links": [
+            {
+              "photo1": "/BA/BA2159/BA2159_View1.JPG",
+              "photo2": "/BA/BA2159/BA2159_View2.JPG",
+              "photo3": "/BA/BA2159/BA2159_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2165",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2165",
+          "links": [
+            {
+              "photo1": "/BA/BA2165/BA2165_View1.JPG",
+              "photo2": "/BA/BA2165/BA2165_View2.JPG",
+              "photo3": "/BA/BA2165/BA2165_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2175",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2175",
+          "links": [
+            {
+              "photo1": "/BA/BA2175/BA2175_View1.JPG",
+              "photo2": "/BA/BA2175/BA2175_View2.JPG",
+              "photo3": "/BA/BA2175/BA2175_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2179",
+          "capacity": 24,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2179",
+          "links": [
+            {
+              "photo1": "/BA/BA2179/BA2179_View1.JPG",
+              "photo2": "/BA/BA2179/BA2179_View2.JPG",
+              "photo3": "/BA/BA2179/BA2179_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2185",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2185",
+          "links": [
+            {
+              "photo1": "/BA/BA2185/BA2185_View1.JPG",
+              "photo2": "/BA/BA2185/BA2185_View2.JPG",
+              "photo3": "/BA/BA2185/BA2185_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2195",
+          "capacity": 50,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,2195",
+          "links": [
+            {
+              "photo1": "/BA/BA2195/BA2195_View1.JPG",
+              "photo2": "/BA/BA2195/BA2195_View2.JPG",
+              "photo3": "/BA/BA2195/BA2195_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B024",
+          "capacity": 45,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,B024",
+          "links": [
+            {
+              "photo1": "/BA/BAB024/BAB024_View1.JPG",
+              "photo2": "/BA/BAB024/BAB024_View2.JPG",
+              "photo3": "/BA/BAB024/BAB024_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B025",
+          "capacity": 25,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,B025",
+          "links": [
+            {
+              "photo1": "/BA/BAB025/BAB025_View1.JPG",
+              "photo2": "/BA/BAB025/BAB025_View2.JPG",
+              "photo3": "/BA/BAB025/BAB025_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "B026",
+          "capacity": 25,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:BA,B026",
+          "links": [
+            {
+              "photo1": "/BA/BAB026/BAB026_View1.JPG",
+              "photo2": "/BA/BAB026/BAB026_View2.JPG",
+              "photo3": "/BA/BAB026/BAB026_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "SF",
+      "bd_name": "Sandford Fleming Building",
+      "bd_address": "10 King's College Road Toronto, Ontario M5S 3G4",
+      "bd_marker": "43.66012007293862,-79.39510376074793",
+      "rooms": [
+        {
+          "room_number": "1101",
+          "capacity": 160,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SF,1101",
+          "links": [
+            {
+              "photo1": "/SF/SF1101/SF1101_View1.JPG",
+              "photo2": "/SF/SF1101/SF1101_View2.JPG",
+              "photo3": "/SF/SF1101/SF1101_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1105",
+          "capacity": 222,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SF,1105",
+          "links": [
+            {
+              "photo1": "/SF/SF1105/SF1105_View1.JPG",
+              "photo2": "/SF/SF1105/SF1105_View2.JPG",
+              "photo3": "/SF/SF1105/SF1105_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "2202",
+          "capacity": 72,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SF,2202",
+          "links": [
+            {
+              "photo1": "/SF/SF2202/SF2202_View1.JPG",
+              "photo2": "/SF/SF2202/SF2202_View2.JPG",
+              "photo3": "/SF/SF2202/SF2202_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "3201",
+          "capacity": 72,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SF,3201",
+          "links": [
+            {
+              "photo1": "/SF/SF3201/SF3201_View1.JPG",
+              "photo2": "/SF/SF3201/SF3201_View2.JPG",
+              "photo3": "/SF/SF3201/SF3201_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "3202",
+          "capacity": 112,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:SF,3202",
+          "links": [
+            {
+              "photo1": "/SF/SF3202/SF3202_View1.JPG",
+              "photo2": "/SF/SF3202/SF3202_View2.JPG",
+              "photo3": "/SF/SF3202/SF3202_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "NL",
+      "bd_name": "C David Naylor Building",
+      "bd_address": "6 Queen's Park Cres West Formerly the Tanz Building ",
+      "bd_marker": "43.660520,-79.391490",
+      "rooms": [
+        {
+          "room_number": "6",
+          "capacity": 174,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:NL,6",
+          "links": [
+            {
+              "photo1": "/NL/NL6/NL6_View1.JPG",
+              "photo2": "/NL/NL6/NL6_View2.JPG",
+              "photo3": "/NL/NL6/NL6_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "MY",
+      "bd_name": "Myhal Centre MCEIE",
+      "bd_address": "55 St George Street Toronto, Ontario M5T 1R4",
+      "bd_marker": "43.660733,-79.396804",
+      "rooms": [
+        {
+          "room_number": "150",
+          "capacity": 468,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,150",
+          "links": [
+            {
+              "photo1": "/MY/MY150/MY150_View1.JPG",
+              "photo2": "/MY/MY150/MY150_View2.JPG",
+              "photo3": "/MY/MY150/MY150_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "315",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,315",
+          "links": [
+            {
+              "photo1": "/MY/MY315/MY315_View1.JPG",
+              "photo2": "/MY/MY315/MY315_View2.JPG",
+              "photo3": "/MY/MY315/MY315_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "317",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,317",
+          "links": [
+            {
+              "photo1": "/MY/MY317/MY317_View1.JPG",
+              "photo2": "/MY/MY317/MY317_View2.JPG",
+              "photo3": "/MY/MY317/MY317_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "320",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,320",
+          "links": [
+            {
+              "photo1": "/MY/MY320/MY320_View1.JPG",
+              "photo2": "/MY/MY320/MY320_View2.JPG",
+              "photo3": "/MY/MY320/MY320_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "330",
+          "capacity": 72,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,330",
+          "links": [
+            {
+              "photo1": "/MY/MY330/MY330_View1.JPG",
+              "photo2": "/MY/MY330/MY330_View2.JPG",
+              "photo3": "/MY/MY330/MY330_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "350",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,350",
+          "links": [
+            {
+              "photo1": "/MY/MY350/MY350_View1.JPG",
+              "photo2": "/MY/MY350/MY350_View2.JPG",
+              "photo3": "/MY/MY350/MY350_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "360",
+          "capacity": 72,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,360",
+          "links": [
+            {
+              "photo1": "/MY/MY360/MY360_View1.JPG",
+              "photo2": "/MY/MY360/MY360_View2.JPG",
+              "photo3": "/MY/MY360/MY360_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "370",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,370",
+          "links": [
+            {
+              "photo1": "/MY/MY370/MY370_View1.JPG",
+              "photo2": "/MY/MY370/MY370_View2.JPG",
+              "photo3": "/MY/MY370/MY370_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "380",
+          "capacity": 72,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,380",
+          "links": [
+            {
+              "photo1": "/MY/MY380/MY380_View1.JPG",
+              "photo2": "/MY/MY380/MY380_View2.JPG",
+              "photo3": "/MY/MY380/MY380_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "420",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,420",
+          "links": [
+            {
+              "photo1": "/MY/MY420/MY420_View1.JPG",
+              "photo2": "/MY/MY420/MY420_View2.JPG",
+              "photo3": "/MY/MY420/MY420_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "430",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,430",
+          "links": [
+            {
+              "photo1": "/MY/MY430/MY430_View1.JPG",
+              "photo2": "/MY/MY430/MY430_View2.JPG",
+              "photo3": "/MY/MY430/MY430_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "440",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,440",
+          "links": [
+            {
+              "photo1": "/MY/MY440/MY440_View1.JPG",
+              "photo2": "/MY/MY440/MY440_View2.JPG",
+              "photo3": "/MY/MY440/MY440_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "480",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,480",
+          "links": [
+            {
+              "photo1": "/MY/MY480/MY480_View1.JPG",
+              "photo2": "/MY/MY480/MY480_View2.JPG",
+              "photo3": "/MY/MY480/MY480_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "490",
+          "capacity": 36,
+          "wheelchair_accessible": "Y",
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:MY,490",
+          "links": [
+            {
+              "photo1": "/MY/MY490/MY490_View1.JPG",
+              "photo2": "/MY/MY490/MY490_View2.JPG",
+              "photo3": "/MY/MY490/MY490_View3.JPG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bd_code": "TL",
+      "bd_name": "Lawson Centre",
+      "bd_address": "25 Devonshire Pl Toronto, ON M5S 2C8",
+      "bd_marker": null,
+      "rooms": [
+        {
+          "room_number": "1013",
+          "capacity": 25,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:TL,1013",
+          "links": [
+            {
+              "photo1": "/TL/TL1013/TL1013_View1.JPG",
+              "photo2": "/TL/TL1013/TL1013_View2.JPG",
+              "photo3": "/TL/TL1013/TL1013_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1014",
+          "capacity": 25,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:TL,1014",
+          "links": [
+            {
+              "photo1": "/TL/TL1014/TL1014_View1.JPG",
+              "photo2": "/TL/TL1014/TL1014_View2.JPG",
+              "photo3": "/TL/TL1014/TL1014_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1015",
+          "capacity": 25,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:TL,1015",
+          "links": [
+            {
+              "photo1": "/TL/TL1015/TL1015_View1.JPG",
+              "photo2": "/TL/TL1015/TL1015_View2.JPG",
+              "photo3": "/TL/TL1015/TL1015_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1016",
+          "capacity": 25,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:TL,1016",
+          "links": [
+            {
+              "photo1": "/TL/TL1016/TL1016_View1.JPG",
+              "photo2": "/TL/TL1016/TL1016_View2.JPG",
+              "photo3": "/TL/TL1016/TL1016_View3.JPG"
+            }
+          ]
+        },
+        {
+          "room_number": "1017",
+          "capacity": 25,
+          "wheelchair_accessible": null,
+          "room_link": "https://lsm.utoronto.ca/webapp/f?p=210:1:::::P1_BLDG,P1_ROOM:TL,1017",
+          "links": [
+            {
+              "photo1": "/TL/TL1017/TL1017_View1.JPG",
+              "photo2": "/TL/TL1017/TL1017_View2.JPG",
+              "photo3": "/TL/TL1017/TL1017_View3.JPG"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hasMore": false,
+  "limit": 0,
+  "offset": 0,
+  "count": 38,
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://lsm.utoronto.ca/ws/package/onlinesync/buildings-dev"
+    },
+    {
+      "rel": "describedby",
+      "href": "https://lsm.utoronto.ca/ws/package/metadata-catalog/onlinesync/item"
+    }
+  ]
+}
