@@ -177,6 +177,9 @@ describe("parseQuery", () => {
   });
 });
 
+const byDate = (room: { occupancyByDate: unknown }) =>
+  room.occupancyByDate as Record<string, Record<number, boolean>>;
+
 describe("buildAvailabilityRooms", () => {
   it("returns empty for UTSG (query is empty)", () => {
     const result = buildAvailabilityRooms(utsgBuildings, utsgQuery, "UTSG");
@@ -208,7 +211,7 @@ describe("buildAvailabilityRooms", () => {
   it("never folds a window that spans two weeks into weekdays", () => {
     const result = buildAvailabilityRooms(utscBuildings, utscQuery, "UTSC");
     for (const room of result.rooms) {
-      expect(Object.keys(room.occupancyByDate)).toEqual(result.datesCovered);
+      expect(Object.keys(byDate(room))).toEqual(result.datesCovered);
     }
   });
 
@@ -238,9 +241,9 @@ describe("buildAvailabilityRooms", () => {
     expect(result.datesCovered).toEqual(["2026-11-30"]);
     const uc44 = result.rooms.find((r) => r.room === "UC 44")!;
     const uc51 = result.rooms.find((r) => r.room === "UC 51")!;
-    expect(uc44.occupancyByDate["2026-11-30"][8]).toBe(false);
-    expect(uc44.occupancyByDate["2026-11-30"][9]).toBe(false);
-    expect(uc44.occupancyByDate["2026-11-30"][10]).toBe(true);
-    expect(Object.values(uc51.occupancyByDate["2026-11-30"]).every(Boolean)).toBe(true);
+    expect(byDate(uc44)["2026-11-30"][8]).toBe(false);
+    expect(byDate(uc44)["2026-11-30"][9]).toBe(false);
+    expect(byDate(uc44)["2026-11-30"][10]).toBe(true);
+    expect(Object.values(byDate(uc51)["2026-11-30"]).every(Boolean)).toBe(true);
   });
 });
