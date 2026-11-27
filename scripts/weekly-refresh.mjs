@@ -1,5 +1,6 @@
 /**
- * The weekly room refresh: one sign-in, next week's rooms for every campus.
+ * The weekly room refresh: one sign-in, the coming school week's rooms for
+ * every campus.
  *
  *   npm run data:weekly              # sign in, refresh next week, commit here
  *   npm run data:weekly -- --push    # ...and push (pushing main deploys the site)
@@ -8,8 +9,10 @@
  *    on top of the daily CI refreshes instead of beside them.
  * 2. Opens the UofT sign-in (scripts/auth-session.mjs). Sign in and approve the
  *    Duo push; that is the only thing a person has to do.
- * 3. Runs scripts/refresh-data.mjs --next-week: Scarborough, St. George and
- *    Mississauga for next week, then the dataset checks. A campus whose session
+ * 3. Runs scripts/refresh-data.mjs for the coming school week: next week on a
+ *    Saturday or Sunday, this week on a weekday (so a Sunday run that Windows
+ *    catches up on Monday still fills the week in progress). Scarborough,
+ *    St. George and Mississauga, then the dataset checks. A campus whose session
  *    could not be saved is skipped and keeps its previous week.
  * 4. Commits data/ if something other than meta.json's timestamp changed.
  * 5. Pushes only with --push.
@@ -25,7 +28,10 @@ import { isoLocal, weekFromArgs } from "./lib/week.mjs";
 const ROOT = resolve(import.meta.dirname, "..");
 const LOG_FILE = join(homedir(), "uoft-classfinder-weekly.log");
 const PUSH = process.argv.includes("--push");
-const WEEK = isoLocal(weekFromArgs(["--next-week"]));
+// The coming school week: next week on a weekend, the current week on a weekday.
+const WEEKEND = [0, 6].includes(new Date().getDay());
+const WEEK_ARGS = WEEKEND ? ["--next-week"] : [];
+const WEEK = isoLocal(weekFromArgs(WEEK_ARGS));
 
 function log(message) {
   const line = `[${new Date().toISOString()}] ${message}`;
@@ -69,7 +75,7 @@ if (signIn !== 0 && signIn !== 3) fail("no UofT session was saved (sign-in not f
 if (signIn === 3) log("only one of the two sessions was saved; the other campus keeps its previous week");
 
 // 3. Refresh next week and verify.
-if (node("scripts/refresh-data.mjs", ["--next-week"]) !== 0) {
+if (node("scripts/refresh-data.mjs", WEEK_ARGS) !== 0) {
   git("restore", "--staged", "--", "data");
   git("restore", "--", "data");
   fail("the refresh or its checks failed; the data changes were discarded");
