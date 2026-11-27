@@ -3,8 +3,9 @@ name: Refresh data
 # Refreshes the committed dataset from public sources, once a day.
 #
 # Only sources that need no login run here: the UofT timetable API (course
-# catalogue) and the Scarborough registrar schedule. St. George and
-# Mississauga room data sit behind UofT sign-on and are NOT refreshed by this
+# catalogue), the Scarborough registrar schedule, and the MADLab public
+# room-availability feed. St. George and Mississauga room data from the
+# booking portal sit behind UofT sign-on and are NOT refreshed by this
 # job, so no credentials are stored in CI.
 #
 # A fetch that cannot be read completely fails before it writes anything
@@ -47,6 +48,12 @@ jobs:
 
       - name: Fetch Scarborough room availability
         run: node scripts/fetch-utsc-availability.mjs
+
+      # Extra source: an outage on the University's side must not block the
+      # catalogue and Scarborough refresh above, so this step may fail alone.
+      - name: Fetch MADLab room-availability feed
+        continue-on-error: true
+        run: node scripts/fetch-madlab-feed.mjs
 
       - name: Verify the refreshed dataset
         working-directory: scraper

@@ -1,0 +1,6022 @@
+{
+  "items": [
+    {
+      "book_date": 261127,
+      "building": "AA",
+      "room": "112",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AA",
+      "room": "112",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AA",
+      "room": "112",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AA",
+      "room": "112",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AA",
+      "room": "112",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "223",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "332",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "332",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "332",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "332",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "332",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "332",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "334",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "334",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AC",
+      "room": "334",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "260",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "264",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "311",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "361",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "BV",
+      "room": "363",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "214",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "215",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "216",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "216",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "216",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "216",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "216",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "216",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "216",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "308",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "308",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "308",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "308",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "308",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "402",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HW",
+      "room": "408",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "120",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "120",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "120",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "130",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "200",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "200",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "200",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "200",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "200",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "204",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "204",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "204",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "204",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "204",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "208",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "208",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "208",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "208",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "208",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "208",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "208",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "212",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "212",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "212",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "212",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "212",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "212",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "212",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "220",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "220",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "220",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "220",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "220",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "220",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "230",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "320",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "320",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "320",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "320",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "320",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "326",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "326",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "326",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "326",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "326",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "326",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "326",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "328",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "328",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "328",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "328",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IC",
+      "room": "328",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "128",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "143",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "309",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "309",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "309",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "309",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "309",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "309",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SW",
+      "room": "319",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "SY",
+      "room": "110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B101",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B106",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B106",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B108",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B108",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B108",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B110",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B110",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "HL",
+      "room": "B110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2150A",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2150A",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2150A",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2150A",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2150A",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2150A",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3060",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3060",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3060",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3060",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3060",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3060",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2100",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2100",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2100",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2100",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2100",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2100",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2021",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "1150",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "1150",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "1150",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "1150",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1010",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2160",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2170",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3120",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3120",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3120",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3120",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3120",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "3120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "B1100",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2060",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2010",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "IA",
+      "room": "2040",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261127,
+      "building": "AM",
+      "room": "270",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AA",
+      "room": "112",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AA",
+      "room": "112",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AA",
+      "room": "112",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AA",
+      "room": "112",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "223",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "223",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "223",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "223",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "223",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "223",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "332",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AC",
+      "room": "334",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "260",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "260",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "260",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "260",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "260",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "260",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "260",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "264",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "311",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "311",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "311",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "311",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "311",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "311",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "361",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "363",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "363",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "363",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "BV",
+      "room": "363",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "214",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "214",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "214",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "214",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "214",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "214",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "215",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "216",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "216",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "216",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "216",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "216",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "216",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "216",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "308",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "402",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "402",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "402",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "402",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "402",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "408",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "408",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "408",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "408",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "408",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "408",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HW",
+      "room": "408",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "120",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "120",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "120",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "130",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "130",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "200",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "204",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "204",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "204",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "208",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "208",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "208",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "208",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "208",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "212",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "220",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "220",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "220",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "220",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "220",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "230",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "230",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "230",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "320",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "320",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "320",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "320",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "326",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "326",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "326",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "326",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "326",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "328",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "328",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "328",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "328",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IC",
+      "room": "328",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "128",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "143",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "309",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SW",
+      "room": "319",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SY",
+      "room": "110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SY",
+      "room": "110",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SY",
+      "room": "110",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SY",
+      "room": "110",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SY",
+      "room": "110",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "SY",
+      "room": "110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B101",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B106",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B106",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B106",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B106",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B106",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B106",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B108",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B108",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B108",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B108",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B108",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B108",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B108",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B110",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "HL",
+      "room": "B110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2150A",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2150A",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2150A",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2150A",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3060",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3060",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3060",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3060",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3060",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2100",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2100",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2100",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2100",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2100",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2100",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2120",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2120",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2120",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2021",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2021",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2021",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2021",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2050",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2050",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2050",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2050",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "1150",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "1150",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "1150",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "1150",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "1150",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "1150",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3050",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3050",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3050",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3050",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3050",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1010",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1010",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1010",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1010",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1010",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1010",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1010",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1050",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1050",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1050",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1050",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1050",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2160",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2160",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2160",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2160",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2160",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2160",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2160",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2170",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2170",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2170",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2170",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "3120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1100",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1100",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1100",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1100",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1100",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "B1100",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2060",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2060",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2060",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2060",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2060",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2060",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2010",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2010",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2010",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2010",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2010",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2010",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2040",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2040",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2040",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2040",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2040",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2040",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "IA",
+      "room": "2040",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261130,
+      "building": "AM",
+      "room": "270",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AA",
+      "room": "112",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AA",
+      "room": "112",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AA",
+      "room": "112",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AA",
+      "room": "112",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "223",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "223",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "223",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "332",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "332",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "332",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "332",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "332",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "332",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "332",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "334",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "334",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "334",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AC",
+      "room": "334",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "260",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "260",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "260",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "264",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "264",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "264",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "264",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "264",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "264",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "311",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "311",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "311",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "311",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "311",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "361",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "361",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "361",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "361",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "363",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "363",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "363",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "BV",
+      "room": "363",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "214",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "215",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "215",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "215",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "215",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "215",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "215",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "216",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "216",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "216",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "216",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "308",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "308",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "308",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "308",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "308",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "308",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "308",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "402",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "402",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "402",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "402",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "402",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "402",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "402",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "408",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "408",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "408",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "408",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HW",
+      "room": "408",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "120",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "120",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "130",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "130",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "130",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "130",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "130",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "200",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "200",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "200",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "204",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "208",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "208",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "208",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "208",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "208",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "208",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "208",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "212",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "212",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "212",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "212",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "212",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "220",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "220",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "220",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "230",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "230",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "230",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "230",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "230",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "320",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "320",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "320",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "320",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "320",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "320",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "326",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "326",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "328",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "328",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "328",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "328",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "328",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IC",
+      "room": "328",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "128",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "143",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "143",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "143",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "143",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "143",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "143",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "309",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "309",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "309",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "309",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "319",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "319",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "319",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "319",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "319",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "319",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SW",
+      "room": "319",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SY",
+      "room": "110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SY",
+      "room": "110",
+      "time": "11:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SY",
+      "room": "110",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SY",
+      "room": "110",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "SY",
+      "room": "110",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B101",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B101",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B101",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B101",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B101",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B101",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B106",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B106",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B108",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B108",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B108",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B108",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B110",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B110",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "HL",
+      "room": "B110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2150A",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2150A",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2150A",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3060",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3060",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3060",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3060",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3060",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2100",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2100",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2100",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2021",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2021",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2021",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2021",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2050",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2050",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2050",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2050",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "1150",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "1150",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "1150",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3050",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3050",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1010",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1010",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1010",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1010",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1050",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1050",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1050",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2160",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2160",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2160",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2170",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2170",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3120",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3120",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3120",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3120",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3120",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3120",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "3120",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2110",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2110",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2110",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2110",
+      "time": "13:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2110",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2110",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1100",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1100",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1100",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "B1100",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2060",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2060",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2010",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2010",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2040",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "IA",
+      "room": "2040",
+      "time": "21:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "08:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "09:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "10:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "12:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "14:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "15:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "16:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "17:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "18:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "19:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "20:00"
+    },
+    {
+      "book_date": 261201,
+      "building": "AM",
+      "room": "270",
+      "time": "21:00"
+    }
+  ]
+}
