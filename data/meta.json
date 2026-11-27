@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T17:02:16.778117+00:00",
+  "generatedAt": "2026-11-27T16:48:03.288901+00:00",
   "sessions": [
     "20269",
     "20271"
@@ -15,7 +15,7 @@
   ],
   "courseRowsFetched": 7382,
   "courseRowsExpected": 7382,
-  "classMeetings": 21367,
+  "classMeetings": 21364,
   "rooms": 65,
   "meetingsWithPublishedRoom": 0,
   "divisions": [
@@ -34,19 +34,19 @@
     "referenceData": "https://api.easi.utoronto.ca/ttb/reference-data",
     "metisSpaceDatabase": "https://metis.utm.utoronto.ca/"
   },
-  "rawMeetingTimesSeen": 22625,
+  "rawMeetingTimesSeen": 22623,
   "filterFunnel": {
-    "rawMeetingTimesSeen": 22625,
+    "rawMeetingTimesSeen": 22623,
     "droppedCancelledSections": 20,
-    "droppedNonPhysicalBuilding": 1012,
+    "droppedNonPhysicalBuilding": 1013,
     "droppedInvalidTime": 0,
     "droppedDuplicate": 226,
-    "classMeetings": 21367
+    "classMeetings": 21364
   },
   "campusBreakdown": {
     "SHERIDAN": 94,
     "UTM": 5172,
-    "UTSC": 3946,
+    "UTSC": 3943,
     "UTSG": 12155
   }
 }
