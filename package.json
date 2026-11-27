@@ -14,6 +14,7 @@
     "data:rooms": "cd scraper && uv run uoft-scraper rebuild-rooms --data ../data",
     "data:refresh": "node scripts/refresh-data.mjs",
     "data:rooms:utsc": "node scripts/fetch-utsc-availability.mjs",
+    "data:weekly": "node scripts/weekly-refresh.mjs",
     "data:verify": "cd scraper && uv run uoft-scraper verify --data ../data",
     "data:size": "node scripts/check-payload-size.mjs",
     "screenshots": "node scripts/capture-screenshots.mjs",

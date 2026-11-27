@@ -352,11 +352,36 @@ whether the wording makes sense.
 | `npm run data:verify` | Check the committed dataset's invariants |
 | `npm run data:size` | Check the gzipped payload against the budget |
 | `npm run screenshots` | Re-capture the images in `docs/images/` |
+| `npm run data:weekly` | **Weekly**: sign in once (UTORid + Duo), refresh all three campuses for next week, commit, optionally push |
+| `npm run data:refresh` | Refresh every campus that can run now (skips campuses with missing/stale sessions) |
+| `npm run data:refresh -- --next-week` | Refresh for the coming week (needs a fresh session) |
 | `node scripts/fetch-utsg-classrooms.mjs` | Refresh the St. George classroom inventory |
 | `node scripts/fetch-utsc-classrooms.mjs` | Refresh the Scarborough classroom inventory |
-| `node scripts/auth-lsm-cookies.mjs` | Sign in to Space Management and save the session for the captures |
+| `node scripts/auth-login.mjs` | Sign in to all three UofT systems (UTORid + Duo) and save the browser profile |
+| `node scripts/auth-lsm-cookies.mjs` | Sign in to Space Management and save the session cookie jar |
 | `node scripts/fetch-utsg-availability.mjs` | Refresh the St. George room availability (needs a signed-in session) |
+| `node scripts/fetch-utm-availability.mjs` | Refresh the Mississauga (Metis) room availability (needs a signed-in session) |
 | `npm run data:rooms:utsc` | Refresh the Scarborough room availability (no login needed) |
+
+### Daily vs weekly refresh
+
+**Daily (CI / automated, no sign-in):**
+- Runs `npm run data:refresh` in CI
+- Only Scarborough (UTSC) runs automatically — it needs no login
+- St. George (UTSG) and Mississauga (UTM) are skipped if the saved session is missing or older than 12 hours
+- The summary prints the exact sign-in command to run when a campus is skipped
+
+**Weekly (human-in-the-loop, one sign-in):**
+- Run `npm run data:weekly` (or `node scripts/weekly-refresh.mjs`)
+- Opens a browser window with three tabs (Metis, Space Management, Scarborough calendar)
+- You sign in with UTORid and approve one Duo push per system
+- The script waits up to 15 minutes for all three sign-ins
+- Then it runs `refresh-data.mjs --next-week` to capture all three campuses for the coming week
+- If verification passes and data changed, it commits `data: weekly refresh for week of <Monday>`
+- Push to origin only with `--push` flag: `npm run data:weekly -- --push`
+- Writes a log to `~/uoft-classfinder-weekly.log`
+
+Both UTSG and UTM share the same UofT single sign-on session (the `lsm-cookies.txt` jar), so one Duo approval covers both campuses.
 
 ## Data and attribution
 
