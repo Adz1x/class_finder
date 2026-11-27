@@ -13,7 +13,12 @@
  * values. The script therefore drives the form in a browser and asks the
  * question from inside the page, where the session already is.
  *
- *   node scripts/fetch-utsg-availability.mjs
+ *   node scripts/fetch-utsg-availability.mjs               # this week
+ *   node scripts/fetch-utsg-availability.mjs --next-week   # next week
+ *   node scripts/fetch-utsg-availability.mjs 2026-10-19    # the week of a date
+ *
+ * Needs the session `node scripts/auth-session.mjs` (or auth-lsm-cookies.mjs)
+ * saves to ~/.uoft-session/lsm-cookies.txt.
  *
  * Writes `data/rooms/UTSG.json`: the same shape the app already reads for
  * Mississauga, so the interface needs no special case for this campus.
@@ -22,6 +27,7 @@ import { chromium } from "@playwright/test";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { weekFromArgs } from "./lib/week.mjs";
 
 const PROFILE = join(homedir(), ".uoft-session");
 const COOKIES = process.env.LSM_COOKIES ?? join(PROFILE, "lsm-cookies.txt");
@@ -36,14 +42,6 @@ const LAST_HOUR = 21;
  * number you ask for, so the smallest number asks for every room there is.
  */
 const ATTENDANCE = 1;
-
-function mondayOfThisWeek() {
-  const now = new Date();
-  const day = now.getDay(); // 0 is Sunday
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - ((day + 6) % 7));
-  return monday;
-}
 
 function isoDate(date) {
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -216,7 +214,7 @@ async function freeRooms(date, hour) {
   }
 }
 
-const monday = mondayOfThisWeek();
+const monday = weekFromArgs(process.argv.slice(2));
 const days = [];
 for (let offset = 0; offset < 7; offset += 1) {
   const date = new Date(monday);

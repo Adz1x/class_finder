@@ -352,11 +352,35 @@ whether the wording makes sense.
 | `npm run data:verify` | Check the committed dataset's invariants |
 | `npm run data:size` | Check the gzipped payload against the budget |
 | `npm run screenshots` | Re-capture the images in `docs/images/` |
+| `npm run data:weekly` | **Weekly**: one UofT sign-in, then next week's rooms for all three campuses, checked and committed (`-- --push` to push) |
+| `npm run data:refresh` | Refresh every campus that can run now (`-- --next-week` for next week); a campus without a fresh session is skipped |
+| `node scripts/auth-session.mjs` | Sign in once (UTORid + Duo) and save the St. George and Metis sessions for the captures |
 | `node scripts/fetch-utsg-classrooms.mjs` | Refresh the St. George classroom inventory |
 | `node scripts/fetch-utsc-classrooms.mjs` | Refresh the Scarborough classroom inventory |
-| `node scripts/auth-lsm-cookies.mjs` | Sign in to Space Management and save the session for the captures |
-| `node scripts/fetch-utsg-availability.mjs` | Refresh the St. George room availability (needs a signed-in session) |
+| `node scripts/fetch-utsg-availability.mjs` | Refresh St. George room availability (needs the saved session; `--next-week` or a date) |
+| `node scripts/fetch-utm-availability.mjs` | Refresh Mississauga room availability from Metis (needs the saved session; `--next-week` or a date) |
 | `npm run data:rooms:utsc` | Refresh the Scarborough room availability (no login needed) |
+
+### Daily and weekly refresh
+
+**Daily, in GitHub Actions, no sign-in** (`.github/workflows/refresh-data.yml`): the course
+catalogue and Scarborough room availability come from public sources, so the
+job refreshes them every morning and commits only real changes.
+
+**Weekly, on your computer, one sign-in** (`npm run data:weekly`): St. George and
+Mississauga sit behind UofT sign-on, so no credentials are stored in CI. The
+command pulls the latest commits, opens one browser window with both systems
+(sign in and approve the Duo push; the second tab usually signs itself in),
+captures next week for all three campuses, runs the dataset checks, and
+commits `data: weekly refresh for week of <Monday>` when room data changed.
+It pushes only with `npm run data:weekly -- --push`, and pushing `main` deploys
+the site. Each run is logged to `~/uoft-classfinder-weekly.log`.
+
+Mississauga is captured by asking Metis for every weekday and hour from 07:00
+to 20:00 directly (`POST /space/index.php`), never from the page's own hour
+menu, which leaves out 13:00 (see docs/REPORT.md). A capture that gets any page
+other than a results table or a "No rooms available" row writes nothing and
+saves that page to a temp file.
 
 ## Data and attribution
 

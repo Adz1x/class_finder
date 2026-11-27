@@ -3,14 +3,15 @@
  * Refreshes every room-availability snapshot, then verifies the committed data.
  *
  *   npm run data:refresh               # refresh every campus that can run now
+ *   npm run data:refresh -- --next-week  # refresh for next week
  *   node scripts/refresh-data.mjs --only utsc
+ *   node scripts/refresh-data.mjs --only utsg --next-week
  *
  * Each campus is a step with its own source, output file and sign-on rule:
  *
  *   utsc  Scarborough Registrar schedule service. Public, no sign-on.
  *   utsg  St. George booking portal. Needs a saved UofT session.
- *   utm   Mississauga Metis space database. Not automated yet: it sits behind
- *         the same sign-on, and no capture script exists for it in the repo.
+ *   utm   Mississauga Metis space database. Needs a saved UofT session.
  *
  * Nothing is typed on your behalf and no password is read. If a campus needs
  * a session that is missing or stale, the step is skipped and the summary
@@ -24,7 +25,7 @@ import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dirname, "..");
-const SESSION_JAR = join(homedir(), ".uoft-session", "lsm-cookies.txt");
+const SESSIONS = join(homedir(), ".uoft-session");
 const MAX_SESSION_AGE_HOURS = 12;
 
 const STEPS = [
@@ -41,16 +42,17 @@ const STEPS = [
     script: "scripts/fetch-utsg-availability.mjs",
     output: "data/rooms/UTSG.json",
     needsSession: true,
-    signIn: "node scripts/auth-lsm-cookies.mjs",
+    jar: join(SESSIONS, "lsm-cookies.txt"),
+    signIn: "node scripts/auth-session.mjs",
   },
   {
     key: "utm",
     label: "Mississauga (Metis)",
-    script: null,
+    script: "scripts/fetch-utm-availability.mjs",
     output: "data/rooms/UTM.json",
     needsSession: true,
-    notAutomated:
-      "no capture script in the repo yet. Metis sits behind the same sign-on.",
+    jar: join(SESSIONS, "metis-cookies.txt"),
+    signIn: "node scripts/auth-session.mjs",
   },
 ];
 
@@ -58,15 +60,18 @@ const only = process.argv.includes("--only")
   ? process.argv[process.argv.indexOf("--only") + 1]
   : null;
 
-/** Returns "ok", "missing" or "stale" for the saved UofT session. */
-function sessionState() {
-  if (!existsSync(SESSION_JAR)) return "missing";
-  const ageHours = (Date.now() - statSync(SESSION_JAR).mtimeMs) / 3_600_000;
+const nextWeek = process.argv.includes("--next-week");
+
+/** Returns "ok", "missing" or "stale" for a saved UofT session jar. */
+function sessionState(jar) {
+  if (!existsSync(jar)) return "missing";
+  const ageHours = (Date.now() - statSync(jar).mtimeMs) / 3_600_000;
   return ageHours > MAX_SESSION_AGE_HOURS ? "stale" : "ok";
 }
 
-function runNode(script) {
-  const result = spawnSync(process.execPath, [join(ROOT, script)], {
+function runNode(script, extraArgs = []) {
+  const args = [join(ROOT, script), ...extraArgs];
+  const result = spawnSync(process.execPath, args, {
     cwd: ROOT,
     stdio: "inherit",
   });
@@ -74,17 +79,12 @@ function runNode(script) {
 }
 
 const results = [];
-const session = sessionState();
 
 for (const step of STEPS) {
   if (only && step.key !== only) continue;
 
-  if (!step.script) {
-    results.push({ step, status: "skipped", reason: step.notAutomated });
-    continue;
-  }
-
-  if (step.needsSession && session !== "ok") {
+  const session = step.needsSession ? sessionState(step.jar) : "ok";
+  if (session !== "ok") {
     results.push({
       step,
       status: "skipped",
@@ -97,7 +97,8 @@ for (const step of STEPS) {
   }
 
   console.log(`\n== ${step.label} ==`);
-  const ok = runNode(step.script);
+  const extraArgs = nextWeek ? ["--next-week"] : [];
+  const ok = runNode(step.script, extraArgs);
   results.push({
     step,
     status: ok ? "ok" : "failed",
