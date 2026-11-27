@@ -45,10 +45,10 @@ export function parseBuildings(json) {
     const buildingCode = building.bd_code;
     const buildingName = building.bd_name;
     const address = building.bd_address;
-    const [lat, lng] = (building.bd_marker || ",")
+    // "43.663,-79.395". An empty or partial marker means no location, not 0,0.
+    const [lat, lng] = String(building.bd_marker ?? "")
       .split(",")
-      .map((c) => Number(c.trim()))
-      .filter((c) => !Number.isNaN(c));
+      .map((c) => (c.trim() === "" ? NaN : Number(c)));
 
     for (const room of building.rooms || []) {
       const roomNumber = room.room_number;
@@ -64,12 +64,6 @@ export function parseBuildings(json) {
             photos.push(`${PHOTO_BASE}${path}`);
           }
         }
-      }
-
-      // If no photos from links, try to construct from bd_code and room_number
-      // (only for St. George rooms which follow a predictable pattern)
-      if (photos.length === 0 && room.links === undefined) {
-        // UTSC doesn't provide photo paths; skip
       }
 
       details.push({
@@ -148,9 +142,18 @@ export function buildRoomDetails(buildingsJson) {
 }
 
 /**
- * Convert the MADLab free-hours data into the app's Room[] shape for a campus.
- * This is used for St. George when the query has rows.
- * Returns { rooms: Room[], datesCovered: string[] } or { rooms: [], datesCovered: [], empty: true }
+ * Per-room availability from the MADLab feed, keyed by date.
+ *
+ * Used for St. George when its query has rows. The feed covers a rolling
+ * window of about three school days that can span two weeks (Fri, Mon, Tue),
+ * so occupancy is keyed by ISO date, never by weekday: folding it into the
+ * app's one-week weekday shape happens only if St. George switches to this
+ * source, once a full week is known.
+ *
+ * Every room in the buildings file is listed for every covered date. An hour
+ * the query lists is free (false); an hour it does not list is booked (true).
+ *
+ * Returns { rooms, datesCovered, empty: false } or { rooms: [], datesCovered: [], empty: true }.
  */
 export function buildAvailabilityRooms(buildingsJson, queryJson, campusKey) {
   const { occupancy, datesCovered } = parseQuery(queryJson);
@@ -171,18 +174,13 @@ export function buildAvailabilityRooms(buildingsJson, queryJson, campusKey) {
     const detail = detailMap.get(roomId);
     if (!detail) continue;
 
-    // Build occupancy for each date the feed covers
-    const roomOccupancy = {};
+    // date -> hour -> booked. A room with no listed hour on a covered date is booked all day.
+    const occupancyByDate = {};
     for (const date of datesCovered) {
-      const dayNum = new Date(`${date}T00:00:00Z`).getUTCDay(); // 0 = Sunday
-      const uoftDay = dayNum === 0 ? 7 : dayNum; // 1 = Monday ... 7 = Sunday
-      const dayKey = String(uoftDay);
-
-      if (!roomOccupancy[dayKey]) roomOccupancy[dayKey] = {};
-
       const hours = occupancy[date]?.[roomId] || {};
+      occupancyByDate[date] = {};
       for (let h = 8; h <= 21; h++) {
-        roomOccupancy[dayKey][h] = hours[h] ?? true; // default to booked if not in feed
+        occupancyByDate[date][h] = hours[h] ?? true;
       }
     }
 
@@ -192,8 +190,7 @@ export function buildAvailabilityRooms(buildingsJson, queryJson, campusKey) {
       buildingName: detail.buildingName,
       capacity: detail.capacity,
       campusKey,
-      occupancy: roomOccupancy,
-      hoursMissing: [], // MADLab publishes 8-21 consistently
+      occupancyByDate,
     });
   }
 

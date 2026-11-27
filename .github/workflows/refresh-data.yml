@@ -49,7 +49,10 @@ jobs:
       - name: Fetch Scarborough room availability
         run: node scripts/fetch-utsc-availability.mjs
 
+      # Extra source: an outage on the University's side must not block the
+      # catalogue and Scarborough refresh above, so this step may fail alone.
       - name: Fetch MADLab room-availability feed
+        continue-on-error: true
         run: node scripts/fetch-madlab-feed.mjs
 
       - name: Verify the refreshed dataset

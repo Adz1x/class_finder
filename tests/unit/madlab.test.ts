@@ -9,7 +9,7 @@ import {
   buildAvailabilityRooms,
 } from "../../scripts/lib/madlab.mjs";
 
-const FIXTURES_DIR = join(process.cwd(), "data", "sources", "madlab");
+const FIXTURES_DIR = join(process.cwd(), "tests", "fixtures", "madlab");
 
 interface BuildingItem {
   bd_code: string;
@@ -108,6 +108,22 @@ describe("parseBuildings", () => {
     const details = parseBuildings({ items: [kw!] });
     expect(details.length).toBe(0);
   });
+
+  it("gives no location, not 0,0, when a building has no map marker", () => {
+    const [room] = parseBuildings({
+      items: [
+        {
+          bd_code: "XX",
+          bd_name: "Test",
+          bd_address: "",
+          bd_marker: "",
+          rooms: [{ room_number: "1", capacity: 10, wheelchair_accessible: "N", room_link: "" }],
+        },
+      ],
+    });
+    expect(room.lat).toBeNull();
+    expect(room.lng).toBeNull();
+  });
 });
 
 describe("parseQuery", () => {
@@ -169,55 +185,62 @@ describe("buildAvailabilityRooms", () => {
     expect(result.datesCovered).toEqual([]);
   });
 
-  it("builds rooms for UTSC with free hours", () => {
+  it("builds rooms for UTSC with free hours, keyed by date", () => {
     const result = buildAvailabilityRooms(utscBuildings, utscQuery, "UTSC");
     expect(result.empty).toBe(false);
-    expect(result.datesCovered.length).toBe(3);
-    expect(result.rooms.length).toBeGreaterThan(0);
+    expect(result.datesCovered).toEqual(["2026-11-27", "2026-11-30", "2026-12-01"]);
 
-    // Check a specific room
     const aa112 = result.rooms.find((r) => r.room === "AA 112");
     expect(aa112).toBeDefined();
     expect(aa112!.building).toBe("AA");
     expect(aa112!.capacity).toBe("300");
     expect(aa112!.campusKey).toBe("UTSC");
 
-    // Check occupancy shape for 2026-11-27 (Friday = day 5)
-    // 2026-11-27 is a Friday -> day 5 in UofT terms
-    const day5 = (aa112!.occupancy as Record<string, Record<number, boolean>>)["5"];
-    expect(day5).toBeDefined();
-    // Hours 8, 18, 19, 20, 21 are free (false)
-    expect(day5![8]).toBe(false);
-    expect(day5![18]).toBe(false);
-    expect(day5![19]).toBe(false);
-    expect(day5![20]).toBe(false);
-    expect(day5![21]).toBe(false);
-    // Other hours are booked (true)
-    expect(day5![9]).toBe(true);
-    expect(day5![10]).toBe(true);
+    const friday = (aa112!.occupancyByDate as Record<string, Record<number, boolean>>)["2026-11-27"];
+    // Hours the query lists are free (false); the rest are booked (true).
+    expect(friday[8]).toBe(false);
+    expect(friday[18]).toBe(false);
+    expect(friday[21]).toBe(false);
+    expect(friday[9]).toBe(true);
+    expect(friday[10]).toBe(true);
   });
 
-  it("only includes dates the feed covers", () => {
+  it("never folds a window that spans two weeks into weekdays", () => {
     const result = buildAvailabilityRooms(utscBuildings, utscQuery, "UTSC");
-    // The feed covers 3 dates, each maps to a day number
-    // Check that only those days appear in occupancy
     for (const room of result.rooms) {
-      const dayKeys = Object.keys(room.occupancy).map(Number);
-      // All days should be within 1-7
-      for (const day of dayKeys) {
-        expect(day).toBeGreaterThanOrEqual(1);
-        expect(day).toBeLessThanOrEqual(7);
-      }
+      expect(Object.keys(room.occupancyByDate)).toEqual(result.datesCovered);
     }
   });
 
-  it("checks occupancy for a specific day key", () => {
-    const result = buildAvailabilityRooms(utscBuildings, utscQuery, "UTSC");
-    const aa112 = result.rooms.find((r) => r.room === "AA 112");
-    expect(aa112).toBeDefined();
-    const day5 = (aa112!.occupancy as Record<string, Record<number, boolean>>)["5"];
-    expect(day5).toBeDefined();
-    expect(day5![8]).toBe(false);
-    expect(day5![9]).toBe(true);
+  it("lists every room of the campus, booked all day when the query lists none of its hours", () => {
+    const buildings = {
+      items: [
+        {
+          bd_code: "UC",
+          bd_name: "University College",
+          bd_address: "",
+          bd_marker: "43.66,-79.39",
+          rooms: [
+            { room_number: "44", capacity: 15, wheelchair_accessible: "Y", room_link: "" },
+            { room_number: "51", capacity: 11, wheelchair_accessible: "N", room_link: "" },
+          ],
+        },
+      ],
+    };
+    const query = {
+      items: [
+        { book_date: 261130, building: "UC", room: "44", time: "08:00" },
+        { book_date: 261130, building: "UC", room: "44", time: "09:00" },
+      ],
+    };
+    const result = buildAvailabilityRooms(buildings, query, "UTSG");
+    expect(result.empty).toBe(false);
+    expect(result.datesCovered).toEqual(["2026-11-30"]);
+    const uc44 = result.rooms.find((r) => r.room === "UC 44")!;
+    const uc51 = result.rooms.find((r) => r.room === "UC 51")!;
+    expect(uc44.occupancyByDate["2026-11-30"][8]).toBe(false);
+    expect(uc44.occupancyByDate["2026-11-30"][9]).toBe(false);
+    expect(uc44.occupancyByDate["2026-11-30"][10]).toBe(true);
+    expect(Object.values(uc51.occupancyByDate["2026-11-30"]).every(Boolean)).toBe(true);
   });
 });

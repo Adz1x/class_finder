@@ -9,9 +9,14 @@
  * - lsm_query-utsc-v2.json (Scarborough free room-hours)
  *
  * Writes:
- * - data/sources/madlab/*.json (raw, diff-friendly)
  * - data/room-details/UTSG.json, data/room-details/UTSC.json (room metadata)
+ * - data/sources/madlab/lsm_query-v2.json (the raw St. George availability,
+ *   which is what this job watches: empty when the feed was added)
  * - data/room-candidates/UTSG-madlab.json (when St. George query has rows)
+ *
+ * The Scarborough query is read for the summary but not archived: the app's
+ * Scarborough data comes from the Registrar, which covers the whole week.
+ * Set MADLAB_BASE_URL to read the four files from somewhere else (a test server).
  *
  * Prints a coverage summary: dates covered per campus, rows, and rooms.
  */
@@ -26,7 +31,8 @@ import {
 } from "./lib/madlab.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const BASE_URL = "https://madlab01.act.utoronto.ca/RoomAvailability";
+const BASE_URL =
+  process.env.MADLAB_BASE_URL ?? "https://madlab01.act.utoronto.ca/RoomAvailability";
 const FILES = [
   { key: "lsm_buildings-v2", url: `${BASE_URL}/lsm_buildings-v2.json`, campus: "UTSG" },
   { key: "lsm_query-v2", url: `${BASE_URL}/lsm_query-v2.json`, campus: "UTSG" },
@@ -79,13 +85,14 @@ async function main() {
     results[file.key] = await fetchWithTimeout(file.url);
   }
 
-  // Write raw files to data/sources/madlab/
+  // Archive the raw St. George availability: the file this job is watching.
   const sourcesDir = join(ROOT, "data", "sources", "madlab");
   ensureDir(sourcesDir);
-  for (const [key, json] of Object.entries(results)) {
-    writeFileSync(join(sourcesDir, `${key}.json`), `${JSON.stringify(json, null, 2)}\n`);
-  }
-  console.log(`Wrote raw files to ${sourcesDir}`);
+  writeFileSync(
+    join(sourcesDir, "lsm_query-v2.json"),
+    `${JSON.stringify(results["lsm_query-v2"], null, 2)}\n`,
+  );
+  console.log(`Wrote the raw St. George query to ${sourcesDir}`);
 
   // Build room details for each campus
   const detailsDir = join(ROOT, "data", "room-details");
@@ -118,7 +125,7 @@ async function main() {
       rooms: utsgResult.rooms,
     };
     writeFileSync(candidatesPath, `${JSON.stringify(file, null, 2)}\n`);
-    console.log(`Wrote ${utsResult.rooms.length} candidate rooms to ${candidatesPath}`);
+    console.log(`Wrote ${utsgResult.rooms.length} candidate rooms to ${candidatesPath}`);
   } else {
     console.log("St. George query is empty (no availability rows); no candidate file written.");
   }

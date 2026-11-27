@@ -18,7 +18,10 @@ Photo base URL: `https://lsm.utoronto.ca/images/Photos/Website/RoomViews` + the 
 ## Refresh schedule
 The feed is regenerated nightly around **04:00 Toronto time (09:00 UTC)**. All four files share a `Last-Modified` header (e.g., `Fri, 27 Nov 2026 09:03 GMT`).
 
-Our CI job (`refresh-data.yml`) runs at **06:17 UTC daily**, so it captures the fresh feed.
+Our CI job (`refresh-data.yml`) runs at **06:17 UTC daily**, before that night's regeneration, so each run
+reads the export made about 21 hours earlier. That is fine for watching the feed, but it means the
+"rolling 3 school days" a run sees start on the previous day. The step may fail on its own
+(`continue-on-error`): a University outage never blocks the catalogue and Scarborough refresh.
 
 ## Data shape
 
@@ -58,19 +61,18 @@ Our CI job (`refresh-data.yml`) runs at **06:17 UTC daily**, so it captures the 
 - A room-hour **not listed** on a covered date is **not free** (booked).
 - A date **not in the feed** is absent; we never claim a room is free on an uncovered date.
 
-## What we archive
-Raw files (diff-friendly):
-- `data/sources/madlab/lsm_buildings-v2.json`
-- `data/sources/madlab/lsm_query-v2.json`
-- `data/sources/madlab/lsm_buildings-utsc-v2.json`
-- `data/sources/madlab/lsm_query-utsc-v2.json`
+## What we keep
+Written by `node scripts/fetch-madlab-feed.mjs` (`npm run data:madlab`), daily in CI:
+- `data/room-details/UTSG.json`, `data/room-details/UTSC.json`: one entry per room with capacity,
+  wheelchair access, address, map coordinates (`null` when the building has no marker), photo URLs and the
+  LSM room page. Metadata only, no occupancy.
+- `data/sources/madlab/lsm_query-v2.json`: the raw St. George availability, the file this job watches.
+  It is small while empty, so it only shows up in a commit when the University starts publishing.
+- `data/room-candidates/UTSG-madlab.json`: written only when the St. George query has rows. Each room has
+  `occupancyByDate` (date -> hour -> booked), never weekday keys, because the window can span two weeks.
 
-Room details (metadata only, no occupancy):
-- `data/room-details/UTSG.json`
-- `data/room-details/UTSC.json`
-
-St. George availability candidates (only when query has rows):
-- `data/room-candidates/UTSG-madlab.json`
+The other three raw files are not archived (the Scarborough query changes every day and the app does not
+use it). Copies from 2026-11-27 live in `tests/fixtures/madlab/` as test fixtures.
 
 ## Caveats
 1. **St. George availability is currently empty**. The `lsm_query-v2.json` file has `"items": [], "count": 0` as of the last check. The feed may only populate during certain periods (exam season, etc.). No Wayback Machine captures exist to determine the pattern.
@@ -84,6 +86,7 @@ St. George availability candidates (only when query has rows):
 5. **St. George room IDs differ from the booking portal**. The booking portal (`lsm.utoronto.ca/ords/f?p=171`) uses a different room list. MADLab rooms should be treated as a separate source until a human decides to switch.
 
 ## Integration with the app
-- Room details (capacity, wheelchair access, photos, maps) are shown in the UI where room cards/details are rendered.
+- Room details are **not shown in the UI yet**. Showing wheelchair access, capacity, photos and a map link on the
+  room cards is a follow-up (it touches the room type, the API route payload and the card).
 - UTSC availability from this feed could supplement or replace the Registrar scrape in the future.
 - St. George availability is written to `data/room-candidates/UTSG-madlab.json` only when the query has rows. A human must review and decide whether to promote it to `data/rooms/UTSG.json`.
