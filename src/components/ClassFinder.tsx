@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import DayCalendar from "./DayCalendar";
 import WeeklySchedule from "./WeeklySchedule";
 import SectionFinder from "./SectionFinder";
 import WindowControl from "./WindowControl";
@@ -47,6 +48,7 @@ type Route =
   | { mode: "course"; campus: string; id: string }
   | { mode: "building"; campus: string; id: string }
   | { mode: "sections"; campus: string; id: string }
+  | { mode: "day"; campus: string }
   | {
       mode: "section";
       campus: string;
@@ -82,6 +84,10 @@ function parseHash(hash: string): Route {
   }
   if (mode === "sections" && id) {
     return { mode, campus, id };
+  }
+  // The day calendar is per campus, so it only needs the campus part.
+  if (mode === "day") {
+    return { mode: "day", campus };
   }
   // A section is named by its session as well as its number: the same
   // section name is a Fall section and a Winter section.
@@ -475,7 +481,7 @@ export default function ClassFinder() {
             </div>
           </button>
 
-          <div className="inline-flex rounded-xl bg-slate-950/70 p-1 border border-white/15 self-start sm:self-auto shadow-inner">
+          <div className="inline-flex items-center rounded-xl bg-slate-950/70 p-1 border border-white/15 self-start sm:self-auto shadow-inner gap-1">
             {CAMPUSES.map((key) => (
               <button
                 key={key}
@@ -490,6 +496,17 @@ export default function ClassFinder() {
                 {key}
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() =>
+                navigate(`#/day/${encodeURIComponent(activeCampus)}`)
+              }
+              title={`Every ${CAMPUS_NAMES[activeCampus] ?? activeCampus} room, day by hour`}
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-300 hover:text-white bg-emerald-500/10 border border-emerald-500/30"
+            >
+              <i className="fa-solid fa-table-cells text-[11px] mr-1.5" aria-hidden="true" />
+              Day calendar
+            </button>
           </div>
         </div>
       </header>
@@ -690,8 +707,7 @@ export default function ClassFinder() {
             }
           />
         ) : route.mode === "list" ? (
-          <ListView
-            data={data}
+          <ListView            data={data}
             ctx={ctx}
             activeTerm={activeTerm}
             buildings={rankedListBuildings}
@@ -710,6 +726,14 @@ export default function ClassFinder() {
             onOpenCourse={(code) =>
               navigate(`#/course/${encodeURIComponent(activeCampus)}/${encodeURIComponent(code)}`)
             }
+            onOpenRoom={(room) =>
+              navigate(`#/room/${encodeURIComponent(activeCampus)}/${encodeURIComponent(room)}`)
+            }
+          />
+        ) : route.mode === "day" ? (
+          <DayCalendar
+            data={data}
+            campusName={CAMPUS_NAMES[activeCampus] ?? activeCampus}
             onOpenRoom={(room) =>
               navigate(`#/room/${encodeURIComponent(activeCampus)}/${encodeURIComponent(room)}`)
             }
@@ -1443,7 +1467,7 @@ function RoomCard({
 interface ScheduleViewProps {
   data: Dataset;
   ctx: ReturnType<typeof getLiveTimeContext>;
-  route: Exclude<Route, { mode: "list" | "sections" }>;
+  route: Exclude<Route, { mode: "list" | "sections" | "day" }>;
   activeTerm: Term;
   onTermChange: (term: Term) => void;
   onBack: () => void;

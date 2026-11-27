@@ -6,9 +6,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Data
+### Features
+- **Day calendar view**: one grid per campus showing every room against every published hour for the day. Green = free, red = booked, gray = not published. Access via the "Day calendar" button next to the campus tabs, or `#/day/UTM`. Addresses the feedback: "is there a way to see everything in one giant day calendar per campus?". St. George shows "availability not published yet" while the University is not releasing it.
 
-*nothing yet*
+### Data
+- **robots.txt and sitemap.xml**: allow all crawlers, point to sitemap. SEO basics for the organic growth push.
 
 ## [0.4.0] — 2026-10-21
 
