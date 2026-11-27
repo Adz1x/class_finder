@@ -1,0 +1,419 @@
+{
+  "items": [
+    {
+      "bd_address": "1265 Military Trail, Scarborough, ON M1C 1A4",
+      "bd_code": "AA",
+      "bd_marker": "43.784384,-79.187426",
+      "bd_name": "Arts and Administration Building",
+      "rooms": [
+        {
+          "capacity": 300,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/aa112",
+          "room_number": "112",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 40,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/aa207",
+          "room_number": "207",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 40,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/aa208",
+          "room_number": "208",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 40,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/aa209",
+          "room_number": "209",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "1265 Military Trail, Scarborough, ON M1C 1A4",
+      "bd_code": "AC",
+      "bd_marker": "43.783939,-79.186439",
+      "bd_name": "Academic Resource Centre",
+      "rooms": [
+        {
+          "capacity": 500,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ac223",
+          "room_number": "223",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 25,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ac332",
+          "room_number": "332",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 33,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ac334",
+          "room_number": "334",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "1265 Military Trail, Scarborough, ON M1C 1A4",
+      "bd_code": "BV",
+      "bd_marker": "43.784194,-79.186997",
+      "bd_name": "Bladen Wing",
+      "rooms": [
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/bv260",
+          "room_number": "260",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/bv264",
+          "room_number": "264",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 33,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/bv361",
+          "room_number": "361",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 55,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/bv363",
+          "room_number": "363",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "1265 Military Trail, Scarborough, ON M1C 1A4",
+      "bd_code": "HL",
+      "bd_marker": "43.78478381455309,-79.18559961619947",
+      "bd_name": "Highland Hall",
+      "rooms": [
+        {
+          "capacity": 230,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hl-b101",
+          "room_number": "B101",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 27,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hl-b106",
+          "room_number": "B106",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 34,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hl-b108",
+          "room_number": "B108",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 27,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hl-b110",
+          "room_number": "B110",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "1265 Military Trail, Scarborough, ON M1C 1A4",
+      "bd_code": "HW",
+      "bd_marker": "43.783238,-79.187029",
+      "bd_name": "Humanities Wing",
+      "rooms": [
+        {
+          "capacity": 86,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hw214",
+          "room_number": "214",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 86,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hw215",
+          "room_number": "215",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 207,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hw216",
+          "room_number": "216",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 50,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hw308",
+          "room_number": "308",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 33,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hw402",
+          "room_number": "402",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 45,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/hw408",
+          "room_number": "408",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "1095 Military Trail, Toronto, ON M1C 5J9",
+      "bd_code": "IC",
+      "bd_marker": "43.786800,-79.189636",
+      "bd_name": "Instructional Centre",
+      "rooms": [
+        {
+          "capacity": 40,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic120",
+          "room_number": "120",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 350,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic130",
+          "room_number": "130",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic200",
+          "room_number": "200",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic204",
+          "room_number": "204",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic208",
+          "room_number": "208",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic212",
+          "room_number": "212",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 120,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic220",
+          "room_number": "220",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 80,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic230",
+          "room_number": "230",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 40,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic320",
+          "room_number": "320",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 35,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic326",
+          "room_number": "326",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 25,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/ic328",
+          "room_number": "328",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "1265 Military Trail, Scarborough, ON M1C 1A4",
+      "bd_code": "SW",
+      "bd_marker": "43.783369,-79.188413",
+      "bd_name": "Science Wing",
+      "rooms": [
+        {
+          "capacity": 135,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/sw128",
+          "room_number": "128",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 135,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/sw143",
+          "room_number": "143",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 175,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/sw309",
+          "room_number": "309",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 45,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/sw311",
+          "room_number": "311",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 175,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/sw319",
+          "room_number": "319",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "Science Research Building, Scarborough, ON M1C 1A3",
+      "bd_code": "SY",
+      "bd_marker": "43.784221,-79.189492",
+      "bd_name": "Science Research Building",
+      "rooms": [
+        {
+          "capacity": 234,
+          "room_link": "https://www.utsc.utoronto.ca/iits/classroom/sy110",
+          "room_number": "110",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    },
+    {
+      "bd_address": "Social Sciences Building, Scarborough, ON M1C 1A3",
+      "bd_code": "KW",
+      "bd_marker": "43.782843,-79.186032",
+      "bd_name": "Kina Wiiya Enadong Building",
+      "rooms": []
+    },
+    {
+      "bd_address": "1265 Military Trail, Scarborough, ON M1C 1A4",
+      "bd_code": "IA",
+      "bd_marker": "43.786214,-79.187521",
+      "bd_name": "Sam Ibrahim Building",
+      "rooms": [
+        {
+          "capacity": 210,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia1150",
+          "room_number": "1150",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 48,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2010",
+          "room_number": "2010",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 120,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2021",
+          "room_number": "2021",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 100,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2040",
+          "room_number": "2040",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2050",
+          "room_number": "2050",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 36,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2060",
+          "room_number": "2060",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 48,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2100",
+          "room_number": "2100",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 24,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2110",
+          "room_number": "2110",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 36,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2120",
+          "room_number": "2120",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 160,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia-2150a",
+          "room_number": "2150A",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 72,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2160",
+          "room_number": "2160",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 48,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia2170",
+          "room_number": "2170",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia3050",
+          "room_number": "3050",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 36,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia3060",
+          "room_number": "3060",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 60,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia3120",
+          "room_number": "3120",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 36,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia-b1010",
+          "room_number": "B1010",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 500,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia-b1050",
+          "room_number": "B1050",
+          "wheelchair_accessible": "Y"
+        },
+        {
+          "capacity": 200,
+          "room_link": "https://www.utsc.utoronto.ca/iits/ia-b1100",
+          "room_number": "B1100",
+          "wheelchair_accessible": "Y"
+        }
+      ]
+    }
+  ]
+}
